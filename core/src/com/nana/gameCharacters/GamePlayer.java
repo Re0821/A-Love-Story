@@ -1,7 +1,8 @@
-package com.nana;
+package com.nana.gameCharacters;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.nana.helper.GamePlayEntity;
 
 public class GamePlayer extends GamePlayEntity{
     public static final int PPM = 16;

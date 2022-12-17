@@ -10,8 +10,9 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("A Love Story");
 		config.setWindowedMode(1024, 920);
-		
+
 		config.setResizable(false);
 		new Lwjgl3Application(new Love(), config);
+
 	}
 }

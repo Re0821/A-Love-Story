@@ -1,9 +1,9 @@
-package com.nana;
+package com.nana.helper;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public abstract class GamePlayEntity {
+public abstract class GamePlayEntity { // Call this to create a new character
     protected float x, y, velX, velY, speed;
     protected float width, height;
     protected Body body;
