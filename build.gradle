@@ -51,6 +51,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         
 
         
@@ -66,6 +67,7 @@ project(":core") {
         api "com.rafaskoberg.gdx:typing-label:$typingLabelVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         
     }
 }
