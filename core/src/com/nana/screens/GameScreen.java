@@ -1,72 +1,77 @@
 package com.nana.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
-import com.nana.game.Love;
-import com.nana.helper.TileMapHelper;
 
-public class GameScreen extends ScreenAdapter {
-    final Love game;
-    OrthographicCamera camera;
-    private SpriteBatch batch;
- 
-    private World world;
-    private Box2DDebugRenderer box2dDebugRenderer;
-    private final float PPM = 16;
-    
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper;
+public class GameScreen implements Screen {
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera camera;
 
-    public GameScreen(final Love game){
-        this.game = game;
-        this.camera = new OrthographicCamera();
-        this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0,0), false);
-        this.box2dDebugRenderer = new Box2DDebugRenderer();
-        this.tileMapHelper = new TileMapHelper();
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
-        
-        
-    }
+    // private Player player;
     @Override
-    public void dispose() {
+    public void show() {
         // TODO Auto-generated method stub
-        
+        TmxMapLoader loader = new TmxMapLoader();
+        camera = new OrthographicCamera();
+        map = loader.load("assets/TiledMaps/LoveTiled.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
+        // player = new Player(new Sprite(new Texture("dinoCharactersVersion1.1/gifs/DinoSprites_doux.gif")), (TiledMapTileLayer) map.getLayers().get(0));
+        // player.setPosition(11 * player.getCollisionLayer().getTileWidth() * 38, player.getCollisionLayer().getTileHeight());
+
     }
 
     @Override
     public void render(float delta) {
-        this.update();
         // TODO Auto-generated method stub
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        orthogonalTiledMapRenderer.render();
-        batch.begin();
-        
-        batch.end();
-        box2dDebugRenderer.render(world, camera.combined.scl(PPM));
-
+        renderer.setView(camera);
+        renderer.render();
+        renderer.getBatch().begin();
+        // player.draw(renderer.getBatch());
+        renderer.getBatch().end();
     }
 
-    private void update(){
-        world.step(1/60f, 6, 2);
-        cameraUpdate();
-        batch.setProjectionMatrix(camera.combined);
-        orthogonalTiledMapRenderer.setView(camera);
-    }   
-    
-    private void cameraUpdate(){
-        camera.position.set(new Vector3(0,0,0));
+    @Override
+    public void resize(int width, int height) {
+        // TODO Auto-generated method stub
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
         camera.update();
     }
+
+    @Override
+    public void pause() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void resume() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void hide() {
+        // TODO Auto-generated method stub
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
+        map.dispose();
+        renderer.dispose();
+    }
+
 }

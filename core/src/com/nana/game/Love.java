@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Love extends Game {
 	public SpriteBatch batch;
 	public BitmapFont font;
-
 	
 	@Override
 	public void create() {

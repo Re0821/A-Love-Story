@@ -1,5 +1,6 @@
 package com.nana.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -39,9 +40,8 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
-        this.gameScreen = new GameScreen(game); // To switch game screen afterwards
+        this.gameScreen = new GameScreen(); // To switch game screen afterwards
         this.stage = new Stage(); // To add actors for mostly animation purposes
-
         GAME_HEIGHT = Gdx.graphics.getHeight();
 		GAME_WIDTH = Gdx.graphics.getWidth();
         
