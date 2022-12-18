@@ -33,6 +33,7 @@ public class TutorialGameScreen implements Screen {
     private Player player;
     private BitmapFont myFont;
     private Stage stage;
+    
 
     /**
      * Initializing the world
@@ -41,14 +42,21 @@ public class TutorialGameScreen implements Screen {
     public TutorialGameScreen(){
         this.stage = new Stage();
         // setting the gravity of the game relative to real world's gravity
-        this.world = new World(new Vector2(0,-9.81f), false);
-        
+        this.world = new World(new Vector2(0,-25f), false);
+        this.camera = new OrthographicCamera();
+        stage = new Stage(new ScreenViewport());
+        renderer = new OrthogonalTiledMapRenderer(map);
+        tiledMapHelper = new TiledMapHelper(this);
+        renderer = tiledMapHelper.setupMap();
+       
+        box2DDebugRenderer = new Box2DDebugRenderer();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Label.LabelStyle label1Style = new Label.LabelStyle();
         label1Style.font = myFont;
-        TypingLabel tutorialLabel = new TypingLabel("A LOVE STORY", label1Style);
-        stage = new Stage(new ScreenViewport());
+        TypingLabel tutorialLabel = new TypingLabel("", label1Style);
+       
         stage.addActor(tutorialLabel);
+        
     }
 
     
@@ -62,12 +70,7 @@ public class TutorialGameScreen implements Screen {
     @Override
     public void show() {
         // TODO Auto-generated method stub
-        this.camera = new OrthographicCamera();
-        renderer = new OrthogonalTiledMapRenderer(map);
-        tiledMapHelper = new TiledMapHelper(this);
-        renderer = tiledMapHelper.setupMap();
        
-        box2DDebugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
         
 
@@ -79,18 +82,25 @@ public class TutorialGameScreen implements Screen {
         // TODO Auto-generated method stub
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        stage.draw();
         renderer.setView(camera);
       
         renderer.render();
-        stage.draw();
+       
 
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
+        
+      
+
+      
     }
 
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
+
+        player.update();
         
     }
 
@@ -138,58 +148,11 @@ public class TutorialGameScreen implements Screen {
   
     }
 
-    public TiledMap getMap() {
-        return map;
-    }
-
-    public void setMap(TiledMap map) {
-        this.map = map;
-    }
-
-    public OrthogonalTiledMapRenderer getRenderer() {
-        return renderer;
-    }
-
-    public void setRenderer(OrthogonalTiledMapRenderer renderer) {
-        this.renderer = renderer;
-    }
-
-    public OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public void setCamera(OrthographicCamera camera) {
-        this.camera = camera;
-    }
-
-    public TiledMapHelper getTiledMapHelper() {
-        return tiledMapHelper;
-    }
-
-    public void setTiledMapHelper(TiledMapHelper tiledMapHelper) {
-        this.tiledMapHelper = tiledMapHelper;
-    }
-
     public World getWorld() {
         return world;
     }
 
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public Box2DDebugRenderer getBox2DDebugRenderer() {
-        return box2DDebugRenderer;
-    }
-
-    public void setBox2DDebugRenderer(Box2DDebugRenderer box2dDebugRenderer) {
-        box2DDebugRenderer = box2dDebugRenderer;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
-
+    
     public void setBatch(SpriteBatch batch) {
         this.batch = batch;
     }

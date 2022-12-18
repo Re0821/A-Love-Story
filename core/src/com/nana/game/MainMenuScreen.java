@@ -1,6 +1,5 @@
 package com.nana.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.music.GameMusic;
 import com.nana.screens.TutorialGameScreen;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
@@ -37,6 +37,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private Texture background1, background2;
     private int GAME_HEIGHT;
     private int GAME_WIDTH;
+    private GameMusic music = new GameMusic();
 
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
@@ -48,12 +49,11 @@ public class MainMenuScreen implements Screen, InputProcessor{
         background1 = new Texture(Gdx.files.internal("assets/backgroundImage.png"));
         background2 = new Texture(Gdx.files.internal("assets/backgroundImage.png"));
         backgroundVelocity = 2;
-
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Label.LabelStyle label1Style = new Label.LabelStyle();
         label1Style.font = myFont;
         TypingLabel titleLabel = new TypingLabel("{SICK}{FAST}A LOVE STORY", label1Style);
-        
+       
         titleLabelSetting(titleLabel);
 
         Gdx.input.setInputProcessor(stage);
@@ -76,7 +76,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
             @Override
             public void clicked(InputEvent event, float x, float y){
-                
+                music.backgroundMusic[0].stop();
                game.setScreen(gameScreen);
 
             }
@@ -88,6 +88,9 @@ public class MainMenuScreen implements Screen, InputProcessor{
         stage.addActor(titleLabel);
 
         stage.addActor(table);
+        music.backgroundMusic[0].setLooping(true);
+        music.backgroundMusic[0].play();
+
         Gdx.input.setInputProcessor(im);
     }
 

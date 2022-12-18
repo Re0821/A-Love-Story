@@ -31,6 +31,7 @@ public class BodyHelper {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
         shape.dispose();
         return body;

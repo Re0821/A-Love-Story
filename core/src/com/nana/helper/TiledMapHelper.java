@@ -20,6 +20,7 @@ public class TiledMapHelper {
     private TiledMap tileMap;
     private TutorialGameScreen gameScreen;
     private PPM ppm = new PPM();
+    private Body body = null;
     public TiledMapHelper(TutorialGameScreen gameScreen){
         this.gameScreen = gameScreen;
     }
@@ -35,17 +36,20 @@ public class TiledMapHelper {
             if(mapObject instanceof PolygonMapObject){
                 createStaticBody((PolygonMapObject) mapObject);
             }
-
+        
             if(mapObject instanceof RectangleMapObject){
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                 String rectangleName = mapObject.getName();
-
-                if(rectangleName.equals("player")){
-                    //passing in arguments from constructor in the helper class
-                    Body body = BodyHelper.createBody(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
-                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+            
+                if(body == null){
+                    if(rectangleName.equals("player")){
+                        //passing in arguments from constructor in the helper class
+                        body = BodyHelper.createBody(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                        gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                    }
+                   
                 }
-                
+               
             }
         }
          
@@ -58,7 +62,6 @@ public class TiledMapHelper {
         Shape shape = createPolygonShape(polygonMapObject);
         body.createFixture(shape, 1000);
         shape.dispose();
-
     }
 
     private Shape createPolygonShape(PolygonMapObject polygonMapObject) {
