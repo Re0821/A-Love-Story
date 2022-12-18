@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.nana.screens.GameScreen;
+import com.nana.screens.TutorialGameScreen;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
 public class MainMenuScreen implements Screen, InputProcessor{
@@ -31,7 +31,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private Skin skin;
     private Table table;
     private TextButton startButton;
-    private GameScreen gameScreen;
+    private TutorialGameScreen gameScreen;
     private float backgroundVelocity;
     private float backgroundX;
     private Texture background1, background2;
@@ -40,7 +40,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
-        this.gameScreen = new GameScreen(); // To switch game screen afterwards
+        this.gameScreen = new TutorialGameScreen(); // To switch game screen afterwards
         this.stage = new Stage(); // To add actors for mostly animation purposes
         GAME_HEIGHT = Gdx.graphics.getHeight();
 		GAME_WIDTH = Gdx.graphics.getWidth();
