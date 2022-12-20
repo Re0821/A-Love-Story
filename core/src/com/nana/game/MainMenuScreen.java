@@ -41,7 +41,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
-        this.gameScreen = new TutorialGameScreen(); // To switch game screen afterwards
+        this.gameScreen = new TutorialGameScreen(game); // To switch game screen afterwards
         this.stage = new Stage(); // To add actors for mostly animation purposes
         GAME_HEIGHT = Gdx.graphics.getHeight();
 		GAME_WIDTH = Gdx.graphics.getWidth();

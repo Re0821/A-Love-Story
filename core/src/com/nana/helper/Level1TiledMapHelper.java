@@ -28,7 +28,7 @@ public class Level1TiledMapHelper {
         }
     
         public OrthogonalTiledMapRenderer setupMap(){
-            tileMap = new TmxMapLoader().load("");
+            tileMap = new TmxMapLoader().load("assets/TiledMaps/LoveTiled.tmx");
             parseMapObjects(tileMap.getLayers().get("objects").getObjects());
             return new OrthogonalTiledMapRenderer(tileMap);
         }
