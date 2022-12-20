@@ -1,5 +1,6 @@
 package com.nana.screens;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -12,32 +13,34 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nana.characters.Player;
+import com.nana.helper.Level1TiledMapHelper;
 import com.nana.helper.PPM;
-import com.nana.helper.TutorialTiledMapHelper;
 
 public class Level1 implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private TutorialTiledMapHelper tiledMapHelper;
+    private Level1TiledMapHelper tiledMapHelper;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
     private PPM ppm = new PPM();
     private Player player;
     private SpriteBatch batch;
     
-    public Level1(){
+    public Level1(){        
+        // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
-        this.batch = new SpriteBatch();
         renderer = new OrthogonalTiledMapRenderer(map);
+        tiledMapHelper = new Level1TiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
         box2DDebugRenderer = new Box2DDebugRenderer();
+
     }
     @Override
     public void show() {
         // TODO Auto-generated method stub
-        
+        batch = new SpriteBatch();
     }
 
     @Override
@@ -57,7 +60,6 @@ public class Level1 implements Screen{
         world.step(1/60f, 6, 2);
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
-
         player.update();
         
     }
@@ -120,12 +122,7 @@ public class Level1 implements Screen{
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
     }
-    public TutorialTiledMapHelper getTiledMapHelper() {
-        return tiledMapHelper;
-    }
-    public void setTiledMapHelper(TutorialTiledMapHelper tiledMapHelper) {
-        this.tiledMapHelper = tiledMapHelper;
-    }
+
     public World getWorld() {
         return world;
     }

@@ -11,11 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Align;
 import com.nana.characters.Player;
+import com.nana.game.Love;
 import com.nana.helper.PPM;
 import com.nana.helper.TutorialTiledMapHelper;
-import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
 public class TutorialGameScreen implements Screen {
     private TiledMap map;
@@ -27,12 +26,16 @@ public class TutorialGameScreen implements Screen {
     private SpriteBatch batch;
     private PPM ppm = new PPM();
     private Player player;
+    final Love game;
+    private Level1 gameScreen;
+    
     /**
      * Initializing the world
      */
 
-    public TutorialGameScreen(){
-
+    public TutorialGameScreen(final Love game){
+        this.game = game;
+        this.gameScreen = new Level1();
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
@@ -41,22 +44,16 @@ public class TutorialGameScreen implements Screen {
         renderer = tiledMapHelper.setupMap();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
+
     }
 
-    
-    public TypingLabel titleLabelSetting(TypingLabel label){
-        label.setAlignment(Align.center);
-        // label.setSize(Gdx.graphics.getWidth(), 200);
-        // label.setPosition(2, Gdx.graphics.getHeight()-Gdx.graphics.getWidth());
-        return label;
-    }
 
     @Override
     public void show() {
         // TODO Auto-generated method stub
        
         batch = new SpriteBatch();
-        
+       
 
     }
 
@@ -69,12 +66,18 @@ public class TutorialGameScreen implements Screen {
         renderer.setView(camera);
       
         renderer.render();
-
+        
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
         
-      
+        System.out.println(player.getBody().getPosition().x);
 
       
+    }
+
+    public void changeScreen(){
+        if(player.getBody().getPosition().x > 30){
+            game.setScreen(gameScreen);
+        }
     }
 
 
@@ -84,6 +87,7 @@ public class TutorialGameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         player.update();
+        changeScreen();
         
     }
 
