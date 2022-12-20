@@ -11,53 +11,33 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Align;
 import com.nana.characters.Player;
 import com.nana.helper.PPM;
 import com.nana.helper.TutorialTiledMapHelper;
-import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
-public class TutorialGameScreen implements Screen {
+public class Level1 implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private TutorialTiledMapHelper tiledMapHelper;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
-    private SpriteBatch batch;
     private PPM ppm = new PPM();
     private Player player;
-    /**
-     * Initializing the world
-     */
-
-    public TutorialGameScreen(){
-
-        // setting the gravity of the game relative to real world's gravity
+    private SpriteBatch batch;
+    
+    public Level1(){
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
+        this.batch = new SpriteBatch();
         renderer = new OrthogonalTiledMapRenderer(map);
-        tiledMapHelper = new TutorialTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
         box2DDebugRenderer = new Box2DDebugRenderer();
-
     }
-
-    
-    public TypingLabel titleLabelSetting(TypingLabel label){
-        label.setAlignment(Align.center);
-        // label.setSize(Gdx.graphics.getWidth(), 200);
-        // label.setPosition(2, Gdx.graphics.getHeight()-Gdx.graphics.getWidth());
-        return label;
-    }
-
     @Override
     public void show() {
         // TODO Auto-generated method stub
-       
-        batch = new SpriteBatch();
         
-
     }
 
     @Override
@@ -71,12 +51,7 @@ public class TutorialGameScreen implements Screen {
         renderer.render();
 
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
-        
-      
-
-      
     }
-
 
     public void update(){
         world.step(1/60f, 6, 2);
@@ -97,9 +72,11 @@ public class TutorialGameScreen implements Screen {
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
     }
+
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
+        
     }
 
     @Override
@@ -117,26 +94,61 @@ public class TutorialGameScreen implements Screen {
     @Override
     public void hide() {
         // TODO Auto-generated method stub
-        dispose();
+        
     }
 
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-  
+        
     }
-
+    public TiledMap getMap() {
+        return map;
+    }
+    public void setMap(TiledMap map) {
+        this.map = map;
+    }
+    public OrthogonalTiledMapRenderer getRenderer() {
+        return renderer;
+    }
+    public void setRenderer(OrthogonalTiledMapRenderer renderer) {
+        this.renderer = renderer;
+    }
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+    public TutorialTiledMapHelper getTiledMapHelper() {
+        return tiledMapHelper;
+    }
+    public void setTiledMapHelper(TutorialTiledMapHelper tiledMapHelper) {
+        this.tiledMapHelper = tiledMapHelper;
+    }
     public World getWorld() {
         return world;
     }
-
-    
-    public void setBatch(SpriteBatch batch) {
-        this.batch = batch;
+    public void setWorld(World world) {
+        this.world = world;
     }
-
-    public void setPlayer(Player player){
+    public Box2DDebugRenderer getBox2DDebugRenderer() {
+        return box2DDebugRenderer;
+    }
+    public void setBox2DDebugRenderer(Box2DDebugRenderer box2dDebugRenderer) {
+        box2DDebugRenderer = box2dDebugRenderer;
+    }
+    public PPM getPpm() {
+        return ppm;
+    }
+    public void setPpm(PPM ppm) {
+        this.ppm = ppm;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public void setPlayer(Player player) {
         this.player = player;
     }
-
+    
 }
