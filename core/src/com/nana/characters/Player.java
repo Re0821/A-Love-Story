@@ -5,13 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.nana.music.GameMusic;
 
 public class Player extends GameEntity{
 
     private int jump;
+    private GameMusic music = new GameMusic();
     public Player(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = 20f;
+        this.speed = 15f;
         this.jump = 0;
         //TODO Auto-generated constructor stub
     }
@@ -33,7 +35,6 @@ public class Player extends GameEntity{
     
     private void checkUserInput(){
         velX = 0;
-
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             velX = 1;
 
@@ -41,9 +42,10 @@ public class Player extends GameEntity{
             velX = -1;
             
         } if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jump < 1){
-            float force = body.getMass() * 18;
+            float force = body.getMass() * 15;
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, force), body.getPosition(), true);
+            music.gameSound[0].play();
             jump++;
         }
        
