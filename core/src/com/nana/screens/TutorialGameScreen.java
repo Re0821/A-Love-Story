@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -11,8 +12,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
+import com.nana.gameFont.MenuFont;
+import com.nana.gameFont.TutorialFont;
 import com.nana.helper.PPM;
 import com.nana.helper.TutorialTiledMapHelper;
 
@@ -28,6 +33,8 @@ public class TutorialGameScreen implements Screen {
     private Player player;
     final Love game;
     private Level1 gameScreen;
+    public Stage stage;
+    private BitmapFont myFont;
     
     /**
      * Initializing the world
@@ -35,10 +42,19 @@ public class TutorialGameScreen implements Screen {
 
     public TutorialGameScreen(final Love game){
         this.game = game;
+        this.stage = new Stage();
         this.gameScreen = new Level1();
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
+        myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
+        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(new ScreenViewport());
+
+        TutorialFont tutorialFont = new TutorialFont(stage, myFont);
+
+        tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}USE A/D TO MOVE LEFT/RIGHT. PRESS SPACE TO JUMP");
+
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new TutorialTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -54,6 +70,7 @@ public class TutorialGameScreen implements Screen {
        
         batch = new SpriteBatch();
        
+        
 
     }
 
@@ -63,11 +80,14 @@ public class TutorialGameScreen implements Screen {
         // TODO Auto-generated method stub
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        renderer.setView(camera);
-      
-        renderer.render();
         
+        renderer.setView(camera);
+        
+        renderer.render();
+        stage.draw();
+        stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
+        
         
         System.out.println(player.getBody().getPosition().x);
 

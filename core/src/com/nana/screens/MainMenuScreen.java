@@ -1,4 +1,4 @@
-package com.nana.game;
+package com.nana.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -11,16 +11,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.game.Love;
+import com.nana.gameFont.MenuFont;
 import com.nana.music.GameMusic;
-import com.nana.screens.TutorialGameScreen;
-import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
 public class MainMenuScreen implements Screen, InputProcessor{
     final Love game;
@@ -39,6 +38,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private int GAME_WIDTH;
     private GameMusic music = new GameMusic();
 
+
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
         this.gameScreen = new TutorialGameScreen(game); // To switch game screen afterwards
@@ -50,12 +50,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
         background2 = new Texture(Gdx.files.internal("assets/backgroundImage.png"));
         backgroundVelocity = 2;
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
-        Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = myFont;
-        TypingLabel titleLabel = new TypingLabel("{SICK}{FAST}A LOVE STORY", label1Style);
-       
-        titleLabelSetting(titleLabel);
-
+    
         Gdx.input.setInputProcessor(stage);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,0,0); // Camera
@@ -85,20 +80,17 @@ public class MainMenuScreen implements Screen, InputProcessor{
         table.add(startButton); // Add to table 
         
         InputMultiplexer im = new InputMultiplexer(stage,this); // To allow for multiple functions
-        stage.addActor(titleLabel);
+        MenuFont menuFont = new MenuFont(stage, myFont);
 
+        menuFont.createAndSetTypingLabel("{COLOR=TEAL}{SICK}{FAST}A LOVE STORY");
+
+
+       
         stage.addActor(table);
         music.backgroundMusic[0].setLooping(true);
         music.backgroundMusic[0].play();
 
         Gdx.input.setInputProcessor(im);
-    }
-
-    public TypingLabel titleLabelSetting(TypingLabel label){
-        label.setAlignment(Align.center);
-        label.setSize(Gdx.graphics.getWidth(), 200);
-        label.setPosition(20, Gdx.graphics.getHeight()-Gdx.graphics.getWidth() + 775);
-        return label;
     }
 
     @Override
