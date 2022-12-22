@@ -10,7 +10,9 @@ import com.nana.music.GameMusic;
 public class Player extends GameEntity{
 
     private int jump;
+    
     private GameMusic music = new GameMusic();
+
     public Player(float width, float height, Body body) {
         super(width, height, body);
         this.speed = 15f;
@@ -18,7 +20,7 @@ public class Player extends GameEntity{
         //TODO Auto-generated constructor stub
     }
 
-    @Override
+	@Override
     public void update() {
         // TODO Auto-generated method stub
         x = body.getPosition().x * ppm.getPPM();
@@ -30,7 +32,7 @@ public class Player extends GameEntity{
     @Override
     public void render(SpriteBatch batch) {
         // TODO Auto-generated method stub
-        
+
     }
     
     private void checkUserInput(){
