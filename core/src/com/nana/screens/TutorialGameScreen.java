@@ -16,9 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
-import com.nana.gameFont.MenuFont;
 import com.nana.gameFont.TutorialFont;
 import com.nana.helper.PPM;
+import com.nana.helper.PlayerAnimation;
 import com.nana.helper.TutorialTiledMapHelper;
 
 public class TutorialGameScreen implements Screen {
@@ -35,7 +35,8 @@ public class TutorialGameScreen implements Screen {
     private Level1 gameScreen;
     public Stage stage;
     private BitmapFont myFont;
-    
+    private PlayerAnimation animation;
+   
     /**
      * Initializing the world
      */
@@ -49,11 +50,13 @@ public class TutorialGameScreen implements Screen {
         this.camera = new OrthographicCamera();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
+
         stage = new Stage(new ScreenViewport());
 
         TutorialFont tutorialFont = new TutorialFont(stage, myFont);
 
         tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}USE A/D TO MOVE LEFT/RIGHT. PRESS SPACE TO JUMP");
+  
 
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new TutorialTiledMapHelper(this);
@@ -67,31 +70,29 @@ public class TutorialGameScreen implements Screen {
     @Override
     public void show() {
         // TODO Auto-generated method stub
-       
+        animation = new PlayerAnimation("assets/player/character.atlas", "idle");
         batch = new SpriteBatch();
-       
-        
-
     }
 
     @Override
+
     public void render(float delta) {
         this.update();
         // TODO Auto-generated method stub
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0.0f,0,0.0f,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         
         renderer.setView(camera);
         
         renderer.render();
         stage.draw();
+        batch.begin();
+        batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
+        batch.end();
+       
         stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
-        
-        
-        System.out.println(player.getBody().getPosition().x);
 
-      
     }
 
     public void changeScreen(){
