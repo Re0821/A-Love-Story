@@ -8,6 +8,11 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class BodyHelper {
     private static PPM ppm = new PPM();
+/**
+ * Credit: Small Pixel Games on YouTube
+ * https://www.youtube.com/watch?v=8rBG7IWdDis&ab_channel=SmallPixelGames
+ * Code is not the exactly the same, but was mainly taken from this video.
+ */
 
     /**
      * @param x sets the x position of the player

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -12,9 +13,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
+import com.nana.gameFont.Level1Font;
 import com.nana.helper.Level1TiledMapHelper;
 import com.nana.helper.PPM;
+import com.nana.helper.PlayerAnimation;
 
 public class Level1 implements Screen{
     private TiledMap map;
@@ -26,16 +31,29 @@ public class Level1 implements Screen{
     private PPM ppm = new PPM();
     private Player player;
     private SpriteBatch batch;
+    private PlayerAnimation animation;
+    private Stage stage;
+    private BitmapFont myFont;
     
     public Level1(){        
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
+        this.animation = new PlayerAnimation();
+        this.stage = new Stage();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new Level1TiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
+        myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
+        Gdx.input.setInputProcessor(stage);
+
+        stage = new Stage(new ScreenViewport());
+
+        Level1Font tutorialFont = new Level1Font(stage, myFont);
+
+    tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}BE CAREFUL OF SPIKES!");
     }
     @Override
     public void show() {
@@ -50,9 +68,13 @@ public class Level1 implements Screen{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         renderer.setView(camera);
-      
         renderer.render();
-
+        stage.draw();
+        batch.begin();
+        batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
+        batch.end();
+       
+        stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
 

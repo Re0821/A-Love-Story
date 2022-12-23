@@ -16,6 +16,11 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.nana.characters.Player;
 import com.nana.screens.Level1;
 
+/**
+ * Credit: Small Pixel Games on YouTube
+ * https://www.youtube.com/watch?v=8rBG7IWdDis&ab_channel=SmallPixelGames
+ * Code is not the exactly the same, but was mainly taken from this video.
+ */
 
 public class Level1TiledMapHelper {
         private TiledMap tileMap;
@@ -28,8 +33,10 @@ public class Level1TiledMapHelper {
         }
     
         public OrthogonalTiledMapRenderer setupMap(){
-            tileMap = new TmxMapLoader().load("assets/TiledMaps/LoveTiled.tmx");
+            tileMap = new TmxMapLoader().load("assets/TiledMaps/FirstLevelTiled.tmx");
             parseMapObjects(tileMap.getLayers().get("objects").getObjects());
+            parseMapObjects(tileMap.getLayers().get("spikes").getObjects());
+
             return new OrthogonalTiledMapRenderer(tileMap);
         }
     

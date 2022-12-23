@@ -48,6 +48,7 @@ public class TutorialGameScreen implements Screen {
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
+        this.animation = new PlayerAnimation();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
 
@@ -70,7 +71,6 @@ public class TutorialGameScreen implements Screen {
     @Override
     public void show() {
         // TODO Auto-generated method stub
-        animation = new PlayerAnimation("assets/player/character.atlas", "idle");
         batch = new SpriteBatch();
     }
 
