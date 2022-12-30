@@ -1,5 +1,6 @@
 package com.nana.helper;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -27,9 +28,13 @@ public class Level1TiledMapHelper {
         private Level1 gameScreen;
         private PPM ppm = new PPM();
         private Body body = null;
+
+        public float abs;
     
         public Level1TiledMapHelper(Level1 gameScreen){
             this.gameScreen = gameScreen;
+           
+
         }
     
         public OrthogonalTiledMapRenderer setupMap(){
@@ -58,7 +63,6 @@ public class Level1TiledMapHelper {
                         }
                        
                     }
-                   
                 }
             }
              
@@ -86,5 +90,4 @@ public class Level1TiledMapHelper {
             shape.set(worldVertices);
             return shape;
         }
-    
     }

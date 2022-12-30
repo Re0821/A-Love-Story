@@ -44,7 +44,7 @@ public class TutorialGameScreen implements Screen {
     public TutorialGameScreen(final Love game){
         this.game = game;
         this.stage = new Stage();
-        this.gameScreen = new Level1();
+        this.gameScreen = new Level1(game);
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();

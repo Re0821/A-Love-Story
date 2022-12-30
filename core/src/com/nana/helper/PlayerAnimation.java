@@ -45,13 +45,11 @@ public class PlayerAnimation {
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             pathName = path[0][1];
             regionName = path[1][1];
-            System.out.println("PRESSED");
         }
 
         else if(Gdx.input.isKeyPressed(Input.Keys.D)){
             pathName = path[0][2];
             regionName = path[1][2];
-            System.out.println("D PRESSED");
         } 
 
         else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
@@ -62,16 +60,9 @@ public class PlayerAnimation {
         else{
             pathName = path[0][0];
             regionName = path[1][0];
-            System.out.println("NOTHING");
         }
 
-    }
-
-    public void checkForIdle(){
-      
-    }
-
-        
+    }  
 }
 
     

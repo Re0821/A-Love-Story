@@ -10,7 +10,7 @@ public abstract class GameEntity {
     protected float velY;
     protected float speed;
     protected float width, height;
-    protected Body body;
+    public Body body;
     protected PPM ppm = new PPM();
 
     public GameEntity(float width, float height, Body body){
