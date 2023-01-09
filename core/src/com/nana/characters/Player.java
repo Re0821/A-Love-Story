@@ -1,22 +1,18 @@
 package com.nana.characters;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nana.helper.Level1TiledMapHelper;
 import com.nana.music.GameMusic;
 
 public class Player extends GameEntity{
 
     private int jump;
-
-    public double firstSpikeAbsX;
-
-	public double firstSpikeAbsY;
     private GameMusic music = new GameMusic();
-    public Level1TiledMapHelper tiledMapHelper;
 
     public Player(float width, float height, Body body) {
         super(width, height, body);
@@ -31,8 +27,6 @@ public class Player extends GameEntity{
         x = body.getPosition().x * ppm.getPPM();
         y = body.getPosition().y * ppm.getPPM();
         
-        firstSpikeAbsX = Math.abs(x - 352.00);
-        firstSpikeAbsY = Math.abs(y - 608.00 / 2 - 80.479949951171875);
         checkUserInput();
     }
 
