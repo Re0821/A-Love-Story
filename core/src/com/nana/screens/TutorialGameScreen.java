@@ -19,7 +19,7 @@ import com.nana.game.Love;
 import com.nana.gameFont.TutorialFont;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
-import com.nana.helper.TutorialTiledMapHelper;
+import com.nana.helper.TiledMap.TutorialTiledMapHelper;
 
 public class TutorialGameScreen implements Screen {
     private TiledMap map;

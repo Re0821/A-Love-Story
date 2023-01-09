@@ -1,7 +1,5 @@
 package com.nana.screens;
 
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -19,9 +17,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
 import com.nana.gameFont.Level1Font;
-import com.nana.helper.Level1TiledMapHelper;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
+import com.nana.helper.TiledMap.Level1TiledMapHelper;
 
 public class Level1 implements Screen{
     private TiledMap map;
@@ -37,12 +35,15 @@ public class Level1 implements Screen{
     private Stage stage;
     private BitmapFont myFont;
     private Level2 gameScreen;
+    private double firstSpikePositionX, firstSpikePositionY, secondSpikePositionX, secondSpikePositionY, thirdSpikePositionX, thirdSpikePositionY, fourthSpikePositionX, fourthSpikePositionY;
+    private Death deathScreen;
     final Love game;
     
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.game = game;
         this.gameScreen = new Level2();
+        this.deathScreen = new Death();
         this.world = new World(new Vector2(0,-25f), false);
   
         this.camera = new OrthographicCamera();
@@ -76,20 +77,54 @@ public class Level1 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-
-        System.out.println(player.firstSpikeAbsX);
-
-        if(player.firstSpikeAbsX < 50 && player.firstSpikeAbsY < 25){
-            System.out.println("Dead");
-            game.setScreen(gameScreen);
-        }
-        
+        checkPass();
         batch.begin();
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
-       
+        
         stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
+    }
+
+    public void checkPass(){
+        firstSpikePositionX = Math.abs(player.body.getPosition().x  * ppm.getPPM() - 352);
+        firstSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608.00 / 2 - 80.40);
+        
+        System.out.println(firstSpikePositionX);
+
+        if(firstSpikePositionX < 50 && firstSpikePositionY < 25){
+            System.out.println("Dead");
+            game.setScreen(deathScreen);
+        }
+
+        secondSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 560.48);
+        secondSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
+
+        if(secondSpikePositionX < 50 && secondSpikePositionY < 25){
+            System.out.println("Dead");
+            game.setScreen(deathScreen);
+        }
+
+        thirdSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 720.479);
+        thirdSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
+
+        if(thirdSpikePositionX < 50 && thirdSpikePositionY < 25){
+            System.out.println("Dead");
+            game.setScreen(deathScreen);
+        }
+
+        fourthSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 879.52);
+        fourthSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
+
+        if(fourthSpikePositionX < 50 && fourthSpikePositionY < 25){
+            System.out.println("Dead");
+            game.setScreen(deathScreen);
+        }
+
+        if((player.getBody().getPosition().x * ppm.getPPM()) > 983.5){
+            System.out.println("Passed");
+            game.setScreen(gameScreen);
+        }
     }
 
     public void update(){

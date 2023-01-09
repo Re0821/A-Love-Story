@@ -1,6 +1,5 @@
-package com.nana.helper;
+package com.nana.helper.TiledMap;
 
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -15,6 +14,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.nana.characters.Player;
+import com.nana.helper.BodyHelper;
+import com.nana.helper.PPM;
 import com.nana.screens.Level1;
 
 /**

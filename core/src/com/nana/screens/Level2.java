@@ -1,7 +1,5 @@
 package com.nana.screens;
 
-
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -19,15 +17,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
 import com.nana.gameFont.Level1Font;
-import com.nana.helper.Level1TiledMapHelper;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
+import com.nana.helper.TiledMap.Level1TiledMapHelper;
+import com.nana.helper.TiledMap.Level2TiledMapHelper;
 
 public class Level2 implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private Level1TiledMapHelper tiledMapHelper;
+    private Level2TiledMapHelper tiledMapHelper;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
     private PPM ppm = new PPM();
@@ -36,17 +35,24 @@ public class Level2 implements Screen{
     private PlayerAnimation animation;
     private Stage stage;
     private BitmapFont myFont;
+    private Death deathScreen;
     
     public Level2(){        
         // setting the gravity of the game relative to real world's gravity
-      
-  
+        this.deathScreen = new Death();
         this.world = new World(new Vector2(0,-25f), false);
   
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
         this.stage = new Stage();
       
+        renderer = new OrthogonalTiledMapRenderer(map);
+        tiledMapHelper = new Level2TiledMapHelper(this);
+        renderer = tiledMapHelper.setupMap();
+        box2DDebugRenderer = new Box2DDebugRenderer();
+        myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
+        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(new ScreenViewport());
 
         
     }
@@ -62,15 +68,22 @@ public class Level2 implements Screen{
         // TODO Auto-generated method stub
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-  
-
-
+        renderer.setView(camera);
+        renderer.render();
+        stage.draw();
+        batch.begin();
+        batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
+        batch.end();
+        
+        stage.act(Gdx.graphics.getDeltaTime());
+        box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
 
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
+        player.update();
         
     }
 
@@ -84,29 +97,78 @@ public class Level2 implements Screen{
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
     }
+
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void pause() {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void resume() {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void hide() {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
         
     }
+    public TiledMap getMap() {
+        return map;
+    }
+    public void setMap(TiledMap map) {
+        this.map = map;
+    }
+    public OrthogonalTiledMapRenderer getRenderer() {
+        return renderer;
+    }
+    public void setRenderer(OrthogonalTiledMapRenderer renderer) {
+        this.renderer = renderer;
+    }
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+    public void setWorld(World world) {
+        this.world = world;
+    }
+    public Box2DDebugRenderer getBox2DDebugRenderer() {
+        return box2DDebugRenderer;
+    }
+    public void setBox2DDebugRenderer(Box2DDebugRenderer box2dDebugRenderer) {
+        box2DDebugRenderer = box2dDebugRenderer;
+    }
+    public PPM getPpm() {
+        return ppm;
+    }
+    public void setPpm(PPM ppm) {
+        this.ppm = ppm;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
 }
