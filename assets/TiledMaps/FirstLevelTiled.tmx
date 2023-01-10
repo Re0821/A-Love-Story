@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="21">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="22">
  <tileset firstgid="1" source="TutorialTiledSet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="32" height="30" opacity="0.85">
   <data encoding="csv">
@@ -88,7 +88,7 @@
   <object id="8" x="896" y="224">
    <polygon points="0,0 0,416 128,416 128,0"/>
   </object>
-  <object id="16" name="player" x="32" y="576" width="32" height="64"/>
+  <object id="21" name="player" x="32" y="608" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="spikes">
   <object id="17" x="352" y="608">

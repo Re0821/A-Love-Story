@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
+import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
 import com.nana.gameFont.Level1Font;
 import com.nana.helper.PPM;
@@ -36,7 +37,8 @@ public class Level2 implements Screen{
     private Stage stage;
     private BitmapFont myFont;
     private Death deathScreen;
-    
+    private SkeletonNPC skeleton;
+
     public Level2(){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death();
@@ -71,6 +73,7 @@ public class Level2 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
+
         batch.begin();
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
@@ -84,6 +87,7 @@ public class Level2 implements Screen{
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         player.update();
+        skeleton.update();
         
     }
 
@@ -167,8 +171,11 @@ public class Level2 implements Screen{
     public Player getPlayer() {
         return player;
     }
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(Player player2) {
+        this.player = player2;
     }
     
+    public void setSkeleton(SkeletonNPC skeleton){
+        this.skeleton = skeleton;
+    }
 }

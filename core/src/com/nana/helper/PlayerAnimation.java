@@ -15,17 +15,20 @@ public class PlayerAnimation {
     private TextureRegion currentFrame;
     private String pathName, regionName;
     private String[][] path;
+    private int checkLeft;
 
     public PlayerAnimation(){
-        path = new String[4][4];
-        path[0][0] = "assets/player/character.atlas";
-        path[0][1] = "assets/player/runLeft.atlas";
-        path[0][2] = "assets/player/runRight.atlas";
-        path[0][3] = "assets/player/jump.atlas";
-        path[1][3] = "jump";
-        path[1][0] = "idle";
-        path[1][1] = "runLeft";
-        path[1][2] = "runRight";
+        path = new String[5][5];
+        path[0][0] = "assets/player/playerBlinkIdle.atlas";
+        path[0][1] = "assets/player/playerLeftRun.atlas";
+        path[0][2] = "assets/player/playerRun.atlas";
+        path[0][3] = "assets/player/playerJump.atlas";
+        path[0][4] = "assets/player/playerLeftBlinkIdle.atlas";
+        path[1][0] = "playerBlinkIdle";
+        path[1][1] = "playerLeftRun";
+        path[1][2] = "playerRun";
+        path[1][3] = "playerJump";
+        path[1][4] = "playerLeftBlinkIdle";
     }
  
     public TextureRegion createAnimation(){
@@ -42,6 +45,7 @@ public class PlayerAnimation {
     }
 
     public void checkInput(){
+        
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             pathName = path[0][1];
             regionName = path[1][1];
@@ -56,7 +60,7 @@ public class PlayerAnimation {
             pathName = path[0][3];
             regionName = path[1][3];
         }
-        
+
         else{
             pathName = path[0][0];
             regionName = path[1][0];

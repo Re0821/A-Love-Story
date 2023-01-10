@@ -1,5 +1,7 @@
 package com.nana.helper.TiledMap;
 
+import java.rmi.server.Skeleton;
+
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.nana.characters.Player;
+import com.nana.characters.SkeletonNPC;
 import com.nana.helper.BodyHelper;
 import com.nana.helper.PPM;
 import com.nana.screens.Level1;
@@ -57,18 +60,19 @@ public class Level2TiledMapHelper {
                 if(mapObject instanceof RectangleMapObject){
                     Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
                     String rectangleName = mapObject.getName();
-                
-                    if(body == null){
+
                         if(rectangleName.equals("player")){
                             //passing in arguments from constructor in the helper class
                             body = BodyHelper.createBody(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
                             gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
                         }
-                        
+
+
                         if(rectangleName.equals("skeleton")){
-                            skeletonBody = BodyHelper.createBody(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                            //passing in arguments from constructor in the helper class
+                            skeletonBody = BodyHelper.createNPC(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                            gameScreen.setSkeleton(new SkeletonNPC(rectangle.getWidth(), rectangle.getHeight(), skeletonBody));
                         }
-                    }
                 }
             }
              
