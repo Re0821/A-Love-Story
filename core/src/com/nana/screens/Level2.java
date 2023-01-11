@@ -1,5 +1,7 @@
 package com.nana.screens;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -16,11 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
-import com.nana.game.Love;
-import com.nana.gameFont.Level1Font;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
-import com.nana.helper.TiledMap.Level1TiledMapHelper;
+import com.nana.helper.RandomMovement;
+import com.nana.helper.SkeletonAnimation;
 import com.nana.helper.TiledMap.Level2TiledMapHelper;
 
 public class Level2 implements Screen{
@@ -34,18 +35,22 @@ public class Level2 implements Screen{
     private Player player;
     private SpriteBatch batch;
     private PlayerAnimation animation;
+    private SkeletonAnimation skeletonAnimation;
     private Stage stage;
     private BitmapFont myFont;
     private Death deathScreen;
     private SkeletonNPC skeleton;
+    private Level1 level1;
+    private RandomMovement randomMovement;
 
     public Level2(){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death();
+        this.randomMovement = new RandomMovement();
         this.world = new World(new Vector2(0,-25f), false);
-  
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
+        this.skeletonAnimation = new SkeletonAnimation();
         this.stage = new Stage();
       
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -73,9 +78,11 @@ public class Level2 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-
+        System.out.println(randomMovement.getSwitchDirection());
         batch.begin();
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
+        batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM(), skeleton.getBody().getPosition().y * ppm.getPPM(), 100, 100);
+        
         batch.end();
         
         stage.act(Gdx.graphics.getDeltaTime());
@@ -129,7 +136,7 @@ public class Level2 implements Screen{
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
+      
     }
     public TiledMap getMap() {
         return map;

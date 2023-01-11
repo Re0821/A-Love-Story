@@ -45,10 +45,10 @@ public class BodyHelper {
 
     public static Body createNPC(float x, float y, float width, float height, boolean isStatic, World world){
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody; // When this is true, it will be a static body. Else, it is a dynamic body
+        bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody; // When this is true, it will be a static body. Else, it is a dynamic body
         bodyDef.position.set(x / ppm.getPPM(), y / ppm.getPPM());
         bodyDef.fixedRotation = true; // doesn't let player rotate around
-        Body body = world.createBody(bodyDef); // creates player
+        Body body = world.createBody(bodyDef); 
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / ppm.getPPM(), height / 2 / ppm.getPPM());

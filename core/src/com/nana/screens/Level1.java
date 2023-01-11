@@ -38,6 +38,7 @@ public class Level1 implements Screen{
     private double firstSpikePositionX, firstSpikePositionY, secondSpikePositionX, secondSpikePositionY, thirdSpikePositionX, thirdSpikePositionY, fourthSpikePositionX, fourthSpikePositionY;
     private Death deathScreen;
     final Love game;
+    private TutorialGameScreen tutoriallevel;
     
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -173,7 +174,7 @@ public class Level1 implements Screen{
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
+    
     }
     public TiledMap getMap() {
         return map;

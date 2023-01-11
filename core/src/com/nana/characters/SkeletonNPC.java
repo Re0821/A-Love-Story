@@ -1,23 +1,19 @@
 package com.nana.characters;
 
-import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nana.music.GameMusic;
+import com.nana.helper.SkeletonAnimation;
 
 public class SkeletonNPC extends GameEntity{
 
-    private int jump;
-    private GameMusic music = new GameMusic();
+    private SkeletonAnimation skeleton;
 
     public SkeletonNPC(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = 15f;
-        this.jump = 0;
+        this.skeleton = new SkeletonAnimation();
+
+        this.speed = 5f;
+        
         //TODO Auto-generated constructor stub
     }
 
@@ -27,11 +23,24 @@ public class SkeletonNPC extends GameEntity{
         x = body.getPosition().x * ppm.getPPM();
         y = body.getPosition().y * ppm.getPPM();
         
+        checkInput();
     }
 
     @Override
     public void render(SpriteBatch batch) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void checkInput(){
+        velX = 0;
+
+        if(skeleton.switchDirection == 1){
+            velX = -1;
+        } else if(skeleton.switchDirection == 2){
+            velX = 1;
+        }
+
+        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 20 ? body.getLinearVelocity().y  : 20);
     }
 }

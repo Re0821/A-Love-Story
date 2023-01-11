@@ -1,33 +1,33 @@
 
-skeletonLeftIdle.png
+skeletonRunRight.png
 size: 256, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-tile004
-  rotate: false
-  xy: 2, 2
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-tile005
+skeletonRunRight
   rotate: false
   xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-tile006
+skeletonRunRight
   rotate: false
-  xy: 36, 2
+  xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-tile007
+skeletonRunRight
   rotate: false
   xy: 104, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+skeletonRunRight
+  rotate: false
+  xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
