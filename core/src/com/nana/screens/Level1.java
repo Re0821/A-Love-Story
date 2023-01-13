@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
 import com.nana.gameFont.Level1Font;
+import com.nana.gameFont.LiveFont;
+import com.nana.helper.Lives;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
 import com.nana.helper.TiledMap.Level1TiledMapHelper;
@@ -38,11 +40,14 @@ public class Level1 implements Screen{
     private double firstSpikePositionX, firstSpikePositionY, secondSpikePositionX, secondSpikePositionY, thirdSpikePositionX, thirdSpikePositionY, fourthSpikePositionX, fourthSpikePositionY;
     private Death deathScreen;
     final Love game;
-    private TutorialGameScreen tutoriallevel;
+    private LiveFont liveFont;
+    private Lives lives;
     
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.game = game;
+        this.liveFont = new LiveFont();
+        this.lives = new Lives();
         this.gameScreen = new Level2(game);
         this.deathScreen = new Death();
         this.world = new World(new Vector2(0,-25f), false);
@@ -80,6 +85,7 @@ public class Level1 implements Screen{
         stage.draw();
         checkPass();
         batch.begin();
+        liveFont.drawLiveFont(batch, lives.lives);
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
         

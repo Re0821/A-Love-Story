@@ -22,7 +22,8 @@ public class SkeletonAnimation{
     private RandomMovement randomMovement;
     private SkeletonNPC skeleton;
     private PPM ppm;
-    
+   
+
     public SkeletonAnimation(){
         this.randomMovement = new RandomMovement();
         this.ppm = new PPM();

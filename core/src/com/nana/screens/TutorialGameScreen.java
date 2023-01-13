@@ -16,7 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.game.Love;
+import com.nana.gameFont.LiveFont;
 import com.nana.gameFont.TutorialFont;
+import com.nana.helper.Lives;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
 import com.nana.helper.TiledMap.TutorialTiledMapHelper;
@@ -36,6 +38,9 @@ public class TutorialGameScreen implements Screen {
     public Stage stage;
     private BitmapFont myFont;
     private PlayerAnimation animation;
+    private LiveFont liveFont;
+    private Lives lives;
+
    
     /**
      * Initializing the world
@@ -45,10 +50,12 @@ public class TutorialGameScreen implements Screen {
         this.game = game;
         this.stage = new Stage();
         this.gameScreen = new Level1(game);
+        this.lives = new Lives();
         // setting the gravity of the game relative to real world's gravity
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
+        liveFont = new LiveFont();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
 
@@ -57,7 +64,7 @@ public class TutorialGameScreen implements Screen {
         TutorialFont tutorialFont = new TutorialFont(stage, myFont);
 
         tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}USE A/D TO MOVE LEFT/RIGHT. PRESS SPACE TO JUMP");
-  
+
 
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new TutorialTiledMapHelper(this);
@@ -87,6 +94,8 @@ public class TutorialGameScreen implements Screen {
         renderer.render();
         stage.draw();
         batch.begin();
+        liveFont.drawLiveFont(batch, lives.lives);
+        
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
        

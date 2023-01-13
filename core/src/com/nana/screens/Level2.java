@@ -20,6 +20,7 @@ import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
 import com.nana.gameFont.Level2Font;
+import com.nana.gameFont.LiveFont;
 import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
@@ -49,12 +50,14 @@ public class Level2 implements Screen{
     private Lives lives;
     public float absDistSkeletonX;
     public float absDistSkeletonY;
-
+    private LiveFont liveFont;
+    
 
     public Level2(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death();
         this.game = game;
+        this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
@@ -91,14 +94,10 @@ public class Level2 implements Screen{
         stage.draw();
         absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
         absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
-        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
-            lives.lives --;
-            lives.hurt = true;
-        } else {
-            lives.hurt = false;
-        }
 
+        checkHurt();
         batch.begin();
+        liveFont.drawLiveFont(batch, lives.lives);
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         
@@ -130,6 +129,19 @@ public class Level2 implements Screen{
         camera.update();
     }
 
+    public void checkHurt(){
+        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
+            lives.lives--;
+            lives.hurt = true;
+            System.out.println("hurt");
+            animation.deathAnimation = true;
+            immunity.giveImmunity();
+            
+
+        } else {
+            lives.hurt = false;
+        }
+    }
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub

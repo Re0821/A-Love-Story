@@ -26,6 +26,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private OrthographicCamera camera;
     private BitmapFont myFont;
     SpriteBatch batch;
+
     public Stage stage;
     private Skin skin;
     private Table table;

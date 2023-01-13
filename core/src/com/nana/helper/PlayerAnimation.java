@@ -19,8 +19,11 @@ public class PlayerAnimation {
     private String[][] path;
     private boolean checkLeft;
     private Lives lives = new Lives();
+    public boolean deathAnimation = false;
+    private Immunity immunity;
 
     public PlayerAnimation(){
+        this.immunity = new Immunity();
         path = new String[6][6];
         path[0][0] = "assets/player/playerBlinkIdle.atlas";
         path[0][1] = "assets/player/playerLeftRun.atlas";
@@ -69,15 +72,23 @@ public class PlayerAnimation {
             regionName = path[1][3];
         }
 
-        else if(checkLeft == false){
+        else if(checkLeft == true){
+            pathName = path[0][4];
+            regionName = path[1][4];
+        }
+        
+        else if(lives.hurt == true && immunity.isImmune() == false){
+            pathName = path[0][5];
+            regionName = path[1][5];
+
+        }
+
+        else{
             pathName = path[0][0];
             regionName = path[1][0];
         }
-        
-        else if(lives.hurt == true){
-            pathName = path[0][5];
-            regionName = path[1][5];
-        }
+
+
     } 
     
     public void checkLeft(){
