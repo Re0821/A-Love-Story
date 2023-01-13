@@ -18,19 +18,23 @@ public class PlayerAnimation {
     private String pathName, regionName;
     private String[][] path;
     private boolean checkLeft;
+    private Lives lives = new Lives();
 
     public PlayerAnimation(){
-        path = new String[5][5];
+        path = new String[6][6];
         path[0][0] = "assets/player/playerBlinkIdle.atlas";
         path[0][1] = "assets/player/playerLeftRun.atlas";
         path[0][2] = "assets/player/playerRun.atlas";
         path[0][3] = "assets/player/playerJump.atlas";
         path[0][4] = "assets/player/playerLeftBlinkIdle.atlas";
+        path[0][5] = "assets/player/death.atlas";
+
         path[1][0] = "playerBlinkIdle";
         path[1][1] = "playerLeftRun";
         path[1][2] = "playerRun";
         path[1][3] = "playerJump";
         path[1][4] = "playerLeftBlinkIdle";
+        path[1][5] = "death";
     }
  
     public TextureRegion createAnimation(){
@@ -68,6 +72,11 @@ public class PlayerAnimation {
         else if(checkLeft == false){
             pathName = path[0][0];
             regionName = path[1][0];
+        }
+        
+        else if(lives.hurt == true){
+            pathName = path[0][5];
+            regionName = path[1][5];
         }
     } 
     

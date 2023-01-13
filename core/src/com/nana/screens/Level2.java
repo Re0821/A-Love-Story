@@ -18,6 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
+import com.nana.game.Love;
+import com.nana.gameFont.Level2Font;
+import com.nana.helper.Immunity;
+import com.nana.helper.Lives;
 import com.nana.helper.PPM;
 import com.nana.helper.PlayerAnimation;
 import com.nana.helper.RandomMovement;
@@ -40,19 +44,23 @@ public class Level2 implements Screen{
     private BitmapFont myFont;
     private Death deathScreen;
     private SkeletonNPC skeleton;
-    private Level1 level1;
-    private RandomMovement randomMovement;
+    private Immunity immunity = new Immunity();
+    private final Love game;
+    private Lives lives;
+    public float absDistSkeletonX;
+    public float absDistSkeletonY;
 
-    public Level2(){        
+
+    public Level2(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death();
-        this.randomMovement = new RandomMovement();
+        this.game = game;
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
         this.skeletonAnimation = new SkeletonAnimation();
         this.stage = new Stage();
-      
+        this.lives = new Lives();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new Level2TiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -60,6 +68,9 @@ public class Level2 implements Screen{
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
+        Level2Font level2Font = new Level2Font(stage, myFont);
+        level2Font.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}Skeletons are unpredictable and mindless! Avoid them at all cost!");
+
 
         
     }
@@ -78,16 +89,26 @@ public class Level2 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-        System.out.println(randomMovement.getSwitchDirection());
+        absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
+        absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
+        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
+            lives.lives --;
+            lives.hurt = true;
+        } else {
+            lives.hurt = false;
+        }
+
         batch.begin();
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
-        batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM(), skeleton.getBody().getPosition().y * ppm.getPPM(), 100, 100);
+        batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         
         batch.end();
-        
+     
         stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
+
+    
 
     public void update(){
         world.step(1/60f, 6, 2);
@@ -135,6 +156,10 @@ public class Level2 implements Screen{
 
     @Override
     public void dispose() {
+        batch.dispose();
+        stage.dispose();
+        myFont.dispose();
+        renderer.dispose();
         // TODO Auto-generated method stub
       
     }

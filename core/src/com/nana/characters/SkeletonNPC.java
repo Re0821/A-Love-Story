@@ -2,17 +2,19 @@ package com.nana.characters;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nana.helper.SkeletonAnimation;
+import com.nana.helper.RandomMovement;
+
 
 public class SkeletonNPC extends GameEntity{
 
-    private SkeletonAnimation skeleton;
+    private RandomMovement randomMovement;
 
     public SkeletonNPC(float width, float height, Body body) {
         super(width, height, body);
-        this.skeleton = new SkeletonAnimation();
+        this.randomMovement = new RandomMovement();
 
-        this.speed = 5f;
+
+        this.speed = .22f;
         
         //TODO Auto-generated constructor stub
     }
@@ -22,7 +24,6 @@ public class SkeletonNPC extends GameEntity{
         // TODO Auto-generated method stub
         x = body.getPosition().x * ppm.getPPM();
         y = body.getPosition().y * ppm.getPPM();
-        
         checkInput();
     }
 
@@ -34,11 +35,16 @@ public class SkeletonNPC extends GameEntity{
 
     public void checkInput(){
         velX = 0;
-
-        if(skeleton.switchDirection == 1){
+        if(randomMovement.getRandomNumber() == 1){
             velX = -1;
-        } else if(skeleton.switchDirection == 2){
+        }if(randomMovement.getRandomNumber() == 2){
             velX = 1;
+        } 
+    
+        if(x >= 16.5 && 18.5 >= x){
+            velX = 1;
+        }  else if(x >= 19.5 && 22.5 >= x){
+            velX = -1;
         }
 
         body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 20 ? body.getLinearVelocity().y  : 20);

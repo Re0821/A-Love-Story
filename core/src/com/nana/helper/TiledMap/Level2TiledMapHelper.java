@@ -70,7 +70,8 @@ public class Level2TiledMapHelper {
 
                         if(rectangleName.equals("skeleton")){
                             //passing in arguments from constructor in the helper class
-                            skeletonBody = BodyHelper.createNPC(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                            skeletonBody = BodyHelper.createNPC
+                            (rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
                             gameScreen.setSkeleton(new SkeletonNPC(rectangle.getWidth(), rectangle.getHeight(), skeletonBody));
                         }
                 }

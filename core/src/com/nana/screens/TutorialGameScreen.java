@@ -148,7 +148,7 @@ public class TutorialGameScreen implements Screen {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-  
+        batch.dispose();
     }
 
     public World getWorld() {

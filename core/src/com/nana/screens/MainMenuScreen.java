@@ -146,7 +146,6 @@ public class MainMenuScreen implements Screen, InputProcessor{
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-        
     }
     @Override
     public boolean keyDown(int keycode) {

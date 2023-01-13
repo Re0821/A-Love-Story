@@ -43,7 +43,7 @@ public class Level1 implements Screen{
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.game = game;
-        this.gameScreen = new Level2();
+        this.gameScreen = new Level2(game);
         this.deathScreen = new Death();
         this.world = new World(new Vector2(0,-25f), false);
   
@@ -174,7 +174,10 @@ public class Level1 implements Screen{
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-    
+        batch.dispose();
+        stage.dispose();
+        myFont.dispose();
+        renderer.dispose();
     }
     public TiledMap getMap() {
         return map;
