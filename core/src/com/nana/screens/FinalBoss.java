@@ -1,9 +1,11 @@
 package com.nana.screens;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,61 +17,70 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
+import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
-import com.nana.gameFont.Level1Font;
+import com.nana.gameFont.Level2Font;
 import com.nana.gameFont.LiveFont;
+import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
 import com.nana.helper.Animations.FadeOutEffect;
 import com.nana.helper.Animations.PlayerAnimation;
-import com.nana.helper.TiledMap.Level1TiledMapHelper;
+import com.nana.helper.Animations.SkeletonAnimation;
+import com.nana.helper.TiledMap.FinalTiledMapHelper;
+import com.nana.helper.TiledMap.Level2TiledMapHelper;
 
-public class Level1 implements Screen{
+public class FinalBoss implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private Level1TiledMapHelper tiledMapHelper;
+    private FinalTiledMapHelper tiledMapHelper;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
     private PPM ppm = new PPM();
     private Player player;
     private SpriteBatch batch;
     private PlayerAnimation animation;
+    private SkeletonAnimation skeletonAnimation;
     private Stage stage;
     private BitmapFont myFont;
-    private Level2 gameScreen;
-    private double firstSpikePositionX, firstSpikePositionY, secondSpikePositionX, secondSpikePositionY, thirdSpikePositionX, thirdSpikePositionY, fourthSpikePositionX, fourthSpikePositionY;
     private Death deathScreen;
-    final Love game;
-    private LiveFont liveFont;
+    private SkeletonNPC skeleton;
+    private MonsterNPC monster;
+    private Immunity immunity = new Immunity();
+    private final Love game;
     private Lives lives;
+    public float absDistSkeletonX;
+    public float absDistSkeletonY;
+    private LiveFont liveFont;
     private FadeOutEffect fadeOut;
     
-    public Level1(final Love game){        
+    public FinalBoss(final Love game){        
         // setting the gravity of the game relative to real world's gravity
-        this.game = game;
-        this.liveFont = new LiveFont();
-        this.lives = new Lives();
-        this.gameScreen = new Level2(game);
         this.deathScreen = new Death(game);
+        this.game = game;
+
+        batch = new SpriteBatch();
+        this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
+        this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
-        this.batch = new SpriteBatch();
-        this.fadeOut = new FadeOutEffect(game, this, .6f, batch);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
+        this.skeletonAnimation = new SkeletonAnimation();
         this.stage = new Stage();
-      
+        this.lives = new Lives();
         renderer = new OrthogonalTiledMapRenderer(map);
-        tiledMapHelper = new Level1TiledMapHelper(this);
+        tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
         box2DDebugRenderer = new Box2DDebugRenderer();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
-        Level1Font tutorialFont = new Level1Font(stage, myFont);
-        tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}BE CAREFUL OF SPIKES!");
+       
 
         
     }
@@ -88,83 +99,41 @@ public class Level1 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-        checkPass();
-        fadeOut.render(delta);
+
+        absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
+        absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
+
+        
+        checkHurt();
+        
 
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
 
-      
+
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
-        batch.end();
+        batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         
+        batch.end();
+     
+               
+        fadeOut.render(delta);
+
+
+        if(lives.lives <= 0){
+            player.velX = 0;
+            fadeOut.start();
+            
+            if(fadeOut.finished == true){
+                game.setScreen(deathScreen);
+            }
+        }
+       
+
         stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
 
-    public void checkPass(){
-        firstSpikePositionX = Math.abs(player.body.getPosition().x  * ppm.getPPM() - 352);
-        firstSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608.00 / 2 - 80.40);
-        
-
-        if(firstSpikePositionX < 50 && firstSpikePositionY < 25){
-            System.out.println("Dead");
-        
-            fadeOut.start();
-            if(fadeOut.finished == true){
-                game.setScreen(deathScreen);
-            }
-
-        }
-
-        secondSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 560.48);
-        secondSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
-
-        if(secondSpikePositionX < 50 && secondSpikePositionY < 25){
-            System.out.println("Dead");
-      
-            fadeOut.start();
-            if(fadeOut.finished == true){
-                dispose();
-                game.setScreen(deathScreen);
-            }
-
-        }
-
-        thirdSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 720.479);
-        thirdSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
-
-        if(thirdSpikePositionX < 50 && thirdSpikePositionY < 25){
-            System.out.println("Dead");
-    
-            fadeOut.start();
-            
-            if(fadeOut.finished == true){
-                dispose();
-                game.setScreen(deathScreen);
-            }
-            
-        }
-
-        fourthSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 879.52);
-        fourthSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608 / 2 - 80.480);
-
-        if(fourthSpikePositionX < 50 && fourthSpikePositionY < 25){
-            System.out.println("Dead");
-            fadeOut.start();
-            if(fadeOut.finished == true){
-                dispose();
-                game.setScreen(deathScreen);
-            }
-
-        }
-
-        if((player.getBody().getPosition().x * ppm.getPPM()) > 983.5){
-            System.out.println("Passed");
-            dispose();
-            game.setScreen(gameScreen);
-        }
-    }
     
 
     public void update(){
@@ -172,7 +141,8 @@ public class Level1 implements Screen{
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         player.update();
-
+        skeleton.update();
+       
         
     }
 
@@ -185,6 +155,20 @@ public class Level1 implements Screen{
         camera.viewportWidth = Gdx.graphics.getWidth();
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
+    }
+
+    public void checkHurt(){
+        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
+            lives.lives--;
+
+            System.out.println("hurt");
+            animation.deathAnimation = true;
+            immunity.giveImmunity();
+            
+
+        } else {
+            lives.hurt = false;
+        }
     }
 
     @Override
@@ -213,9 +197,10 @@ public class Level1 implements Screen{
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
      
-        
+
+        // TODO Auto-generated method stub
+      
     }
     public TiledMap getMap() {
         return map;
@@ -257,8 +242,15 @@ public class Level1 implements Screen{
     public Player getPlayer() {
         return player;
     }
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(Player player2) {
+        this.player = player2;
     }
     
+    public void setSkeleton(SkeletonNPC skeleton){
+        this.skeleton = skeleton;
+    }
+
+    public void setMonster(MonsterNPC monster){
+        this.monster = monster;
+    }
 }

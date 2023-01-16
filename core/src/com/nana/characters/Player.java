@@ -14,7 +14,7 @@ public class Player extends GameEntity{
 
     public Player(float width, float height, Body body) {
         super(width, height, body);
-        this.speed = 15f;
+        this.speed = 8f;
         this.jump = 0;
         //TODO Auto-generated constructor stub
     }
@@ -54,7 +54,7 @@ public class Player extends GameEntity{
 
             jump = 0;
         }
-
+        
         body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 20 ? body.getLinearVelocity().y  : 20);
     }
 }

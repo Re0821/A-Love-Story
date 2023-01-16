@@ -27,61 +27,41 @@ public class Death implements Screen, InputProcessor{
     private OrthographicCamera camera;
     private BitmapFont myFont;
     SpriteBatch batch;
+    
     public Stage stage;
     final Love game;
-    private Skin skin;
-    private Table table;
-    private TextButton startButton;
-    private int GAME_HEIGHT;
-    private int GAME_WIDTH;
-
+    private Texture background1;
+    private Texture background2;
+    private float backgroundVelocity;
+    private float backgroundX;
+    private float GAME_WIDTH;
+    private float GAME_HEIGHT;
 
     public Death(final Love game){
         this.game = game;
+        background1 = new Texture(Gdx.files.internal("assets/background1.jpg"));
+        background2 = new Texture(Gdx.files.internal("assets/background2.jpg"));
+        backgroundVelocity = 2;
+        GAME_HEIGHT = Gdx.graphics.getHeight();
+		GAME_WIDTH = Gdx.graphics.getWidth();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,0,0); // Camera
 
         this.stage = new Stage(); // To add actors for mostly animation purposes
-        GAME_HEIGHT = Gdx.graphics.getHeight();
-		GAME_WIDTH = Gdx.graphics.getWidth();
         
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
     
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("assets/terra-mother-ui.json")); // Assets retrieved from open source websites
-        stage = new Stage(new ScreenViewport()); // To make it compatible with multiple devices
-        table = new Table();
-        table.setWidth(stage.getWidth());
-        table.align(Align.center);
-        table.setPosition(0, Gdx.graphics.getHeight()/2);
-        
-        startButton = new TextButton("Start Game", skin);
-    
-        startButton.center();
-        startButton.getLabel().setFontScale(2);
-        startButton.addListener(new ClickListener(){
-
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-               game.setScreen(new MainMenuScreen(game));
-
-            }
-        });
       
-        table.add(startButton); // Add to table 
+        stage = new Stage(new ScreenViewport()); // To make it compatible with multiple devices
         
         InputMultiplexer im = new InputMultiplexer(stage,this); // To allow for multiple functions
-        MenuFont menuFont = new MenuFont(stage, myFont);
+        DeathFont deathFont = new DeathFont(stage, myFont);
 
-        menuFont.createAndSetTypingLabel("{COLOR=TEAL}{SICK}{FAST}You Failed");
-
-
-       
-        stage.addActor(table);
-    
-
+        deathFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Failed");
+        deathFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
         Gdx.input.setInputProcessor(im);
     }
     
@@ -96,9 +76,28 @@ public class Death implements Screen, InputProcessor{
     public void render(float delta) {
 
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0,0,0,1); 
         // TODO Auto-generated method stub
+      
+        batch.begin();
+        batch.draw(background1 , backgroundX , 0 , GAME_WIDTH , GAME_HEIGHT);
+		batch.draw(background2 , backgroundX + GAME_WIDTH, 0 , GAME_WIDTH,GAME_HEIGHT);
+        backgroundX -= backgroundVelocity;
+
+        System.out.println(backgroundX + GAME_WIDTH); // Debugging purposes. Decreases from 1024 px
+		if (backgroundX +GAME_WIDTH ==0){
+			backgroundX = 0;
+		}
+        batch.end();
+
+        if(Gdx.input.isTouched()){
+            game.setScreen(new MainMenuScreen(game));
+            dispose();
+        }
+
         stage.draw();
         stage.act(Gdx.graphics.getDeltaTime());
+
 
        
         

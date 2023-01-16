@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.nana.helper.PPM;
 
 public class BodyHelper {
@@ -47,6 +48,25 @@ public class BodyHelper {
     public static Body createNPC(float x, float y, float width, float height, boolean isStatic, World world){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody; // When this is true, it will be a static body. Else, it is a dynamic body
+        bodyDef.position.set(x / ppm.getPPM(), y / ppm.getPPM());
+        bodyDef.fixedRotation = true; // doesn't let player rotate around
+        Body body = world.createBody(bodyDef); 
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2 / ppm.getPPM(), height / 2 / ppm.getPPM());
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.friction = 0f;
+        body.createFixture(fixtureDef);
+        shape.dispose();
+        return body;
+        
+    }
+
+    public static Body createStaticNPC(float x, float y, float width, float height, boolean isStatic, World world){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x / ppm.getPPM(), y / ppm.getPPM());
         bodyDef.fixedRotation = true; // doesn't let player rotate around
         Body body = world.createBody(bodyDef); 

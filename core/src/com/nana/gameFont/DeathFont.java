@@ -25,5 +25,15 @@ public class DeathFont {
         titleLabel.setSize(Gdx.graphics.getWidth() - 50, 300);
         titleLabel.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() + 775);
         stage.addActor(titleLabel);
+    }  
+    public void adjustedFont1(String text) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = myFont;
+        TypingLabel titleLabel = new TypingLabel(text, labelStyle);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setFontScale(.6f);
+        titleLabel.setSize(Gdx.graphics.getWidth() - 50, -150);
+        titleLabel.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() + 775);
+        stage.addActor(titleLabel);
     }
 }

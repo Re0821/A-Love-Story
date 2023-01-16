@@ -58,14 +58,15 @@ public class Level2 implements Screen{
     public float absDistSkeletonY;
     private LiveFont liveFont;
     private FadeOutEffect fadeOut;
-    private MainMenuScreen mainMenu;
+    private FinalBoss gameScreen;
     
     public Level2(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death(game);
         this.game = game;
+        this.gameScreen = new FinalBoss(game);
         batch = new SpriteBatch();
-        this.fadeOut = new FadeOutEffect(game, deathScreen, 1, batch);
+        this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
         this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
@@ -107,7 +108,7 @@ public class Level2 implements Screen{
 
         
         checkHurt();
-        
+        checkPass();
 
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
@@ -124,6 +125,9 @@ public class Level2 implements Screen{
 
         if(lives.lives <= 0){
             fadeOut.start();
+            if(fadeOut.finished == true){
+                game.setScreen(deathScreen);
+            }
         }
        
 
@@ -152,7 +156,12 @@ public class Level2 implements Screen{
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
     }
-
+    public void checkPass(){
+        if(player.getBody().getPosition().x * ppm.getPPM() > 983.5){
+            dispose();
+            game.setScreen(gameScreen);
+        }
+    }
     public void checkHurt(){
         if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
             lives.lives--;
@@ -193,10 +202,8 @@ public class Level2 implements Screen{
 
     @Override
     public void dispose() {
-        batch.dispose();
-        stage.dispose();
-        myFont.dispose();
-        renderer.dispose();
+     
+
         // TODO Auto-generated method stub
       
     }
