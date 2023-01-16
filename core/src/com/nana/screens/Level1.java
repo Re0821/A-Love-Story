@@ -1,5 +1,7 @@
 package com.nana.screens;
 
+import java.util.logging.Level;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -20,7 +22,8 @@ import com.nana.gameFont.Level1Font;
 import com.nana.gameFont.LiveFont;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
-import com.nana.helper.PlayerAnimation;
+import com.nana.helper.Animations.FadeOutEffect;
+import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.TiledMap.Level1TiledMapHelper;
 
 public class Level1 implements Screen{
@@ -42,6 +45,7 @@ public class Level1 implements Screen{
     final Love game;
     private LiveFont liveFont;
     private Lives lives;
+    private FadeOutEffect fadeOut;
     
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -49,9 +53,10 @@ public class Level1 implements Screen{
         this.liveFont = new LiveFont();
         this.lives = new Lives();
         this.gameScreen = new Level2(game);
-        this.deathScreen = new Death();
+        this.deathScreen = new Death(game);
         this.world = new World(new Vector2(0,-25f), false);
-  
+        this.batch = new SpriteBatch();
+        this.fadeOut = new FadeOutEffect(game, this, .3f, batch);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
         this.stage = new Stage();
@@ -84,8 +89,12 @@ public class Level1 implements Screen{
         renderer.render();
         stage.draw();
         checkPass();
+        fadeOut.render(delta);
+
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
+
+      
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
         
@@ -97,11 +106,14 @@ public class Level1 implements Screen{
         firstSpikePositionX = Math.abs(player.body.getPosition().x  * ppm.getPPM() - 352);
         firstSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608.00 / 2 - 80.40);
         
-        System.out.println(firstSpikePositionX);
 
         if(firstSpikePositionX < 50 && firstSpikePositionY < 25){
             System.out.println("Dead");
-            game.setScreen(deathScreen);
+            fadeOut.start();
+            if(fadeOut.finished == true){
+                game.setScreen(deathScreen);
+            }
+
         }
 
         secondSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 560.48);
@@ -109,7 +121,12 @@ public class Level1 implements Screen{
 
         if(secondSpikePositionX < 50 && secondSpikePositionY < 25){
             System.out.println("Dead");
-            game.setScreen(deathScreen);
+            fadeOut.start();
+            if(fadeOut.finished == true){
+                dispose();
+                game.setScreen(deathScreen);
+            }
+
         }
 
         thirdSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 720.479);
@@ -117,7 +134,13 @@ public class Level1 implements Screen{
 
         if(thirdSpikePositionX < 50 && thirdSpikePositionY < 25){
             System.out.println("Dead");
-            game.setScreen(deathScreen);
+            fadeOut.start();
+            
+            if(fadeOut.finished == true){
+                dispose();
+                game.setScreen(deathScreen);
+            }
+            
         }
 
         fourthSpikePositionX = Math.abs(player.body.getPosition().x * ppm.getPPM() - 879.52);
@@ -125,20 +148,28 @@ public class Level1 implements Screen{
 
         if(fourthSpikePositionX < 50 && fourthSpikePositionY < 25){
             System.out.println("Dead");
-            game.setScreen(deathScreen);
+            fadeOut.start();
+            if(fadeOut.finished == true){
+                dispose();
+                game.setScreen(deathScreen);
+            }
+
         }
 
         if((player.getBody().getPosition().x * ppm.getPPM()) > 983.5){
             System.out.println("Passed");
+            dispose();
             game.setScreen(gameScreen);
         }
     }
+    
 
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         player.update();
+
         
     }
 
@@ -184,6 +215,10 @@ public class Level1 implements Screen{
         stage.dispose();
         myFont.dispose();
         renderer.dispose();
+        map.dispose();
+        box2DDebugRenderer.dispose();
+        renderer.dispose();
+        Level1.this.dispose();
     }
     public TiledMap getMap() {
         return map;

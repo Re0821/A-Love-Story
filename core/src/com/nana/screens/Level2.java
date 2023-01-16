@@ -1,9 +1,11 @@
 package com.nana.screens;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
@@ -24,9 +27,12 @@ import com.nana.gameFont.LiveFont;
 import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
-import com.nana.helper.PlayerAnimation;
-import com.nana.helper.RandomMovement;
-import com.nana.helper.SkeletonAnimation;
+import com.nana.helper.Animations.FadeOutEffect;
+import com.nana.helper.Animations.PlayerAnimation;
+import com.nana.helper.Animations.SkeletonAnimation;
+
+
+
 import com.nana.helper.TiledMap.Level2TiledMapHelper;
 
 public class Level2 implements Screen{
@@ -51,12 +57,15 @@ public class Level2 implements Screen{
     public float absDistSkeletonX;
     public float absDistSkeletonY;
     private LiveFont liveFont;
+    private FadeOutEffect fadeOut;
+    private MainMenuScreen mainMenu;
     
-
     public Level2(final Love game){        
         // setting the gravity of the game relative to real world's gravity
-        this.deathScreen = new Death();
+        this.deathScreen = new Death(game);
         this.game = game;
+        batch = new SpriteBatch();
+        this.fadeOut = new FadeOutEffect(game, deathScreen, 1, batch);
         this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
         this.camera = new OrthographicCamera();
@@ -92,17 +101,32 @@ public class Level2 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
+
         absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
         absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
 
+        
         checkHurt();
+        
+
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
+
+
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         
         batch.end();
      
+               
+        fadeOut.render(delta);
+
+
+        if(lives.lives <= 0){
+            fadeOut.start();
+        }
+       
+
         stage.act(Gdx.graphics.getDeltaTime());
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
@@ -132,7 +156,7 @@ public class Level2 implements Screen{
     public void checkHurt(){
         if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
             lives.lives--;
-            lives.hurt = true;
+
             System.out.println("hurt");
             animation.deathAnimation = true;
             immunity.giveImmunity();
@@ -142,6 +166,7 @@ public class Level2 implements Screen{
             lives.hurt = false;
         }
     }
+
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub

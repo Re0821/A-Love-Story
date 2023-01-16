@@ -6,6 +6,8 @@ public class Lives {
 
     public Lives() {
         lives = 3;
+
+
     }
 }
 

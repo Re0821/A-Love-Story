@@ -2,7 +2,8 @@ package com.nana.characters;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.nana.helper.RandomMovement;
+import com.nana.helper.Animations.RandomMovement;
+import com.nana.screens.Level2;
 
 
 public class SkeletonNPC extends GameEntity{
@@ -25,6 +26,7 @@ public class SkeletonNPC extends GameEntity{
         x = body.getPosition().x * ppm.getPPM();
         y = body.getPosition().y * ppm.getPPM();
         checkInput();
+
     }
 
     @Override

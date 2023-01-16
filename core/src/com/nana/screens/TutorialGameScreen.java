@@ -20,7 +20,7 @@ import com.nana.gameFont.LiveFont;
 import com.nana.gameFont.TutorialFont;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
-import com.nana.helper.PlayerAnimation;
+import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.TiledMap.TutorialTiledMapHelper;
 
 public class TutorialGameScreen implements Screen {
@@ -95,7 +95,7 @@ public class TutorialGameScreen implements Screen {
         stage.draw();
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
-        
+
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
        

@@ -14,8 +14,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.nana.characters.Player;
-import com.nana.helper.BodyHelper;
 import com.nana.helper.PPM;
+import com.nana.helper.Animations.BodyHelper;
 import com.nana.screens.Level1;
 
 /**

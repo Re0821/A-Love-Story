@@ -1,14 +1,11 @@
-package com.nana.helper;
-
-import java.util.Random;
-import java.util.Timer;
+package com.nana.helper.Animations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.nana.characters.SkeletonNPC;
+import com.nana.helper.PPM;
 
 public class SkeletonAnimation{
     private static final float FRAME_TIME = 1/6f;
@@ -20,13 +17,9 @@ public class SkeletonAnimation{
     private String pathName, regionName;
     private String[][] path;
     private RandomMovement randomMovement;
-    private SkeletonNPC skeleton;
-    private PPM ppm;
-   
-
     public SkeletonAnimation(){
         this.randomMovement = new RandomMovement();
-        this.ppm = new PPM();
+        new PPM();
 
         path = new String[3][3];
         path[0][0] = "assets/skeletonNPC/skeletonRunLeft.atlas";

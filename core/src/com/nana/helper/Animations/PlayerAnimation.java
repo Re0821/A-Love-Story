@@ -1,6 +1,4 @@
-package com.nana.helper;
-
-import javax.net.ssl.TrustManager;
+package com.nana.helper.Animations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.nana.helper.Immunity;
 
 public class PlayerAnimation {
     private static final float FRAME_TIME = 1/2f;
@@ -15,10 +14,10 @@ public class PlayerAnimation {
     private Animation<AtlasRegion> animationAtlas;
     private TextureAtlas charset;
     private TextureRegion currentFrame;
-    private String pathName, regionName;
-    private String[][] path;
-    private boolean checkLeft;
-    private Lives lives = new Lives();
+    private String pathName;
+    String regionName;
+    String[][] path;
+    public boolean checkLeft;
     public boolean deathAnimation = false;
     private Immunity immunity;
 
@@ -59,25 +58,29 @@ public class PlayerAnimation {
             pathName = path[0][2];
             regionName = path[1][2];
             checkLeft = false;
+            deathAnimation = false;
         }
     
         else if(Gdx.input.isKeyPressed(Input.Keys.A)){
             pathName = path[0][1];
             regionName = path[1][1];
             checkLeft = true;
+            deathAnimation = false;
         }
 
         else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             pathName = path[0][3];
             regionName = path[1][3];
+            deathAnimation = false;
         }
 
         else if(checkLeft == true){
             pathName = path[0][4];
             regionName = path[1][4];
+            deathAnimation = false;
         }
         
-        else if(lives.hurt == true && immunity.isImmune() == false){
+        else if(deathAnimation == true && immunity.isImmune() == false){
             pathName = path[0][5];
             regionName = path[1][5];
 
@@ -86,6 +89,7 @@ public class PlayerAnimation {
         else{
             pathName = path[0][0];
             regionName = path[1][0];
+            deathAnimation = false;
         }
 
 

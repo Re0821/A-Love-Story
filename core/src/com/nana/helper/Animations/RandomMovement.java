@@ -1,4 +1,4 @@
-package com.nana.helper;
+package com.nana.helper.Animations;
 
 import java.util.Random;
 import java.util.Timer;
