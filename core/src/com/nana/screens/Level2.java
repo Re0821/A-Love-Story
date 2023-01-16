@@ -12,12 +12,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
@@ -59,6 +59,7 @@ public class Level2 implements Screen{
     private LiveFont liveFont;
     private FadeOutEffect fadeOut;
     private FinalBoss gameScreen;
+    private Rectangle playerRectangle, skeletonRectangle;
     
     public Level2(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -102,17 +103,13 @@ public class Level2 implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-
-        absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
-        absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
-
+        updateRectangle();
         
         checkHurt();
         checkPass();
 
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
-
 
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
@@ -163,7 +160,8 @@ public class Level2 implements Screen{
         }
     }
     public void checkHurt(){
-        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
+
+        if(playerRectangle.overlaps(skeletonRectangle)){
             lives.lives--;
 
             System.out.println("hurt");
@@ -175,6 +173,12 @@ public class Level2 implements Screen{
             lives.hurt = false;
         }
     }
+
+    public void updateRectangle(){
+        playerRectangle = new Rectangle(player.body.getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
+        skeletonRectangle = new Rectangle(skeleton.getBody().getPosition().x * ppm.getPPM() - 100, skeleton.getBody().getPosition().y * ppm.getPPM() - 75  , 100, 100);
+    }
+
 
     @Override
     public void resize(int width, int height) {

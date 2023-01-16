@@ -1,42 +1,53 @@
 package com.nana.screens;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
-import com.nana.gameFont.Level2Font;
 import com.nana.gameFont.LiveFont;
 import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
 import com.nana.helper.Animations.FadeOutEffect;
+import com.nana.helper.Animations.MonsterAnimation;
 import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.Animations.SkeletonAnimation;
+import com.nana.helper.DroppingAssets.GreenBullet;
+import com.nana.helper.DroppingAssets.YellowBullet;
 import com.nana.helper.TiledMap.FinalTiledMapHelper;
-import com.nana.helper.TiledMap.Level2TiledMapHelper;
+
 
 public class FinalBoss implements Screen{
     private TiledMap map;
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthogonalTiledMapRenderer renderer;
+    private ArrayList<GreenBullet> greenBullets;
+    private ArrayList<YellowBullet> yellowBullets;
+    private Rectangle playerRectangle, skeletonRectangle, monsterRectangle;
     private OrthographicCamera camera;
     private FinalTiledMapHelper tiledMapHelper;
     private World world;
@@ -46,6 +57,7 @@ public class FinalBoss implements Screen{
     private SpriteBatch batch;
     private PlayerAnimation animation;
     private SkeletonAnimation skeletonAnimation;
+    private MonsterAnimation monsterAnimation;
     private Stage stage;
     private BitmapFont myFont;
     private Death deathScreen;
@@ -58,12 +70,17 @@ public class FinalBoss implements Screen{
     public float absDistSkeletonY;
     private LiveFont liveFont;
     private FadeOutEffect fadeOut;
+    private Texture greenBullet, yellowBullet;
+    private long lastGreenBulletDropTIme, lastYellowBulletDropTime;
     
     public FinalBoss(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death(game);
         this.game = game;
-
+        this.greenBullet = new Texture(Gdx.files.internal("assets/GreenBullet.png"));
+        this.yellowBullet = new Texture(Gdx.files.internal("assets/YellowBullet.png"));
+        greenBullets = new ArrayList<GreenBullet>();
+        yellowBullets = new ArrayList<YellowBullet>();
         batch = new SpriteBatch();
         this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
         this.liveFont = new LiveFont();
@@ -71,6 +88,7 @@ public class FinalBoss implements Screen{
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
         this.skeletonAnimation = new SkeletonAnimation();
+        this.monsterAnimation = new MonsterAnimation();
         this.stage = new Stage();
         this.lives = new Lives();
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -99,24 +117,73 @@ public class FinalBoss implements Screen{
         renderer.setView(camera);
         renderer.render();
         stage.draw();
-
-        absDistSkeletonX = Math.abs(player.body.getPosition().x * ppm.getPPM() - skeleton.body.getPosition().x * ppm.getPPM());
-        absDistSkeletonY = Math.abs(player.body.getPosition().y * ppm.getPPM() - skeleton.body.getPosition().y * ppm.getPPM());
-
-        
+        updateRectangle();
         checkHurt();
-        
-
         batch.begin();
         liveFont.drawLiveFont(batch, lives.lives);
-
+        
 
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
-        
+        batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+
+        if(immunity.isImmune() == true){
+            myFont.getData().setScale(.5f, .5f);
+            myFont.draw(batch, "Currently Immune", 650, 900);
+        }
+
+        for(GreenBullet greenBullet: greenBullets){
+			batch.draw(greenBullet.getTexture(), greenBullet.getRectangle().x, greenBullet.getRectangle().y + 100, 64, 64);
+		}
+		
+		for(YellowBullet yellowBullet: yellowBullets){
+			batch.draw(yellowBullet.getTexture(), yellowBullet.getRectangle().x, yellowBullet.getRectangle().y + 100, 64, 64);
+	}
         batch.end();
-     
-               
+
+        if(TimeUtils.nanoTime() - lastGreenBulletDropTIme > 1000000000){
+			spawnGreen();
+		}
+
+		if(TimeUtils.nanoTime() - lastYellowBulletDropTime > 2000000000){
+			spawnYellow();
+		}
+           
+        for(Iterator<GreenBullet> iter = greenBullets.iterator(); iter.hasNext();){
+			GreenBullet greenBullet = iter.next();
+			Rectangle rectangle = greenBullet.getRectangle();
+			rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+            Rectangle rect = new Rectangle(rectangle.y, rectangle.x, 20, 20);
+            rect.y = rectangle.y + 127;
+            rect.x = rectangle.x + 20;
+
+            // shapeRenderer.rect(rectangle.x + 20,rectangle.y + 127, 20,20);
+			 if(rect.overlaps(playerRectangle) && !immunity.isImmune()){
+                iter.remove();
+                immunity.giveImmunity();
+                lives.lives--;
+                System.out.println("GREEN HIT");
+            }
+		}
+        
+        for(Iterator<YellowBullet> iter = yellowBullets.iterator(); iter.hasNext();){
+			YellowBullet yellowBullet = iter.next();
+			Rectangle rectangle = yellowBullet.getRectangle();
+			rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+
+            Rectangle rect = new Rectangle(rectangle.y, rectangle.x, 20, 20);
+            rect.y = rectangle.y + 127;
+            rect.x = rectangle.x + 20;
+
+
+			if(rect.overlaps(playerRectangle) && !immunity.isImmune()){
+                iter.remove();
+                immunity.giveImmunity();
+                lives.lives--;
+                System.out.println("YELLOW HIT");
+            } 
+		}
+
         fadeOut.render(delta);
 
 
@@ -131,9 +198,22 @@ public class FinalBoss implements Screen{
        
 
         stage.act(Gdx.graphics.getDeltaTime());
+
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
+        shapeRenderer.end();
     }
 
+    private void spawnGreen(){
+        GreenBullet green = new GreenBullet(greenBullet, MathUtils.random(0, 1024-64));
+        greenBullets.add(green);
+        lastGreenBulletDropTIme = TimeUtils.nanoTime();
+    }
+
+    private void spawnYellow(){
+        YellowBullet yellow = new YellowBullet(yellowBullet, MathUtils.random(0,1024-64));
+        yellowBullets.add(yellow);
+        lastYellowBulletDropTime = TimeUtils.nanoTime();
+    }
     
 
     public void update(){
@@ -144,6 +224,12 @@ public class FinalBoss implements Screen{
         skeleton.update();
        
         
+    }
+
+    public void updateRectangle(){
+        playerRectangle = new Rectangle(player.getBody().getPosition().x * ppm.getPPM() - 22 , player.getBody().getPosition().y * ppm.getPPM() -15 , 30, 30);
+        skeletonRectangle = new Rectangle(skeleton.getBody().getPosition().x * ppm.getPPM()- 22, skeleton.getBody().getPosition().y * ppm.getPPM() - 15, 40, 40);
+        monsterRectangle = new Rectangle(monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
     }
 
     public void cameraUpdate(){
@@ -158,9 +244,8 @@ public class FinalBoss implements Screen{
     }
 
     public void checkHurt(){
-        if(absDistSkeletonX <= 40 && absDistSkeletonY <= 50 && immunity.isImmune() == false){
+        if(playerRectangle.overlaps(skeletonRectangle) && !immunity.isImmune()){
             lives.lives--;
-
             System.out.println("hurt");
             animation.deathAnimation = true;
             immunity.giveImmunity();

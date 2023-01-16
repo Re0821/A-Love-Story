@@ -50,6 +50,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
         background1 = new Texture(Gdx.files.internal("assets/backgroundImage.png"));
         background2 = new Texture(Gdx.files.internal("assets/backgroundImage.png"));
         backgroundVelocity = 2;
+
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
     
         Gdx.input.setInputProcessor(stage);
@@ -73,7 +74,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
             @Override
             public void clicked(InputEvent event, float x, float y){
                 music.backgroundMusic[0].stop();
-               game.setScreen(gameScreen);
+               game.setScreen(new FinalBoss(game));
 
             }
         });

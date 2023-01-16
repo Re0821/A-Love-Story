@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.helper.PPM;
@@ -32,6 +33,7 @@ public class FinalTiledMapHelper {
         private PPM ppm = new PPM();
         private Body body = null;
         private Body skeletonBody = null;
+        private Body monsterBody = null;
 
         public float abs;
     
@@ -73,6 +75,14 @@ public class FinalTiledMapHelper {
                             gameScreen.setSkeleton(new SkeletonNPC(rectangle.getWidth(), rectangle.getHeight(), skeletonBody));
                         }
                     }
+
+                    if(monsterBody == null){
+                        if(rectangleName.equals("monster")){
+                            monsterBody = BodyHelper.createStaticNPC(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2, rectangle.getWidth(), rectangle.getHeight(), false, gameScreen.getWorld());
+                            gameScreen.setMonster(new MonsterNPC(rectangle.getWidth(), rectangle.getHeight(), monsterBody));
+                        }
+                    }
+
                 
                 }
             }
