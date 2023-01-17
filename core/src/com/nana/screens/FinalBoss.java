@@ -16,11 +16,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
+import com.nana.gameFont.GeneralFont;
 import com.nana.gameFont.LiveFont;
 import com.nana.helper.BossFight;
 import com.nana.helper.Immunity;
@@ -37,10 +39,11 @@ public class FinalBoss implements Screen{
     private TiledMap map;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthogonalTiledMapRenderer renderer;
-    private Timer timer1;
+    private Timer timer, clearTimer1;
     public Rectangle playerRectangle;
     private Rectangle skeletonRectangle;
     private Rectangle monsterRectangle;
+    private GeneralFont font;
     private BossFight bossFight;
     private OrthographicCamera camera;
     private FinalTiledMapHelper tiledMapHelper;
@@ -56,7 +59,7 @@ public class FinalBoss implements Screen{
     private BitmapFont myFont;
     private Death deathScreen;
     private SkeletonNPC skeleton;
-    private MonsterNPC monster;
+    public MonsterNPC monster;
     private Immunity immunity = new Immunity();
     private final Love game;
     public Lives lives;
@@ -71,6 +74,7 @@ public class FinalBoss implements Screen{
         this.deathScreen = new Death(game);
         this.game = game;
         batch = new SpriteBatch();
+        
         bossFight = new BossFight(batch);
         this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
         this.liveFont = new LiveFont();
@@ -81,7 +85,8 @@ public class FinalBoss implements Screen{
         this.monsterAnimation = new MonsterAnimation();
         this.stage = new Stage();
         this.lives = new Lives();
-        
+        this.timer = new Timer();
+        this.clearTimer1 = new Timer();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -89,16 +94,35 @@ public class FinalBoss implements Screen{
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
+        this.font = new GeneralFont(stage, myFont);
        
 
-        
+       
+       
     }
+        
+    
+
+
     @Override
     public void show() {
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
-    }
+        if (timer.isEmpty()) {
+            timer.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
+                    
+                    
+                }
+            }, 4);
 
+           
+        }
+         
+       
+    }
     @Override
     public void render(float delta) {
         this.update();
@@ -109,17 +133,38 @@ public class FinalBoss implements Screen{
         renderer.render();
         stage.draw();
         updateRectangle();
-        
         checkHurt();
+
+      
+;
+
         batch.begin();
-        
-        
+
+        clearTimer1.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                font.stage.clear();
+                timer.clear();
+                bossFight.rainInit(playerRectangle);
+
+                System.out.println("TEST");
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 10);
+       
+        bossFight.draw(batch);
+        bossFight.draw(batch);
+       
         liveFont.drawLiveFont(batch, bossFight.lives.lives);
        
 
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+        myFont.getData().setScale(.5f, .5f);
 
         if(bossFight.immunity.isImmune() == true){
             myFont.getData().setScale(.5f, .5f);
@@ -149,7 +194,6 @@ public class FinalBoss implements Screen{
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
         shapeRenderer.end();
     }
-    
 
     public void update(){
         world.step(1/60f, 6, 2);
@@ -180,7 +224,7 @@ public class FinalBoss implements Screen{
 
     public void checkHurt(){
         if(playerRectangle.overlaps(skeletonRectangle) && !immunity.isImmune()){
-            lives.lives--;
+            bossFight.lives.lives--;
             System.out.println("hurt");
             animation.deathAnimation = true;
             immunity.giveImmunity();

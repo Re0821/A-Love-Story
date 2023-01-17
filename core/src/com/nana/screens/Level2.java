@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
-import com.nana.gameFont.Level2Font;
+import com.nana.gameFont.GeneralFont;
 import com.nana.gameFont.LiveFont;
 import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
@@ -82,7 +82,7 @@ public class Level2 implements Screen{
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
-        Level2Font level2Font = new Level2Font(stage, myFont);
+        GeneralFont level2Font = new GeneralFont(stage, myFont);
         level2Font.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}Skeletons are unpredictable and mindless! Avoid them at all cost!");
 
 

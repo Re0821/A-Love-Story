@@ -30,7 +30,7 @@ public class BossFight {
     private Player player;
     private SkeletonNPC skeleton;
     private MonsterNPC monster;
-    private Rectangle playerRectangle;
+    public Rectangle playerRectangle;
     public Rectangle rect1;
     public  Rectangle rect2;
     public Timer timer1, timer2;
@@ -48,15 +48,7 @@ public class BossFight {
     }
 
 
-public void rainInit(SpriteBatch batch, Rectangle playerRectangle){
-    
-    for(GreenBullet greenBullet: greenBullets){
-        batch.draw(greenBullet.getTexture(), greenBullet.getRectangle().x, greenBullet.getRectangle().y + 100, 64, 64);
-    }
-    
-    for(YellowBullet yellowBullet: yellowBullets){
-        batch.draw(yellowBullet.getTexture(), yellowBullet.getRectangle().x, yellowBullet.getRectangle().y + 100, 64, 64);
-}
+public void rainInit( Rectangle playerRectangle){
 
     if(TimeUtils.nanoTime() - lastGreenBulletDropTIme > 1000000000){
         spawnGreen();
@@ -116,4 +108,13 @@ private void spawnYellow(){
     lastYellowBulletDropTime = TimeUtils.nanoTime();
 }
 
+public void draw(SpriteBatch batch){
+    for(GreenBullet greenBullet: greenBullets){
+        batch.draw(greenBullet.getTexture(), greenBullet.getRectangle().x, greenBullet.getRectangle().y + 100, 64, 64);
+    }
+    
+    for(YellowBullet yellowBullet: yellowBullets){
+        batch.draw(yellowBullet.getTexture(), yellowBullet.getRectangle().x, yellowBullet.getRectangle().y + 100, 64, 64);
+}
+}
 }
