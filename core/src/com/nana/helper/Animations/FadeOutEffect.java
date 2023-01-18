@@ -8,14 +8,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nana.game.Love;
 
 public class FadeOutEffect {
-    private float alpha = 0;
+    public float alpha = 0;
     private Love game;
     private Screen nextScreen;
     private Texture blackTexture;
-    private float duration;
+    public float duration;
     private boolean fading = false;
     private SpriteBatch batch;
     public boolean finished = false;
+    public boolean fadeOut;
 
     public FadeOutEffect(Love game, Screen nextScreen, float duration, SpriteBatch batch) {
         this.game = game;
@@ -27,13 +28,16 @@ public class FadeOutEffect {
     public void start() {
         fading = true;
     }
+
     public void render(float delta) {
         if (fading) {
             alpha += delta / duration;
             if (alpha >= 1) {
                 finished = true;
                 fading = false;
+                fadeOut = true;
             }
+
         }
 
         batch.begin();
@@ -41,5 +45,8 @@ public class FadeOutEffect {
         batch.draw(blackTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
-}
+    }
+
+    
+
 

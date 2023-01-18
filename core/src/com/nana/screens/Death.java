@@ -173,11 +173,13 @@ public class Death implements Screen, InputProcessor{
     @Override
     public void hide() {
         // TODO Auto-generated method stub
+        dispose();
     }
 
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+        
         
         
     }

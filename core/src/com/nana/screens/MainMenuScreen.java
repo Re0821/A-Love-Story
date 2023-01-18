@@ -31,7 +31,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private Skin skin;
     private Table table;
     private TextButton startButton;
-    private TutorialGameScreen gameScreen;
+    private FinalBoss gameScreen;;
     private float backgroundVelocity;
     private float backgroundX;
     private Texture background1, background2;
@@ -42,7 +42,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
     public MainMenuScreen(final Love game){
         this.game = game; // Current screen
-        this.gameScreen = new TutorialGameScreen(game); // To switch game screen afterwards
+        this.gameScreen = new FinalBoss(game); // To switch game screen afterwards
         this.stage = new Stage(); // To add actors for mostly animation purposes
         GAME_HEIGHT = Gdx.graphics.getHeight();
 		GAME_WIDTH = Gdx.graphics.getWidth();
@@ -57,7 +57,7 @@ public class MainMenuScreen implements Screen, InputProcessor{
         camera = new OrthographicCamera();
         camera.setToOrtho(false,0,0); // Camera
         
-
+ 
         skin = new Skin(Gdx.files.internal("assets/terra-mother-ui.json")); // Assets retrieved from open source websites
         stage = new Stage(new ScreenViewport()); // To make it compatible with multiple devices
         table = new Table();
@@ -143,12 +143,16 @@ public class MainMenuScreen implements Screen, InputProcessor{
     @Override
     public void hide() {
         // TODO Auto-generated method stub
-        
+        dispose();
     }
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
-      
+        myFont.dispose();
+        stage.dispose();
+        background1.dispose();
+        background2.dispose();
+        
     }
     @Override
     public boolean keyDown(int keycode) {

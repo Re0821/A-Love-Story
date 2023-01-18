@@ -18,7 +18,7 @@ import com.nana.helper.DroppingAssets.GreenBullet;
 import com.nana.helper.DroppingAssets.YellowBullet;
 import com.nana.screens.FinalBoss;
 
-public class BossFight {
+public class BossRain {
     private ArrayList<GreenBullet> greenBullets;
     private ArrayList<YellowBullet> yellowBullets;
     private Texture greenBullet, yellowBullet;
@@ -36,7 +36,7 @@ public class BossFight {
     public Timer timer1, timer2;
     public SpriteBatch batch;
 
-    public BossFight(SpriteBatch batch){
+    public BossRain(SpriteBatch batch){
         this.batch = new SpriteBatch();
         this.greenBullet = new Texture(Gdx.files.internal("assets/GreenBullet.png"));
         this.yellowBullet = new Texture(Gdx.files.internal("assets/YellowBullet.png"));
@@ -48,13 +48,13 @@ public class BossFight {
     }
 
 
-public void rainInit( Rectangle playerRectangle){
+public void rainInit(Rectangle playerRectangle, Boolean startRain){
 
-    if(TimeUtils.nanoTime() - lastGreenBulletDropTIme > 1000000000){
+    if(TimeUtils.nanoTime() - lastGreenBulletDropTIme > 1000000000 && startRain){
         spawnGreen();
     }
 
-    if(TimeUtils.nanoTime() - lastYellowBulletDropTime > 2000000000){
+    if(TimeUtils.nanoTime() - lastYellowBulletDropTime > 2000000000 && startRain){
         spawnYellow();
     }
        

@@ -1,7 +1,10 @@
 package com.nana.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +27,8 @@ import com.nana.characters.SkeletonNPC;
 import com.nana.game.Love;
 import com.nana.gameFont.GeneralFont;
 import com.nana.gameFont.LiveFont;
-import com.nana.helper.BossFight;
+import com.nana.helper.BossBullet;
+import com.nana.helper.BossRain;
 import com.nana.helper.Immunity;
 import com.nana.helper.Lives;
 import com.nana.helper.PPM;
@@ -37,14 +41,13 @@ import com.nana.helper.TiledMap.FinalTiledMapHelper;
 
 public class FinalBoss implements Screen{
     private TiledMap map;
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
     private OrthogonalTiledMapRenderer renderer;
-    private Timer timer, clearTimer1;
+    private Timer timer, timer1, timer2, timer3;
     public Rectangle playerRectangle;
     private Rectangle skeletonRectangle;
     private Rectangle monsterRectangle;
     private GeneralFont font;
-    private BossFight bossFight;
+    private BossRain bossFight;
     private OrthographicCamera camera;
     private FinalTiledMapHelper tiledMapHelper;
     private World world;
@@ -67,15 +70,17 @@ public class FinalBoss implements Screen{
     public float absDistSkeletonY;
     private LiveFont liveFont;
     private FadeOutEffect fadeOut;
-  
-    
+    private boolean startDrawingRain = false;
+    private ArrayList<BossBullet> bullets;
+    private boolean bulletTrigger = false;
+
     public FinalBoss(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.deathScreen = new Death(game);
         this.game = game;
         batch = new SpriteBatch();
-        
-        bossFight = new BossFight(batch);
+        this.bullets = new ArrayList<BossBullet>();
+        bossFight = new BossRain(batch);
         this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
         this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
@@ -86,7 +91,9 @@ public class FinalBoss implements Screen{
         this.stage = new Stage();
         this.lives = new Lives();
         this.timer = new Timer();
-        this.clearTimer1 = new Timer();
+        this.timer1 = new Timer();
+        this.timer2 = new Timer();
+        this.timer3 = new Timer();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -108,18 +115,7 @@ public class FinalBoss implements Screen{
     public void show() {
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
-        if (timer.isEmpty()) {
-            timer.scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
-                    
-                    
-                }
-            }, 4);
-
-           
-        }
+        startBossFight();
          
        
     }
@@ -134,65 +130,64 @@ public class FinalBoss implements Screen{
         stage.draw();
         updateRectangle();
         checkHurt();
-
-      
-;
-
         batch.begin();
-
-        clearTimer1.scheduleTask(new Timer.Task() {
-
-            @Override
-            public void run() {
-                font.stage.clear();
-                timer.clear();
-                bossFight.rainInit(playerRectangle);
-
-                System.out.println("TEST");
-                // TODO Auto-generated method stub
-                
-            }
-            
-        }, 10);
-       
-        bossFight.draw(batch);
-        bossFight.draw(batch);
        
         liveFont.drawLiveFont(batch, bossFight.lives.lives);
-       
 
+        if(startDrawingRain){
+        bossFight.rainInit(playerRectangle, startDrawingRain);
+        bossFight.draw(batch);
+        }
+
+        if(bulletTrigger){
+            addBullet();
+            bulletTrigger = false;
+        }
+
+        updateBullet();
+        
+    for(BossBullet bullet: bullets){
+        bullet.render(batch);
+    }
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
-        batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+        // batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 50, monster.getBody().getPosition().y * ppm.getPPM() - 50, 100, 100);
         myFont.getData().setScale(.5f, .5f);
 
-        if(bossFight.immunity.isImmune() == true){
+        if(bossFight.immunity.isImmune() == true || immunity.isImmune()){
             myFont.getData().setScale(.5f, .5f);
             myFont.draw(batch, "Currently Immune", 650, 900);
         }
+        
+    
 
-       
+        if(player.body.getPosition().x > 29.951666){
+
+            player.body.setTransform(2.618358f, 10.514998f, 0f);
+    
+        }
+                
+        
         batch.end();
 
+
         
-
-        fadeOut.render(delta);
-
-
         if(bossFight.lives.lives <= 0){
-            player.velX = 0;
+            player.speed = 0f;
             fadeOut.start();
+            fadeOut.render(delta);
             
-            if(fadeOut.finished == true){
+            if(fadeOut.finished){
                 game.setScreen(deathScreen);
             }
         }
+
+        
        
 
         stage.act(Gdx.graphics.getDeltaTime());
 
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
-        shapeRenderer.end();
     }
 
     public void update(){
@@ -201,14 +196,12 @@ public class FinalBoss implements Screen{
         batch.setProjectionMatrix(camera.combined);
         player.update();
         skeleton.update();
-       
-        
     }
 
     public void updateRectangle(){
         playerRectangle = new Rectangle(player.getBody().getPosition().x * ppm.getPPM() - 22 , player.getBody().getPosition().y * ppm.getPPM() -15 , 30, 30);
         skeletonRectangle = new Rectangle(skeleton.getBody().getPosition().x * ppm.getPPM()- 22, skeleton.getBody().getPosition().y * ppm.getPPM() - 15, 40, 40);
-        monsterRectangle = new Rectangle(monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+       
     }
 
     public void cameraUpdate(){
@@ -225,7 +218,6 @@ public class FinalBoss implements Screen{
     public void checkHurt(){
         if(playerRectangle.overlaps(skeletonRectangle) && !immunity.isImmune()){
             bossFight.lives.lives--;
-            System.out.println("hurt");
             animation.deathAnimation = true;
             immunity.giveImmunity();
             
@@ -233,6 +225,93 @@ public class FinalBoss implements Screen{
         } else {
             lives.hurt = false;
         }
+    }
+
+    
+    public void addBullet(){
+            bullets.add(new BossBullet(monster.body.getPosition().x + 675, monster.body.getPosition().y + 450));
+    }
+
+    public void updateBullet(){
+        ArrayList<BossBullet> leftBulletsToRemove = new ArrayList<BossBullet>();
+		for (BossBullet bullet : bullets) {
+           
+			
+            //x += SPEED * deltaTime;
+            Rectangle rect = new Rectangle(bullet.x, bullet.y, 200, 50);
+            bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle);
+        
+       
+			if (bullet.remove){
+				leftBulletsToRemove.add(bullet);
+            }
+
+            if(bullet.hurtBullet){
+                bossFight.lives.lives = bossFight.lives.lives - 2;
+            }
+
+
+           
+
+      
+		}
+        bullets.removeAll(leftBulletsToRemove);
+    }
+    public void startBossFight(){
+        if (timer.isEmpty()) {
+            timer.scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
+                    
+                    
+                }
+            }, 4);
+
+           
+        }
+
+        timer1.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                font.stage.clear();
+                timer.stop();
+                startDrawingRain = true;
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 10);
+
+       
+
+        timer2.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                timer1.stop();
+                startDrawingRain = false;
+                
+            
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 40, 5);
+
+        timer3.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                timer2.stop();
+                bulletTrigger = true;
+            
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 20, 5);
     }
 
     @Override
@@ -256,7 +335,7 @@ public class FinalBoss implements Screen{
     @Override
     public void hide() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
