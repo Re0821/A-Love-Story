@@ -54,12 +54,14 @@ public class Level1 implements Screen{
         this.lives = new Lives();
         this.gameScreen = new Level2(game);
         this.deathScreen = new Death(game);
+
         this.world = new World(new Vector2(0,-25f), false);
         this.batch = new SpriteBatch();
         this.fadeOut = new FadeOutEffect(game, this, .6f, batch);
         this.camera = new OrthographicCamera();
         this.animation = new PlayerAnimation();
         this.stage = new Stage();
+    
       
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new Level1TiledMapHelper(this);
@@ -92,8 +94,10 @@ public class Level1 implements Screen{
         fadeOut.render(delta);
 
         batch.begin();
+        returnlevel();
+        System.out.println(player.body.getPosition().x);
+        System.out.println(player.body.getPosition().y);
         liveFont.drawLiveFont(batch, lives.lives);
-
       
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.end();
@@ -185,6 +189,12 @@ public class Level1 implements Screen{
         camera.viewportWidth = Gdx.graphics.getWidth();
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
+    }
+
+    public void returnlevel(){
+        if(player.body.getPosition().x <= 0.233333f){
+             player.body.setTransform(2.7000005f, 10.514998f ,0f);
+        }
     }
 
     @Override

@@ -83,7 +83,7 @@ public class Level2 implements Screen{
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
         GeneralFont level2Font = new GeneralFont(stage, myFont);
-        level2Font.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}Skeletons are unpredictable and mindless! Avoid them at all cost!");
+        level2Font.level2CreateAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}Skeletons are unpredictable and mindless! Avoid them at all cost!");
 
 
         
@@ -109,6 +109,9 @@ public class Level2 implements Screen{
         checkPass();
 
         batch.begin();
+        returnlevel();
+        System.out.println(player.body.getPosition().x);
+        System.out.println(player.body.getPosition().y);
         liveFont.drawLiveFont(batch, lives.lives);
 
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
@@ -132,7 +135,11 @@ public class Level2 implements Screen{
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
 
-    
+    public void returnlevel(){
+        if(player.body.getPosition().x <= 0.23333333){
+            player.body.setTransform(1.3666667f, 24.514996f,0f);
+        }
+    }
 
     public void update(){
         world.step(1/60f, 6, 2);
@@ -161,10 +168,8 @@ public class Level2 implements Screen{
     }
     public void checkHurt(){
 
-        if(playerRectangle.overlaps(skeletonRectangle)){
+        if(playerRectangle.overlaps(skeletonRectangle) && !immunity.isImmune()){
             lives.lives--;
-
-            System.out.println("hurt");
             animation.deathAnimation = true;
             immunity.giveImmunity();
             

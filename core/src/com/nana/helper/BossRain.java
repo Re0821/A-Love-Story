@@ -15,36 +15,39 @@ import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
 import com.nana.characters.SkeletonNPC;
 import com.nana.helper.DroppingAssets.GreenBullet;
+import com.nana.helper.DroppingAssets.WhiteBullet;
 import com.nana.helper.DroppingAssets.YellowBullet;
 import com.nana.screens.FinalBoss;
 
 public class BossRain {
     private ArrayList<GreenBullet> greenBullets;
     private ArrayList<YellowBullet> yellowBullets;
-    private Texture greenBullet, yellowBullet;
-    private long lastGreenBulletDropTIme, lastYellowBulletDropTime;
-    private FinalBoss finalBoss;
-    private PPM ppm;
+    private ArrayList<WhiteBullet> whiteBullets;
+    private Texture greenBullet, yellowBullet, whiteBullet;
+    private long lastGreenBulletDropTIme, lastYellowBulletDropTime, lastWhiteBulletDropTime;
     public Immunity immunity;
     public Lives lives;
-    private Player player;
-    private SkeletonNPC skeleton;
-    private MonsterNPC monster;
     public Rectangle playerRectangle;
     public Rectangle rect1;
     public  Rectangle rect2;
+    public Rectangle rect3;
     public Timer timer1, timer2;
     public SpriteBatch batch;
+    public int mulitplier;
+    private int multiplier;
+    public boolean startWhite = false;
 
-    public BossRain(SpriteBatch batch){
+    public BossRain(SpriteBatch batch, int multiplier){
         this.batch = new SpriteBatch();
+        this.multiplier = multiplier;
         this.greenBullet = new Texture(Gdx.files.internal("assets/GreenBullet.png"));
         this.yellowBullet = new Texture(Gdx.files.internal("assets/YellowBullet.png"));
+        this.whiteBullet = new Texture(Gdx.files.internal("assets/WhiteBullet.png"));
         greenBullets = new ArrayList<GreenBullet>();
         yellowBullets = new ArrayList<YellowBullet>();
+        whiteBullets = new ArrayList<WhiteBullet>();
         this.immunity = new Immunity();
         this.lives = new Lives();
-        this.ppm = new PPM();
     }
 
 
@@ -54,14 +57,19 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
         spawnGreen();
     }
 
-    if(TimeUtils.nanoTime() - lastYellowBulletDropTime > 2000000000 && startRain){
+    if(TimeUtils.nanoTime() - lastYellowBulletDropTime > 1000000000 && startRain){
         spawnYellow();
     }
+
+    if(TimeUtils.nanoTime() - lastWhiteBulletDropTime > 2100000000 && startRain && startWhite){
+        spawnWhite();
+    }
+       
        
     for(Iterator<GreenBullet> iter = greenBullets.iterator(); iter.hasNext();){
         GreenBullet greenBullet = iter.next();
         Rectangle rectangle = greenBullet.getRectangle();
-        rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+        rectangle.y -= multiplier * Gdx.graphics.getDeltaTime();
         
         rect1 = new Rectangle(rectangle.y, rectangle.x, 20, 20);
         rect1.y = rectangle.y + 127;
@@ -93,6 +101,24 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
             System.out.println("YELLOW HIT");
         } 
     }
+
+    for(Iterator<WhiteBullet> iter = whiteBullets.iterator(); iter.hasNext();){
+        WhiteBullet whiteBullet = iter.next();
+        Rectangle rectangle = whiteBullet.getRectangle();
+        rectangle.y -= 200 * Gdx.graphics.getDeltaTime();
+
+        rect3 = new Rectangle(rectangle.y, rectangle.x, 20, 20);
+        rect3.y = rectangle.y + 127;
+        rect3.x = rectangle.x + 20;
+
+
+        if(rect3.overlaps(playerRectangle) && !immunity.isImmune()){
+            iter.remove();
+            immunity.giveImmunity();
+            lives.lives++;
+            System.out.println("WHITE HIT");
+        } 
+    }
     
 }
 
@@ -101,6 +127,13 @@ private void spawnGreen(){
     greenBullets.add(green);
     lastGreenBulletDropTIme = TimeUtils.nanoTime();
 }
+
+private void spawnWhite(){
+    WhiteBullet white = new WhiteBullet(whiteBullet, MathUtils.random(0, 1024-64));
+    whiteBullets.add(white);
+    lastWhiteBulletDropTime = TimeUtils.nanoTime();
+}
+
 
 private void spawnYellow(){
     YellowBullet yellow = new YellowBullet(yellowBullet, MathUtils.random(0,1024-64));
@@ -115,6 +148,10 @@ public void draw(SpriteBatch batch){
     
     for(YellowBullet yellowBullet: yellowBullets){
         batch.draw(yellowBullet.getTexture(), yellowBullet.getRectangle().x, yellowBullet.getRectangle().y + 100, 64, 64);
+
+        for(WhiteBullet whiteBullet: whiteBullets){
+            batch.draw(whiteBullet.getTexture(), whiteBullet.getRectangle().x, whiteBullet.getRectangle().y + 100, 64, 64);
+}
 }
 }
 }

@@ -42,7 +42,7 @@ import com.nana.helper.TiledMap.FinalTiledMapHelper;
 public class FinalBoss implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private Timer timer, timer1, timer2, timer3;
+    private Timer timer, timer1, timer2, timer3, timer4;
     public Rectangle playerRectangle;
     private Rectangle skeletonRectangle;
     private Rectangle monsterRectangle;
@@ -73,6 +73,7 @@ public class FinalBoss implements Screen{
     private boolean startDrawingRain = false;
     private ArrayList<BossBullet> bullets;
     private boolean bulletTrigger = false;
+    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger = false;
 
     public FinalBoss(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -80,7 +81,7 @@ public class FinalBoss implements Screen{
         this.game = game;
         batch = new SpriteBatch();
         this.bullets = new ArrayList<BossBullet>();
-        bossFight = new BossRain(batch);
+        this.bossFight = new BossRain(batch, 200);
         this.fadeOut = new FadeOutEffect(game, deathScreen, .6f, batch);
         this.liveFont = new LiveFont();
         this.world = new World(new Vector2(0,-25f), false);
@@ -94,6 +95,7 @@ public class FinalBoss implements Screen{
         this.timer1 = new Timer();
         this.timer2 = new Timer();
         this.timer3 = new Timer();
+        this.timer4 = new Timer();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -131,6 +133,7 @@ public class FinalBoss implements Screen{
         updateRectangle();
         checkHurt();
         batch.begin();
+        returnlevel();
        
         liveFont.drawLiveFont(batch, bossFight.lives.lives);
 
@@ -165,6 +168,18 @@ public class FinalBoss implements Screen{
 
             player.body.setTransform(2.618358f, 10.514998f, 0f);
     
+        }
+
+        if(firstTextTrigger){
+            font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
+        }
+
+        if(finalTextTrigger){
+            font.createAndSetTypingLabel("{EASE}{COLOR=SCARLET}{NORMAL}Tired already?");
+        }
+
+        if(finalSubTextTrigger){
+            font.createAndSetTypingLabel2("{EASE}{NORMAL}Blue bullets restores 1 live");
         }
                 
         
@@ -238,7 +253,7 @@ public class FinalBoss implements Screen{
            
 			
             //x += SPEED * deltaTime;
-            Rectangle rect = new Rectangle(bullet.x, bullet.y, 200, 50);
+            Rectangle rect = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
             bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle);
         
        
@@ -262,7 +277,7 @@ public class FinalBoss implements Screen{
             timer.scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
+                    firstTextTrigger = true;
                     
                     
                 }
@@ -277,6 +292,7 @@ public class FinalBoss implements Screen{
             public void run() {
                 font.stage.clear();
                 timer.stop();
+                firstTextTrigger = false;
                 startDrawingRain = true;
                 // TODO Auto-generated method stub
                 
@@ -298,7 +314,7 @@ public class FinalBoss implements Screen{
                 
             }
             
-        }, 40, 5);
+        }, 40);
 
         timer3.scheduleTask(new Timer.Task() {
 
@@ -311,8 +327,34 @@ public class FinalBoss implements Screen{
                 
             }
             
-        }, 20, 5);
+        }, 45, 5);
+
+        timer4.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                timer3.stop();
+                bulletTrigger = false;
+                finalTextTrigger = true;
+                finalSubTextTrigger = true;
+                startDrawingRain = true;
+                bossFight.mulitplier = 500;
+                bossFight.startWhite = true;
+                
+            
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 60);
     }
+
+    public void returnlevel(){
+        if(player.body.getPosition().x <= 0.23333333f){
+              player.body.setTransform(1.7666667f, 10.514998f, 0f);
+        }
+    }
+
 
     @Override
     public void resize(int width, int height) {

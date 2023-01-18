@@ -30,4 +30,28 @@ public class GeneralFont {
         stage.addActor(titleLabel);
 
     }
+
+    public void createAndSetTypingLabel2(String text) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = myFont;
+        titleLabel = new TypingLabel(text, labelStyle);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setFontScale(.45f);
+        titleLabel.setSize(Gdx.graphics.getWidth()- 1750, 100);
+        titleLabel.setPosition( 875, 650);
+        stage.addActor(titleLabel);
+
+    }
+
+    public void level2CreateAndSetTypingLabel(String Text){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = myFont;
+        TypingLabel titleLabel = new TypingLabel(Text, labelStyle);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setFontScale(.35f);
+        titleLabel.setSize(Gdx.graphics.getWidth() - 50, 300);
+        titleLabel.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() + 775);
+        stage.addActor(titleLabel);
+        
+    }
 }

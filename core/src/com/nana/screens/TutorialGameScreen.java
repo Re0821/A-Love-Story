@@ -1,5 +1,7 @@
 package com.nana.screens;
 
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -94,6 +96,7 @@ public class TutorialGameScreen implements Screen {
         renderer.render();
         stage.draw();
         batch.begin();
+        returnLevel();
         liveFont.drawLiveFont(batch, lives.lives);
 
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
@@ -107,6 +110,12 @@ public class TutorialGameScreen implements Screen {
     public void changeScreen(){
         if(player.getBody().getPosition().x > 30){
             game.setScreen(gameScreen);
+        }
+    }
+
+    public void returnLevel(){
+        if(player.body.getPosition().x <= 0.2333333333f){
+             player.body.setTransform(2.3f, 17.483746f, 0f);
         }
     }
 
