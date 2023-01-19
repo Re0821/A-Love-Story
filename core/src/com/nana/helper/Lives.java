@@ -5,7 +5,7 @@ public class Lives {
     public boolean hurt = false;
 
     public Lives() {
-        lives = 3;
+        lives = 5;
 
 
     }

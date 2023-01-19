@@ -36,7 +36,6 @@ public class BossRain {
     public boolean startWhite = false;
     public boolean startOmega = false;
     public int omegaBulletCollected;
-
     
     public BossRain(SpriteBatch batch, int multiplier){
         this.batch = new SpriteBatch();
@@ -143,7 +142,7 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
         if(rect4.overlaps(playerRectangle)){
             iter.remove();
             immunity.giveImmunity();   
-            omegaBulletCollected ++;
+            omegaBulletCollected = 10;
             System.out.println("OMEGA HIT");
         } 
     }

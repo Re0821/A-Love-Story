@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.WriteReadFile.TimeTracker;
 import com.nana.characters.Player;
 import com.nana.game.Love;
 import com.nana.gameFont.Level1Font;
@@ -45,7 +46,10 @@ public class Level1 implements Screen{
     final Love game;
     private LiveFont liveFont;
     private Lives lives;
+    TimeTracker timeTracker = TimeTracker.getInstance();
     private FadeOutEffect fadeOut;
+ 
+  
     
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -54,7 +58,7 @@ public class Level1 implements Screen{
         this.lives = new Lives();
         this.gameScreen = new Level2(game);
         this.deathScreen = new Death(game);
-
+        timeTracker.stop();
         this.world = new World(new Vector2(0,-25f), false);
         this.batch = new SpriteBatch();
         this.fadeOut = new FadeOutEffect(game, this, .6f, batch);
@@ -62,7 +66,6 @@ public class Level1 implements Screen{
         this.animation = new PlayerAnimation();
         this.stage = new Stage();
     
-      
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new Level1TiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -79,7 +82,8 @@ public class Level1 implements Screen{
     public void show() {
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
-    }
+   
+    }   
 
     @Override
     public void render(float delta) {
@@ -95,8 +99,6 @@ public class Level1 implements Screen{
 
         batch.begin();
         returnlevel();
-        System.out.println(player.body.getPosition().x);
-        System.out.println(player.body.getPosition().y);
         liveFont.drawLiveFont(batch, lives.lives);
       
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);

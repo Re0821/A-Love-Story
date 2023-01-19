@@ -22,7 +22,8 @@ public class BossBullet {
     public boolean remove = false;
     public int numBullet = 0;
     public boolean hurtBullet;
-    public boolean bossHurt;
+    public boolean bossHurt, bossKilled;
+
 
 
 
@@ -36,14 +37,14 @@ public class BossBullet {
             playerFinalBullet = new Texture(Gdx.files.internal("assets/PlayerFinalBullet.png"));
     }
 
-    public void update (float deltaTime, Rectangle rect, Rectangle playerRectangle, Rectangle finalBulletRect, Rectangle monsterRectangle, boolean startOmegaBullet) {
+    public void update (float deltaTime, Rectangle rect, Rectangle playerRectangle, Rectangle finalBulletRect, Rectangle monsterRectangle, boolean startOmegaBullet, boolean playerHurtAllowed) {
 
             x += SPEED * deltaTime;
 
         if (y > Gdx.graphics.getHeight() || x > Gdx.graphics.getWidth())
             remove = true;
 
-        if(rect.overlaps(playerRectangle)){
+        if(rect.overlaps(playerRectangle) && !playerHurtAllowed){
             remove = true;
             hurtBullet = true;
         }
@@ -51,6 +52,8 @@ public class BossBullet {
         if(finalBulletRect.overlaps(monsterRectangle) && startOmegaBullet){
             remove = true;
             bossHurt = true;
+            bossKilled = true;
+    
             //THEN THE BATCH OF THE MONSTER ANIMATION STOPS DRAWING WHICH IS GOING TO BE SET TO A VARIABLE
         }
 

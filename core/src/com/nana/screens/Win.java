@@ -1,5 +1,7 @@
 package com.nana.screens;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -11,15 +13,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.WriteReadFile.TimeTracker;
+import com.nana.WriteReadFile.WriteRead;
 import com.nana.game.Love;
 import com.nana.gameFont.DeathWinFont;
 
-public class Death implements Screen, InputProcessor{
+public class Win implements Screen, InputProcessor{
     private OrthographicCamera camera;
     private BitmapFont myFont;
     SpriteBatch batch;
-    public boolean died = false;
+    
     public Stage stage;
     final Love game;
     private Texture background1;
@@ -28,10 +33,16 @@ public class Death implements Screen, InputProcessor{
     private float backgroundX;
     private float GAME_WIDTH;
     private float GAME_HEIGHT;
+    private Timer timer;
+    private WriteRead write = new WriteRead();
 
-    public Death(final Love game){
+    int timeTaken;
+    TimeTracker timeTracker = TimeTracker.getInstance();
+    
+
+    public Win(final Love game){
         this.game = game;
-        this.died = true;
+        this.timer = new Timer();
         background1 = new Texture(Gdx.files.internal("assets/background1.jpg"));
         background2 = new Texture(Gdx.files.internal("assets/background2.jpg"));
         backgroundVelocity = 2;
@@ -51,20 +62,31 @@ public class Death implements Screen, InputProcessor{
         stage = new Stage(new ScreenViewport()); // To make it compatible with multiple devices
         
         InputMultiplexer im = new InputMultiplexer(stage,this); // To allow for multiple functions
-        DeathWinFont deathFont = new DeathWinFont(stage, myFont);
+        DeathWinFont winFont = new DeathWinFont(stage, myFont);
 
-        deathFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Failed");
-        deathFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
-        Gdx.input.setInputProcessor(im);
+        winFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Won!");
+        winFont.winFont("{COLOR=RED}{SICK}{FAST}Your Best Time was: " + timeTaken + " seconds");
+    
+
+        winFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
+        
     }
+
     
 
     @Override
     public void show() {
         // TODO Auto-generated method stub
+        timeTracker.stop();
+        timeTaken = timeTracker.getTimeTaken();
+        try {
+            write.write(timeTaken);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
-
     @Override
     public void render(float delta) {
 
@@ -81,6 +103,9 @@ public class Death implements Screen, InputProcessor{
 		if (backgroundX +GAME_WIDTH ==0){
 			backgroundX = 0;
 		}
+
+    
+        
         batch.end();
 
         if(Gdx.input.isTouched()){

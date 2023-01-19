@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nana.WriteReadFile.TimeTracker;
 import com.nana.game.Love;
 import com.nana.gameFont.MenuFont;
 import com.nana.music.GameMusic;
@@ -26,18 +27,19 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private OrthographicCamera camera;
     private BitmapFont myFont;
     SpriteBatch batch;
-
+    TimeTracker timeTracker = TimeTracker.getInstance();
     public Stage stage;
     private Skin skin;
     private Table table;
     private TextButton startButton;
-    private FinalBoss gameScreen;;
+    private FinalBoss gameScreen;
     private float backgroundVelocity;
     private float backgroundX;
     private Texture background1, background2;
     private int GAME_HEIGHT;
     private int GAME_WIDTH;
     private GameMusic music = new GameMusic();
+  
 
 
     public MainMenuScreen(final Love game){
@@ -74,7 +76,8 @@ public class MainMenuScreen implements Screen, InputProcessor{
             @Override
             public void clicked(InputEvent event, float x, float y){
                 music.backgroundMusic[0].stop();
-               game.setScreen(new FinalBoss(game));
+                timeTracker.start();
+               game.setScreen(new Win(game));
 
             }
         });
@@ -112,8 +115,6 @@ public class MainMenuScreen implements Screen, InputProcessor{
 		game.batch.draw(background2 , backgroundX + GAME_WIDTH, 0 , GAME_WIDTH,GAME_HEIGHT);
 
         backgroundX -= backgroundVelocity;
-
-        System.out.println(backgroundX + GAME_WIDTH); // Debugging purposes. Decreases from 1024 px
 		if (backgroundX +GAME_WIDTH ==0){
 			backgroundX = 0;
 		}

@@ -1,6 +1,7 @@
 package com.nana.screens;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -37,13 +38,14 @@ import com.nana.helper.Animations.FadeOutEffect;
 import com.nana.helper.Animations.MonsterAnimation;
 import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.Animations.SkeletonAnimation;
+import com.nana.helper.DroppingAssets.OmegaBullet;
 import com.nana.helper.TiledMap.FinalTiledMapHelper;
 
 
 public class FinalBoss implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private Timer timer, timer1, timer2, timer3, timer4, timer5, textChangeTimer;
+    private Timer timer, timer1, timer2, timer3, timer4, timer5, finalTimer, textChangeTimer;
     public Rectangle playerRectangle;
     private Rectangle skeletonRectangle;
     private Rectangle monsterRectangle;
@@ -74,7 +76,9 @@ public class FinalBoss implements Screen{
     private boolean startDrawingRain = false;
     private ArrayList<BossBullet> bullets;
     private boolean bulletTrigger = false;
-    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger, finalChangeSubText, bossHurtAllowed = false;
+    private boolean finalBulletTrigger = false;
+    private boolean bossFightFinished = false;
+    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger, finalChangeSubText, bossHurtAllowed, bulletDrawTrigger, playerHurtAllowed, startTransition = false;
     private boolean bossHurt = false;
 
     public FinalBoss(final Love game){        
@@ -99,6 +103,7 @@ public class FinalBoss implements Screen{
         this.timer3 = new Timer();
         this.timer4 = new Timer();
         this.timer5 = new Timer();
+        this.finalTimer = new Timer();
         this.textChangeTimer = new Timer();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
@@ -122,7 +127,8 @@ public class FinalBoss implements Screen{
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
         startBossFight();
-         
+
+            
        
     }
     @Override
@@ -137,7 +143,10 @@ public class FinalBoss implements Screen{
         updateRectangle();
         checkHurt();
         batch.begin();
+
+       
         returnlevel();
+        
        
         liveFont.drawLiveFont(batch, bossFight.lives.lives);
 
@@ -151,7 +160,24 @@ public class FinalBoss implements Screen{
             bulletTrigger = false;
         }
 
-        updateBullet();
+        if(bulletDrawTrigger){
+            updateBullet();
+                  
+        for(BossBullet bullet: bullets){
+            bullet.render(batch);
+        }
+        }
+
+        
+        if(finalBulletTrigger){
+            addOmegaBullet();
+            updateFinalBullet();
+                  
+            for(BossBullet bullet: bullets){
+                bullet.renderOmegaBullet(batch);
+            }
+           
+        }
         
     for(BossBullet bullet: bullets){
         bullet.render(batch);
@@ -161,8 +187,22 @@ public class FinalBoss implements Screen{
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
         
         if(!bossHurt){
-           // batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+           batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 50, monster.getBody().getPosition().y * ppm.getPPM() - 35, 100, 100);
         }
+       
+        if(bossHurt){
+            
+                finalTimer.scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                      
+                        game.setScreen(deathScreen);
+                        
+                    }
+                }, 2);    
+        }
+
+        timerText();
 
         myFont.getData().setScale(.5f, .5f);
 
@@ -171,52 +211,30 @@ public class FinalBoss implements Screen{
             myFont.draw(batch, "Currently Immune", 650, 900);
         }
         
-    
+        
+        if(!bossFightFinished){
+            if(player.body.getPosition().x > 29.951666){
 
-        if(player.body.getPosition().x > 29.951666){
-
-            player.body.setTransform(2.618358f, 10.514998f, 0f);
-    
+                player.body.setTransform(2.618358f, 10.514998f, 0f);
+        
+            }
         }
+        
 
-        if(firstTextTrigger){
-            font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
-        }
-
-        if(finalTextTrigger){
-            font.createAndSetTypingLabel("{EASE}{COLOR=SCARLET}{NORMAL}Tired already?");
-        }
-
-        if(finalSubTextTrigger){
-            font.createAndSetTypingLabel2("{EASE}{NORMAL}Blue bullets restores 1 live");
-        }
-
-        if(finalChangeSubText){
-            font.createAndSetTypingLabel2("{EASE}{NORMAL}Collect 10 omega bullets to defeat the boss");
-            myFont.draw(batch, "Omega Bullets: " + bossFight.omegaBulletCollected, 25 + 500, 900);
-        }
-
+       
         if(bossFight.omegaBulletCollected == 10){
             bossHurtAllowed = true;
+            playerHurtAllowed = true;
             finalChangeSubText = false;
             bossHurtAllowed = true;
             startDrawingRain = false;
             bulletTrigger = false;
-            player.body.setTransform(monster.body.getPosition().x - 700, monster.body.getPosition().y - 450, 0f);
-
-            player.speed = 0f;
-            font.createAndSetTypingLabel("{EASE}{COLOR=SCARLET}{NORMAL}Press J on your keyboard");
-
-            if(Gdx.input.isKeyJustPressed(Keys.J)){
-                player.speed = 8f;
-                addOmegaBullet();
-                for(BossBullet bullet: bullets){
-                    bullet.renderOmegaBullet(batch);
-                }            
-                
-            }
+            bulletDrawTrigger = false;
+            finalBulletTrigger = true;
         }
-                
+        
+       
+        
         
         batch.end();
 
@@ -232,12 +250,28 @@ public class FinalBoss implements Screen{
             }
         }
 
-        
-       
-
         stage.act(Gdx.graphics.getDeltaTime());
 
         box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
+    }
+    public void timerText(){
+        if(firstTextTrigger){
+            font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
+        }
+
+        if(finalTextTrigger){
+            font.createAndSetTypingLabel("{EASE}{COLOR=SCARLET}{NORMAL}Tired already?");
+        }
+
+        if(finalSubTextTrigger){
+            font.createAndSetTypingLabel2("{EASE}{NORMAL}Blue bullets restores 1 live");
+        }
+
+        if(finalChangeSubText){
+            font.createAndSetTypingLabel2("{EASE}{NORMAL}Collect 10 omega bullets to defeat the boss");
+            myFont.draw(batch, "Omega Bullets: " + bossFight.omegaBulletCollected, 25 + 200, 900);
+        }
+
     }
 
     public void update(){
@@ -283,7 +317,7 @@ public class FinalBoss implements Screen{
     }
 
     public void addOmegaBullet(){
-        bullets.add(new BossBullet(monster.body.getPosition().x - 675, monster.body.getPosition().y - 450));
+        bullets.add(new BossBullet(monster.body.getPosition().x - 600, monster.body.getPosition().y - 450));
 }
 
     public void updateBullet(){
@@ -294,7 +328,7 @@ public class FinalBoss implements Screen{
             //x += SPEED * deltaTime;
             Rectangle rect = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
             Rectangle rect2 = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
-            bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle, rect2, monsterRectangle, bossHurtAllowed);
+            bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle, rect2, monsterRectangle, bossHurtAllowed, playerHurtAllowed);
         
        
 			if (bullet.remove){
@@ -308,14 +342,34 @@ public class FinalBoss implements Screen{
             if(bullet.bossHurt){
                 bossHurt = true;
             }
-
-
-
-           
-
-      
 		}
         bullets.removeAll(leftBulletsToRemove);
+    }
+
+    public void updateFinalBullet(){
+        ArrayList<BossBullet> bulletsToRemove = new ArrayList<BossBullet>();
+		for (BossBullet bullet : bullets) {
+           
+			
+            //x += SPEED * deltaTime;
+            Rectangle rect = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
+            Rectangle rect2 = new Rectangle(bullet.x - 100, bullet.y + 50, 200, 50);
+            bullet.update(Gdx.graphics.getDeltaTime(), rect, playerRectangle, rect2, monsterRectangle, bossHurtAllowed, playerHurtAllowed);
+        
+       
+			if (bullet.remove){
+				bulletsToRemove.add(bullet);
+            }
+
+            if(bullet.hurtBullet){
+                bossFight.lives.lives = bossFight.lives.lives - 2;
+            }
+
+            if(bullet.bossHurt){
+                bossHurt = true;
+            }
+		}
+        bullets.removeAll(bulletsToRemove);
     }
     public void startBossFight(){
         if (timer.isEmpty()) {
@@ -367,6 +421,7 @@ public class FinalBoss implements Screen{
             public void run() {
                 timer2.stop();
                 bulletTrigger = true;
+                bulletDrawTrigger = true;
             
                 // TODO Auto-generated method stub
                 
@@ -380,6 +435,7 @@ public class FinalBoss implements Screen{
             public void run() {
                 timer3.stop();
                 bulletTrigger = false;
+                bulletDrawTrigger = false;
                 finalTextTrigger = true;
                 finalSubTextTrigger = true;
                 startDrawingRain = true;
@@ -414,10 +470,11 @@ public class FinalBoss implements Screen{
             @Override
             public void run() {
                 textChangeTimer.stop();
-                finalChangeSubText = false;
-                font.stage.clear();
+
+                
              
                 bulletTrigger = true;
+                bulletDrawTrigger = true;
         
                 bossFight.startOmega = true;
                 // TODO Auto-generated method stub
@@ -425,7 +482,13 @@ public class FinalBoss implements Screen{
             }
             
         }, 77, 5);
+
+       
     }
+
+        
+    
+
 
     public void returnlevel(){
         if(player.body.getPosition().x <= 0.23333333f){
