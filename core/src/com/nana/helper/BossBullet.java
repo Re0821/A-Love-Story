@@ -15,13 +15,14 @@ public class BossBullet {
 
 
     public static int SPEED = 500;
-    private static Texture texture;
+    private static Texture texture, playerFinalBullet;
     public ArrayList<BossBullet> bullets;
     public float x;
     public float y;
     public boolean remove = false;
     public int numBullet = 0;
     public boolean hurtBullet;
+    public boolean bossHurt;
 
 
 
@@ -32,9 +33,10 @@ public class BossBullet {
 
         if (texture == null)
             texture = new Texture(Gdx.files.internal("assets/bossBullet.png"));
+            playerFinalBullet = new Texture(Gdx.files.internal("assets/PlayerFinalBullet.png"));
     }
 
-    public void update (float deltaTime, Rectangle rect, Rectangle playerRectangle) {
+    public void update (float deltaTime, Rectangle rect, Rectangle playerRectangle, Rectangle finalBulletRect, Rectangle monsterRectangle, boolean startOmegaBullet) {
 
             x += SPEED * deltaTime;
 
@@ -44,7 +46,12 @@ public class BossBullet {
         if(rect.overlaps(playerRectangle)){
             remove = true;
             hurtBullet = true;
+        }
 
+        if(finalBulletRect.overlaps(monsterRectangle) && startOmegaBullet){
+            remove = true;
+            bossHurt = true;
+            //THEN THE BATCH OF THE MONSTER ANIMATION STOPS DRAWING WHICH IS GOING TO BE SET TO A VARIABLE
         }
 
         
@@ -54,6 +61,10 @@ public class BossBullet {
     public void render (SpriteBatch batch) {
 
         batch.draw(texture, x, y);
+    }
+
+    public void renderOmegaBullet(SpriteBatch batch){
+        batch.draw(playerFinalBullet, x, y);
     }
 
 }

@@ -36,7 +36,7 @@ public class GeneralFont {
         labelStyle.font = myFont;
         titleLabel = new TypingLabel(text, labelStyle);
         titleLabel.setAlignment(Align.center);
-        titleLabel.setFontScale(.45f);
+        titleLabel.setFontScale(.65f);
         titleLabel.setSize(Gdx.graphics.getWidth()- 1750, 100);
         titleLabel.setPosition( 875, 650);
         stage.addActor(titleLabel);
@@ -54,4 +54,8 @@ public class GeneralFont {
         stage.addActor(titleLabel);
         
     }
+
+    
+    
+    
 }

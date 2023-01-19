@@ -21,8 +21,8 @@ public class MonsterAnimation{
         new PPM();
 
         path = new String[2][2];
-        path[0][0] = "assets/bossNPC/Boss Fight.atlas";
-        path[1][0] = "Boss Fight";
+        path[0][0] = "assets/bossNPC/FinalBossAnimation.atlas";
+        path[1][0] = "FinalBossAnimation";
 
     }
 

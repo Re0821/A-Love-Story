@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,7 +43,7 @@ import com.nana.helper.TiledMap.FinalTiledMapHelper;
 public class FinalBoss implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private Timer timer, timer1, timer2, timer3, timer4;
+    private Timer timer, timer1, timer2, timer3, timer4, timer5, textChangeTimer;
     public Rectangle playerRectangle;
     private Rectangle skeletonRectangle;
     private Rectangle monsterRectangle;
@@ -73,7 +74,8 @@ public class FinalBoss implements Screen{
     private boolean startDrawingRain = false;
     private ArrayList<BossBullet> bullets;
     private boolean bulletTrigger = false;
-    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger = false;
+    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger, finalChangeSubText, bossHurtAllowed = false;
+    private boolean bossHurt = false;
 
     public FinalBoss(final Love game){        
         // setting the gravity of the game relative to real world's gravity
@@ -96,6 +98,8 @@ public class FinalBoss implements Screen{
         this.timer2 = new Timer();
         this.timer3 = new Timer();
         this.timer4 = new Timer();
+        this.timer5 = new Timer();
+        this.textChangeTimer = new Timer();
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
@@ -152,9 +156,14 @@ public class FinalBoss implements Screen{
     for(BossBullet bullet: bullets){
         bullet.render(batch);
     }
+
         batch.draw(animation.createAnimation(), player.getBody().getPosition().x * ppm.getPPM() - 60, player.getBody().getPosition().y * ppm.getPPM() - 55, 100, 100);
         batch.draw(skeletonAnimation.createAnimation(), skeleton.getBody().getPosition().x * ppm.getPPM() - 60, skeleton.getBody().getPosition().y * ppm.getPPM() - 45  , 100, 100);
-        // batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 50, monster.getBody().getPosition().y * ppm.getPPM() - 50, 100, 100);
+        
+        if(!bossHurt){
+           // batch.draw(monsterAnimation.createAnimation(), monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
+        }
+
         myFont.getData().setScale(.5f, .5f);
 
         if(bossFight.immunity.isImmune() == true || immunity.isImmune()){
@@ -180,6 +189,32 @@ public class FinalBoss implements Screen{
 
         if(finalSubTextTrigger){
             font.createAndSetTypingLabel2("{EASE}{NORMAL}Blue bullets restores 1 live");
+        }
+
+        if(finalChangeSubText){
+            font.createAndSetTypingLabel2("{EASE}{NORMAL}Collect 10 omega bullets to defeat the boss");
+            myFont.draw(batch, "Omega Bullets: " + bossFight.omegaBulletCollected, 25 + 500, 900);
+        }
+
+        if(bossFight.omegaBulletCollected == 10){
+            bossHurtAllowed = true;
+            finalChangeSubText = false;
+            bossHurtAllowed = true;
+            startDrawingRain = false;
+            bulletTrigger = false;
+            player.body.setTransform(monster.body.getPosition().x - 700, monster.body.getPosition().y - 450, 0f);
+
+            player.speed = 0f;
+            font.createAndSetTypingLabel("{EASE}{COLOR=SCARLET}{NORMAL}Press J on your keyboard");
+
+            if(Gdx.input.isKeyJustPressed(Keys.J)){
+                player.speed = 8f;
+                addOmegaBullet();
+                for(BossBullet bullet: bullets){
+                    bullet.renderOmegaBullet(batch);
+                }            
+                
+            }
         }
                 
         
@@ -216,7 +251,7 @@ public class FinalBoss implements Screen{
     public void updateRectangle(){
         playerRectangle = new Rectangle(player.getBody().getPosition().x * ppm.getPPM() - 22 , player.getBody().getPosition().y * ppm.getPPM() -15 , 30, 30);
         skeletonRectangle = new Rectangle(skeleton.getBody().getPosition().x * ppm.getPPM()- 22, skeleton.getBody().getPosition().y * ppm.getPPM() - 15, 40, 40);
-       
+        monsterRectangle = new Rectangle(monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
     }
 
     public void cameraUpdate(){
@@ -244,8 +279,12 @@ public class FinalBoss implements Screen{
 
     
     public void addBullet(){
-            bullets.add(new BossBullet(monster.body.getPosition().x + 675, monster.body.getPosition().y + 450));
+            bullets.add(new BossBullet(monster.body.getPosition().x + 750, monster.body.getPosition().y + 450));
     }
+
+    public void addOmegaBullet(){
+        bullets.add(new BossBullet(monster.body.getPosition().x - 675, monster.body.getPosition().y - 450));
+}
 
     public void updateBullet(){
         ArrayList<BossBullet> leftBulletsToRemove = new ArrayList<BossBullet>();
@@ -254,7 +293,8 @@ public class FinalBoss implements Screen{
 			
             //x += SPEED * deltaTime;
             Rectangle rect = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
-            bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle);
+            Rectangle rect2 = new Rectangle(bullet.x, bullet.y + 50, 200, 50);
+            bullet.update(Gdx.graphics.getDeltaTime() * - 1, rect, playerRectangle, rect2, monsterRectangle, bossHurtAllowed);
         
        
 			if (bullet.remove){
@@ -264,6 +304,11 @@ public class FinalBoss implements Screen{
             if(bullet.hurtBullet){
                 bossFight.lives.lives = bossFight.lives.lives - 2;
             }
+
+            if(bullet.bossHurt){
+                bossHurt = true;
+            }
+
 
 
            
@@ -347,6 +392,39 @@ public class FinalBoss implements Screen{
             }
             
         }, 60);
+
+        textChangeTimer.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                finalTextTrigger = false;
+                font.stage.clear();
+                finalSubTextTrigger = false;
+                
+                finalChangeSubText = true;
+                
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 67);
+
+        timer5.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                textChangeTimer.stop();
+                finalChangeSubText = false;
+                font.stage.clear();
+             
+                bulletTrigger = true;
+        
+                bossFight.startOmega = true;
+                // TODO Auto-generated method stub
+                
+            }
+            
+        }, 77, 5);
     }
 
     public void returnlevel(){

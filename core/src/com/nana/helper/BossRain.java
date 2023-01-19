@@ -2,50 +2,54 @@ package com.nana.helper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-import com.nana.characters.MonsterNPC;
-import com.nana.characters.Player;
-import com.nana.characters.SkeletonNPC;
 import com.nana.helper.DroppingAssets.GreenBullet;
+import com.nana.helper.DroppingAssets.OmegaBullet;
 import com.nana.helper.DroppingAssets.WhiteBullet;
 import com.nana.helper.DroppingAssets.YellowBullet;
-import com.nana.screens.FinalBoss;
+
 
 public class BossRain {
     private ArrayList<GreenBullet> greenBullets;
     private ArrayList<YellowBullet> yellowBullets;
     private ArrayList<WhiteBullet> whiteBullets;
-    private Texture greenBullet, yellowBullet, whiteBullet;
-    private long lastGreenBulletDropTIme, lastYellowBulletDropTime, lastWhiteBulletDropTime;
+    private ArrayList<OmegaBullet> omegaBullets;
+    private Texture greenBullet, yellowBullet, whiteBullet, omegaBullet;
+    private long lastGreenBulletDropTIme, lastYellowBulletDropTime, lastWhiteBulletDropTime, lastOmegaBulletDropTime;
     public Immunity immunity;
     public Lives lives;
     public Rectangle playerRectangle;
     public Rectangle rect1;
     public  Rectangle rect2;
     public Rectangle rect3;
+    public Rectangle rect4;
     public Timer timer1, timer2;
     public SpriteBatch batch;
     public int mulitplier;
     private int multiplier;
     public boolean startWhite = false;
+    public boolean startOmega = false;
+    public int omegaBulletCollected;
 
+    
     public BossRain(SpriteBatch batch, int multiplier){
         this.batch = new SpriteBatch();
         this.multiplier = multiplier;
         this.greenBullet = new Texture(Gdx.files.internal("assets/GreenBullet.png"));
         this.yellowBullet = new Texture(Gdx.files.internal("assets/YellowBullet.png"));
         this.whiteBullet = new Texture(Gdx.files.internal("assets/WhiteBullet.png"));
+        this.omegaBullet = new Texture(Gdx.files.internal("assets/OmegaBullet.png"));
+        this.omegaBulletCollected = 0;
         greenBullets = new ArrayList<GreenBullet>();
         yellowBullets = new ArrayList<YellowBullet>();
         whiteBullets = new ArrayList<WhiteBullet>();
+        omegaBullets = new ArrayList<OmegaBullet>();
         this.immunity = new Immunity();
         this.lives = new Lives();
     }
@@ -63,6 +67,11 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
 
     if(TimeUtils.nanoTime() - lastWhiteBulletDropTime > 2100000000 && startRain && startWhite){
         spawnWhite();
+    }
+
+    
+    if(TimeUtils.nanoTime() - lastOmegaBulletDropTime > 2100000000 && startRain && startOmega){
+        spawnOmega();
     }
        
        
@@ -119,6 +128,25 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
             System.out.println("WHITE HIT");
         } 
     }
+
+    
+    for(Iterator<OmegaBullet> iter = omegaBullets.iterator(); iter.hasNext();){
+        OmegaBullet omegaBullet = iter.next();
+        Rectangle rectangle = omegaBullet.getRectangle();
+        rectangle.y -= 100 * Gdx.graphics.getDeltaTime();
+
+        rect4 = new Rectangle(rectangle.y, rectangle.x, 20, 20);
+        rect4.y = rectangle.y + 127;
+        rect4.x = rectangle.x + 20;
+
+
+        if(rect4.overlaps(playerRectangle)){
+            iter.remove();
+            immunity.giveImmunity();   
+            omegaBulletCollected ++;
+            System.out.println("OMEGA HIT");
+        } 
+    }
     
 }
 
@@ -134,6 +162,11 @@ private void spawnWhite(){
     lastWhiteBulletDropTime = TimeUtils.nanoTime();
 }
 
+private void spawnOmega(){
+    OmegaBullet omega = new OmegaBullet(omegaBullet, MathUtils.random(0, 1024-64));
+    omegaBullets.add(omega);
+    lastOmegaBulletDropTime = TimeUtils.nanoTime();
+}
 
 private void spawnYellow(){
     YellowBullet yellow = new YellowBullet(yellowBullet, MathUtils.random(0,1024-64));
@@ -148,10 +181,14 @@ public void draw(SpriteBatch batch){
     
     for(YellowBullet yellowBullet: yellowBullets){
         batch.draw(yellowBullet.getTexture(), yellowBullet.getRectangle().x, yellowBullet.getRectangle().y + 100, 64, 64);
+    }
 
         for(WhiteBullet whiteBullet: whiteBullets){
             batch.draw(whiteBullet.getTexture(), whiteBullet.getRectangle().x, whiteBullet.getRectangle().y + 100, 64, 64);
+            
+}  for(OmegaBullet omegaBullet: omegaBullets){
+    batch.draw(omegaBullet.getTexture(), omegaBullet.getRectangle().x, omegaBullet.getRectangle().y + 100, 64, 64);
+
 }
-}
-}
-}
+}}
+
