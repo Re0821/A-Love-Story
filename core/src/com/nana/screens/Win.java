@@ -70,7 +70,7 @@ public class Win implements Screen, InputProcessor{
         DeathWinFont winFont = new DeathWinFont(stage, myFont);
 
         winFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Won!");
-        winFont.winFont("{COLOR=RED}{SICK}{FAST}Your Best Time was: " + timeTaken + " seconds");
+        winFont.winFont("{COLOR=RED}{SICK}{FAST}Your Time was: " + timeTaken + " seconds");
        
         
         try {
