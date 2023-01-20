@@ -28,7 +28,7 @@ public class RandomMovement {
         public void run() {
             Random rand = new Random();
             randomNumber = rand.nextInt(3);
-            if(randomNumber == 0){
+            while(randomNumber == 0){
                 randomNumber = rand.nextInt(3);
             }
         }
