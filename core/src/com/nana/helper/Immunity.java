@@ -24,6 +24,7 @@ public class Immunity {
     }
 
     /**
+     * returns true if player is immune; otherwise false
      * @return true or false whether player is immune
      */
     public boolean isImmune() {

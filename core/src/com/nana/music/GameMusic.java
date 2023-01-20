@@ -12,6 +12,7 @@ public class GameMusic {
      public Random random = new Random();
 
      /**
+     * initializes the singleton pattern 
      * @return the current class that it is running from
      */
     public static GameMusic getInstance() {
@@ -23,8 +24,8 @@ public class GameMusic {
 
 
      /**
-    *  initialize the music and the sounds of the game
-    */
+      *  initialize the music and the sounds of the game
+      */
 
    public GameMusic(){
         backgroundMusic = new com.badlogic.gdx.audio.Music[7];
@@ -43,7 +44,7 @@ public class GameMusic {
      }
     
 
-     /**
+   /**
     * shuffles and play background musics
     */
    public void shufflePlayTrack(){
@@ -64,7 +65,7 @@ public class GameMusic {
       }
    }
    
-  /**
+   /**
     * play the final boss background music
     */
      public void playFinalBossTrack(){
@@ -74,7 +75,7 @@ public class GameMusic {
        
      }
 
-     /**
+   /**
     * play the winning track
     */
    public void playWinTrack(){
@@ -94,6 +95,7 @@ public class GameMusic {
    }
 
    /**
+    * returns a random track to be used for shuffling
     * @return a random track
     */
    public int getTrack(){
@@ -105,6 +107,7 @@ public class GameMusic {
    }
 
    /**
+    * returns the current track
     * @return track #
     */
    public int getTrackNum(){

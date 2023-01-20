@@ -10,19 +10,19 @@ import java.util.Arrays;
 
 public class WriteRead{
 private static WriteRead instance = null;
-String stringPlayerCount;
-String newLine;
-Boolean lineOK;
-
-String firstLine;
-int smallest;
-BufferedReader br;
-int bestTime;
+private Boolean lineOK;
+private String firstLine;
+private int smallest;
+private BufferedReader br;
 private File file;
 private FileWriter myWriter;
 public int[] smallestNumbers = new int[5];
 
 
+
+/**
+ * creates a file if it does not exist yet. Initializes the FileWriter
+ */
 
 public WriteRead() {
   file = new File("assets/BestTime.txt");
@@ -40,6 +40,7 @@ public WriteRead() {
 }
 
 /**
+ * returns the current instance that is running from
  * @return the current class that it is running from
  */
 
@@ -51,9 +52,9 @@ public static WriteRead getInstance() {
 }
 
 /**
+ * Writes to BestTime.txt file if called
  * @param bestTime takes the best time (seconds) to write to file
  * @throws IOException 
- * Writes to BestTime.txt file if called
  */
 public void write(int bestTime) throws IOException{
 
@@ -87,8 +88,8 @@ public void write(int bestTime) throws IOException{
   }
 
   /**
-   * @throws IOException
    * checks if the current file line is OK to write on. If not, make a new line and then write on that new line
+   * @throws IOException if there is an error 
    */
 
   public void checkFileLine() throws IOException{
@@ -113,8 +114,9 @@ public void write(int bestTime) throws IOException{
   
 
 /**
+ * starts the linear search algorithm to find the smallest number within the "BestTime.txt" file and return that number
  * @return the smallest # searched by a linear search algorithm
- * @throws IOException
+ * @throws IOException if there is an error
  */
 public int startGetLinearSearch() throws IOException{
   try {
@@ -145,6 +147,10 @@ public int getSmallest(){
 
 /**
  * read and write the 5 smallest number from the txt files into the smallestnumber array
+ * uses the same concept as a linear search algorithm. However, it compares the next number to the previous number to check who is smallest
+ * uses 2 different comparison. one comparison being the first for loop input where it first compare and write the smallest number from the txt file
+ * then it compares itself to check if it is acutually the smallest number within its own array by comparing next and previous #s
+ * it goes through the entire txt file and keeps comparing the next # with the previous # until the array is filled
  */
 public void readWriteToArray(){
   Arrays.fill(smallestNumbers, Integer.MAX_VALUE);
@@ -175,6 +181,7 @@ public void readWriteToArray(){
 }
 
 /**
+ * return the smallestNumber array
  * @return the 5 smallest numbers
  */
 public int[] getSmallestNumbers(){

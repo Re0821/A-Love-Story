@@ -31,8 +31,8 @@ public class Death implements Screen, InputProcessor{
     private float GAME_HEIGHT;
     GameMusic music = GameMusic.getInstance();
 /**
-     * @param game takes in the parent game as an argument for switching screens purposes
      * initializing variables from necessary classes needed 
+     * @param game takes in the parent game as an argument for switching screens purpose.
      */
 
     public Death(final Love game){
@@ -72,10 +72,12 @@ public class Death implements Screen, InputProcessor{
         // TODO Auto-generated method stub
         
     }
-  /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#render(float)
-     * @param takes in the current deltaTime of the screen as a parameter
+     /* (non-Javadoc)
      * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     * @see com.badlogic.gdx.Screen#render(float)
+     * renders spritebatch elements to screen and deals with logic
+     * @param takes in the current deltaTime of the screen as a parameter
+     * 
      */
     @Override
     public void render(float delta) {

@@ -47,8 +47,8 @@ public class Level1 implements Screen{
     private FadeOutEffect fadeOut;
  
     /**
-     * @param game takes in the parent game as an argument for switching screens purposes
      * initializing variables from necessary classes needed 
+     * @param game takes in the parent game as an argument for switching screens purposes
      */
 
     public Level1(final Love game){        
@@ -79,8 +79,8 @@ public class Level1 implements Screen{
     }
 
      /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#show()
      * initializing SpriteBatch to render texture
+     * @see com.badlogic.gdx.Screen#show()
      */
 
     @Override
@@ -91,9 +91,9 @@ public class Level1 implements Screen{
     }   
 
  /* (non-Javadoc)
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      * @see com.badlogic.gdx.Screen#render(float)
      * @param takes in the current deltaTime of the screen as a parameter
-     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      */
 
 

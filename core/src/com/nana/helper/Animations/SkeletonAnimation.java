@@ -17,6 +17,7 @@ public class SkeletonAnimation{
     private String pathName, regionName;
     private String[][] path;
     private RandomMovement randomMovement;
+
     /**
      * initialize 2D array with path and regionName (derived from atlases) and other variables
      */
@@ -33,6 +34,7 @@ public class SkeletonAnimation{
     }
 
     /**
+     * gets the random number from RandomMovement class and starts the animation
      * @return the current frame of the animation and then looping it again
      */
     public TextureRegion createAnimation(){

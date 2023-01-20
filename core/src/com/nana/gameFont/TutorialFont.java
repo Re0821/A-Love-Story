@@ -12,6 +12,7 @@ public class TutorialFont {
     private BitmapFont myFont;
 
     /**
+     * initializes variables in constructor
      * @param stage takes in the stage of the current screen
      * @param font takes in the font that is being used 
      */
@@ -21,8 +22,8 @@ public class TutorialFont {
     }
 
     /**
-     * @param text the desired string to be rendered to screen
      * render text to screen based on the desired location wanted
+     * @param text the desired string to be rendered to screen
      */
     public void createAndSetTypingLabel(String text) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();

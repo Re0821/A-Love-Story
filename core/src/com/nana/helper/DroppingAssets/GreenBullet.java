@@ -8,6 +8,7 @@ public class GreenBullet {
     private Rectangle rectangle;
  
  /**
+ * initializes variables in constructor
  * @param rainBullet takes in the texture of the rain bullet
  * @param randomX initialize a random point in the world based on a random integer
  */
@@ -17,6 +18,7 @@ public GreenBullet(Texture rainBullet, float randomX){
  }
  
  /**
+ * get the texture
  * @return the texture of the bullet
  */
 public Texture getTexture() {
@@ -24,6 +26,7 @@ public Texture getTexture() {
   }
 
   /**
+   * get the rectangle (hitbox)
    * @return the hitbox of the bullet
    */
   public Rectangle getRectangle() {

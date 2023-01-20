@@ -23,9 +23,9 @@ public class PlayerAnimation {
     private Immunity immunity;
     private GameMusic music = new GameMusic();
 
-      /**
+    /**
      * initialize 2D array with path and regionName (derived from atlases) and other variables
-     */
+    */
     public PlayerAnimation(){
         this.immunity = new Immunity();
         path = new String[6][6];
@@ -44,6 +44,7 @@ public class PlayerAnimation {
         path[1][5] = "death";
     }
    /**
+     * calls the checkLeft() function and checkInput() function and starts/create the animation 
      * @return the current frame of the animation and then looping it again
      */
     public TextureRegion createAnimation(){

@@ -10,10 +10,10 @@ public class SkeletonNPC extends GameEntity{
     private RandomMovement randomMovement;
 
     /**
+     * initializes and setting the "stage" to set object to screen
      * @param width takes in the width size of the object
      * @param height takes in the height size of the object
      * @param body takes in a body object
-     * initializes and setting the "stage" to set object to screen
      */
     public SkeletonNPC(float width, float height, Body body) {
         super(width, height, body);
@@ -26,8 +26,8 @@ public class SkeletonNPC extends GameEntity{
     }
 
 	/* (non-Javadoc)
-	 * @see com.nana.characters.GameEntity#update()
      * update the player position constantly based on screen's delta time
+	 * @see com.nana.characters.GameEntity#update()
 	 */
 	@Override
     public void update() {

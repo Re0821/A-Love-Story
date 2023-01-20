@@ -19,6 +19,7 @@ public class LiveFont {
     }
 
     /**
+     * draws font to screen
      * @param batch takes in SpriteBatch as a parameter to render to screen
      * @param lives takes in the total amount of lives that the player current have 
      */

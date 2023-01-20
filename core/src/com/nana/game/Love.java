@@ -11,8 +11,8 @@ public class Love extends Game {
 	public BitmapFont font;
 	
 	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
 	 * creating the parent game
+	 * @see com.badlogic.gdx.ApplicationListener#create()
 	 */
 	@Override
 	public void create() {
@@ -22,8 +22,8 @@ public class Love extends Game {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Game#render()
 	 * rendering to screen
+	 * @see com.badlogic.gdx.Game#render()
 	 */
 	@Override
 	public void render () {
@@ -34,8 +34,8 @@ public class Love extends Game {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Game#dispose()
 	 * disposing of batch
+	 * @see com.badlogic.gdx.Game#dispose()
 	 */
 	@Override
 	public void dispose () {

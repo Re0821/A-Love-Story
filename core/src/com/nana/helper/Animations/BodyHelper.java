@@ -16,6 +16,7 @@ public class BodyHelper {
  */
 
     /**
+     * creates the player body
      * @param x sets the x position of the player
      * @param y sets the y position of the player
      * @param width the polygon width definition of the player
@@ -45,6 +46,7 @@ public class BodyHelper {
     }
 
     /**
+     * creates a moveable NPC body
      * @param x takes in the x position of the NPC to set the NPC location
      * @param y takes in the y position of the NPC to set the NPC location
      * @param width takes in the width size of the NPC to set the NPC location
@@ -73,6 +75,7 @@ public class BodyHelper {
     }
 
      /**
+      * creates a static NPC body 
      * @param x takes in the x position of the NPC to set the NPC location
      * @param y takes in the y position of the NPC to set the NPC location
      * @param width takes in the width size of the NPC to set the NPC location

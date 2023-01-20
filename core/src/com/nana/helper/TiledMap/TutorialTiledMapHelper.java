@@ -31,6 +31,7 @@ public class TutorialTiledMapHelper {
     private Body body = null;
 
     /**
+     * initializes variables in constructor
      * @param gameScreen takes in the current game screen that it wants to be initialized in as a parameter
      */
     public TutorialTiledMapHelper(TutorialGameScreen gameScreen){
@@ -38,6 +39,7 @@ public class TutorialTiledMapHelper {
     }
 
     /**
+     * setup map for the world
      * @return the initialized ver of the map (tileMap)
      */
     public OrthogonalTiledMapRenderer setupMap(){
@@ -47,6 +49,7 @@ public class TutorialTiledMapHelper {
     }
 
     /**
+     * parse objects made from Tiled to register collision
      * @param mapObjects takes in objects created in "Tiled" to initialize its collision 
      */
     private void parseMapObjects(MapObjects mapObjects){
@@ -87,6 +90,7 @@ public class TutorialTiledMapHelper {
     }
 
     /**
+     * create polygon shapes made from Tiled
      * @param polygonMapObject takes in objects created in "Tiled" drawn by the polyon shape tool
      * @return the shape of the object (vertices of each objects) to parse
      */

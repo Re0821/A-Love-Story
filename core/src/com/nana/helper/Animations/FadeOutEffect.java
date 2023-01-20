@@ -18,6 +18,7 @@ public class FadeOutEffect {
     public boolean fadeOut;
 
     /**
+     * initializes variables in constructor
      * @param game takes in the current game screen
      * @param nextScreen takes in the next game screen 
      * @param duration takes in the duration that it wants to fade
@@ -38,8 +39,8 @@ public class FadeOutEffect {
     }
 
     /**
-     * @param delta takes in the current screen's delta time
      * starts rendering the screen based on the screen's delta time
+     * @param delta takes in the current screen's delta time
      */
     public void render(float delta) {
         if (fading) {

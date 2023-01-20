@@ -17,7 +17,7 @@ public class MonsterAnimation{
     private String pathName, regionName;
     private String[][] path;
 
-      /**
+    /**
      * initialize 2D array with path and regionName (derived from atlases) and other variables
      */
 
@@ -29,7 +29,8 @@ public class MonsterAnimation{
         path[1][0] = "FinalBossAnimation";
 
     }
-/**
+    /**
+     * starts and create the animation of the final boss monster
      * @return the current frame of the animation and then looping it again
      */
     public TextureRegion createAnimation(){

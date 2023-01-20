@@ -11,6 +11,7 @@ public class MenuFont {
     private Stage stage;
     private BitmapFont myFont;
  /**
+     * initializes variables in constructor
      * @param stage takes in the stage of the current screen
      * @param font takes in the font that is being used 
      */

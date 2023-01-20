@@ -89,8 +89,8 @@ public class Level2 implements Screen{
         
     }
     /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#show()
      * initializing SpriteBatch to render texture
+     * @see com.badlogic.gdx.Screen#show()
      */
     @Override
     public void show() {
@@ -99,9 +99,9 @@ public class Level2 implements Screen{
     }
 
     /* (non-Javadoc)
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      * @see com.badlogic.gdx.Screen#render(float)
      * @param takes in the current deltaTime of the screen as a parameter
-     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      */
 
     @Override

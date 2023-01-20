@@ -14,6 +14,7 @@ public abstract class GameEntity {
     protected PPM ppm = new PPM();
 
     /**
+     * Initalizes variable necessary for the player/NPC to funtion
      * @param width takes in the player/NPC object's width size
      * @param height takes in the player/NPC object's height size
      * @param body takes in a body object
@@ -32,11 +33,12 @@ public abstract class GameEntity {
     /**
      * abstract method to update the location of the player/NPC
      */
+    
     public abstract void update();
     
     /**
-     * @param batch takes in a SpriteBatch to render to screen
      * abstract method to render player to screen
+     * @param batch takes in a SpriteBatch to render to screen
      */
     public abstract void render(SpriteBatch batch);
 

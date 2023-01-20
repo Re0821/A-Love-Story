@@ -10,6 +10,7 @@ public class TimeTracker {
     public TimeTracker() {}
 
     /**
+     * returns the current class that is running this instance from
      * @return the current class that it is running from
      */
     public static TimeTracker getInstance() {
@@ -37,6 +38,7 @@ public class TimeTracker {
     }
 
     /**
+     * returns the time in seconds from milliseconds
      * @return the time in second after conversion
      */
     

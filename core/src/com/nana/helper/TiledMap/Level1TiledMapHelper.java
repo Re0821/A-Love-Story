@@ -32,6 +32,7 @@ public class Level1TiledMapHelper {
 
         public float abs;
     /**
+     * initializes variables in constructor
      * @param gameScreen takes in the current game screen that it wants to be initialized in as a parameter
      */
         public Level1TiledMapHelper(Level1 gameScreen){
@@ -39,7 +40,8 @@ public class Level1TiledMapHelper {
            
 
         }
-     /**
+    /**
+     * setup map for the world
      * @return the initialized ver of the map (tileMap)
      */
         public OrthogonalTiledMapRenderer setupMap(){
@@ -51,6 +53,7 @@ public class Level1TiledMapHelper {
         }
           
     /**
+     * parse objects from Tiled to register collision
      * @param mapObjects takes in objects created in "Tiled" to initialize its collision 
      */
         private void parseMapObjects(MapObjects mapObjects){
@@ -76,8 +79,8 @@ public class Level1TiledMapHelper {
              
         }
     /**
-     * @param polygonMapObject objects that were made in "Tiled" with the polygon draw tool
      * create the static body of the player
+     * @param polygonMapObject objects that were made in "Tiled" with the polygon draw tool
      */
         private void createStaticBody(PolygonMapObject polygonMapObject){
             BodyDef bodyDef = new BodyDef();
@@ -88,6 +91,7 @@ public class Level1TiledMapHelper {
             shape.dispose();
         }
     /**
+     * creates the shape made from polygons in Tiled
      * @param polygonMapObject takes in objects created in "Tiled" drawn by the polyon shape tool
      * @return the shape of the object (vertices of each objects) to parse
      */

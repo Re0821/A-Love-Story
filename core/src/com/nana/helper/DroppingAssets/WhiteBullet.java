@@ -7,24 +7,27 @@ public class WhiteBullet {
     public Texture texture;
     public Rectangle rectangle;
     
-     /**
- * @param rainBullet takes in the texture of the rain bullet
- * @param randomX initialize a random point in the world based on a random integer
- */
+    /**
+     * initializes variables in constructor
+     * @param rainBullet takes in the texture of the rain bullet
+     * @param randomX initialize a random point in the world based on a random integer
+    */
     public WhiteBullet(Texture texture, float randomX){
         this.texture = texture;
         rectangle = new Rectangle(randomX, 480, 48, 48);
     }
 
-      /**
- * @return the texture of the bullet
- */
+    /**
+     * gets the texture
+     * @return the texture of the bullet
+     */
     public Texture getTexture() {
         return texture;
     }
-  /**
-   * @return the hitbox of the bullet
-   */
+    /**
+     * gets the rectangle (hitbox)
+     * @return the hitbox of the bullet
+     */
     public Rectangle getRectangle() {
         return rectangle;
     }

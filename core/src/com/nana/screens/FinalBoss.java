@@ -75,8 +75,8 @@ public class FinalBoss implements Screen{
     private boolean bossHurt = false;
     GameMusic music = GameMusic.getInstance();
   /**
-     * @param game takes in the parent game as an argument for switching screens purposes
      * initializing variables from necessary classes needed 
+     * @param game takes in the parent game as an argument for switching screens purposes
      */
 
     public FinalBoss(final Love game){   
@@ -120,9 +120,9 @@ public class FinalBoss implements Screen{
     }
         
     
-/* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#show()
+    /* (non-Javadoc)
      * calls startBossFight to initialize the boss fight
+     * @see com.badlogic.gdx.Screen#show()
      */
 
     @Override
@@ -136,9 +136,9 @@ public class FinalBoss implements Screen{
     }
 
      /* (non-Javadoc)
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      * @see com.badlogic.gdx.Screen#render(float)
      * @param takes in the current deltaTime of the screen as a parameter
-     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
      */
 
     @Override

@@ -41,8 +41,8 @@ public class MainMenuScreen implements Screen, InputProcessor{
     private int GAME_WIDTH;
     GameMusic music = GameMusic.getInstance();
     /**
-     * @param game takes in the parent game as an argument for switching screens purposes
      * initializing variables from necessary classes needed 
+     * @param game takes in the parent game as an argument for switching screens purposes
      */
 
     public MainMenuScreen(final Love game){
@@ -130,8 +130,8 @@ public class MainMenuScreen implements Screen, InputProcessor{
     }
 
     /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#show()
      * gets the bestTime from the writeRead file to be displayed as the shortest time it took to complete the game
+     * @see com.badlogic.gdx.Screen#show()
      */
 
     @Override
@@ -141,9 +141,9 @@ public class MainMenuScreen implements Screen, InputProcessor{
     }
 
   /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#render(float)
-     * @param takes in the current deltaTime of the screen as a parameter
      * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     * @see com.badlogic.gdx.Screen#render(float)
+     * @param takes in the current deltaTime of the screen as a parameter     
      */
     
 
@@ -192,8 +192,8 @@ public class MainMenuScreen implements Screen, InputProcessor{
 
     
     /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#dispose()
      * disposes of any other unnecessary elements that are not in used
+     * @see com.badlogic.gdx.Screen#dispose()
      */
     @Override
     public void dispose() {

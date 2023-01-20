@@ -17,6 +17,7 @@ public class RandomMovement {
     }
     
     /**
+     * retrieve the random number from the time interval-run timer
      * @return the random number that is stored in randomNumber
      */
     public int getRandomNumber() {

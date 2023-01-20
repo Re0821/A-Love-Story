@@ -40,6 +40,7 @@ public class BossRain {
     private GameMusic music = new GameMusic();
     
     /**
+     * initializes variables in constructor
      * @param batch takes in a SpriteBatch as a parameter ƒor rendering textures
      * @param multiplier takes in an int mulitplier object that determines the overall speed of the bullets
      */
@@ -61,9 +62,9 @@ public class BossRain {
 
 
 /**
+ * initializes the boss fight rain
  * @param playerRectangle takes in the player hitbox as a parameter
  * @param startRain takes in a boolean to determine whether it is OK to start the rain droplets
- * initializes the boss fight rain
  */
 public void rainInit(Rectangle playerRectangle, Boolean startRain){
 

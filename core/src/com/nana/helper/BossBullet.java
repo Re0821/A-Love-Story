@@ -21,6 +21,7 @@ public class BossBullet {
     private GameMusic music = new GameMusic();
 
     /**
+     * initializes variables in constructor
      * @param x initialize the x position of the bullet
      * @param y initialize the y position of the bullet
      */
@@ -35,6 +36,7 @@ public class BossBullet {
     }
 
     /**
+     * updates the location and hitbox of the bullets and check if it has overlapped with the final boss NPC, the player etc
      * @param deltaTime takes in the current delta time of the game
      * @param rect takes in the bullet hitbox
      * @param playerRectangle takes in the player hitbox
