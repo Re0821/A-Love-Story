@@ -1,7 +1,5 @@
 package com.nana.screens;
 
-import java.util.logging.Level;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,6 +23,7 @@ import com.nana.helper.PPM;
 import com.nana.helper.Animations.FadeOutEffect;
 import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.TiledMap.Level1TiledMapHelper;
+import com.nana.music.GameMusic;
 
 public class Level1 implements Screen{
     private TiledMap map;
@@ -33,7 +31,6 @@ public class Level1 implements Screen{
     private OrthographicCamera camera;
     private Level1TiledMapHelper tiledMapHelper;
     private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
     private PPM ppm = new PPM();
     private Player player;
     private SpriteBatch batch;
@@ -49,8 +46,11 @@ public class Level1 implements Screen{
     TimeTracker timeTracker = TimeTracker.getInstance();
     private FadeOutEffect fadeOut;
  
-  
-    
+    /**
+     * @param game takes in the parent game as an argument for switching screens purposes
+     * initializing variables from necessary classes needed 
+     */
+
     public Level1(final Love game){        
         // setting the gravity of the game relative to real world's gravity
         this.game = game;
@@ -69,7 +69,6 @@ public class Level1 implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new Level1TiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
-        box2DDebugRenderer = new Box2DDebugRenderer();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
@@ -78,12 +77,25 @@ public class Level1 implements Screen{
 
         
     }
+
+     /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#show()
+     * initializing SpriteBatch to render texture
+     */
+
     @Override
     public void show() {
         // TODO Auto-generated method stub
         batch = new SpriteBatch();
    
     }   
+
+ /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#render(float)
+     * @param takes in the current deltaTime of the screen as a parameter
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     */
+
 
     @Override
     public void render(float delta) {
@@ -105,9 +117,12 @@ public class Level1 implements Screen{
         batch.end();
         
         stage.act(Gdx.graphics.getDeltaTime());
-        box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
 
+    /**
+     * check if the player have fallen into spikes
+     * Done when I wasn't working with Tiled objects
+     */
     public void checkPass(){
         firstSpikePositionX = Math.abs(player.body.getPosition().x  * ppm.getPPM() - 352);
         firstSpikePositionY = Math.abs(player.body.getPosition().y * ppm.getPPM() - 608.00 / 2 - 80.40);
@@ -118,7 +133,9 @@ public class Level1 implements Screen{
         
             fadeOut.start();
             if(fadeOut.finished == true){
+
                 game.setScreen(deathScreen);
+
             }
 
         }
@@ -132,7 +149,9 @@ public class Level1 implements Screen{
             fadeOut.start();
             if(fadeOut.finished == true){
                 dispose();
+
                 game.setScreen(deathScreen);
+
             }
 
         }
@@ -147,6 +166,7 @@ public class Level1 implements Screen{
             
             if(fadeOut.finished == true){
                 dispose();
+
                 game.setScreen(deathScreen);
             }
             
@@ -161,6 +181,7 @@ public class Level1 implements Screen{
             if(fadeOut.finished == true){
                 dispose();
                 game.setScreen(deathScreen);
+                
             }
 
         }
@@ -169,10 +190,14 @@ public class Level1 implements Screen{
             System.out.println("Passed");
             dispose();
             game.setScreen(gameScreen);
+            
         }
     }
     
 
+    /**
+     * update the camera, SpriteBatch, world & player
+     */
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
@@ -181,6 +206,10 @@ public class Level1 implements Screen{
 
         
     }
+
+    /**
+     * updates the camera position
+     */
 
     public void cameraUpdate(){
         Vector3 position = camera.position;
@@ -193,6 +222,9 @@ public class Level1 implements Screen{
         camera.update();
     }
 
+    /**
+     * returns player to spawn location if tries to access out of bound areas
+     */
     public void returnlevel(){
         if(player.body.getPosition().x <= 0.233333f){
              player.body.setTransform(2.7000005f, 10.514998f ,0f);
@@ -254,12 +286,6 @@ public class Level1 implements Screen{
     public void setWorld(World world) {
         this.world = world;
     }
-    public Box2DDebugRenderer getBox2DDebugRenderer() {
-        return box2DDebugRenderer;
-    }
-    public void setBox2DDebugRenderer(Box2DDebugRenderer box2dDebugRenderer) {
-        box2DDebugRenderer = box2dDebugRenderer;
-    }
     public PPM getPpm() {
         return ppm;
     }
@@ -269,6 +295,10 @@ public class Level1 implements Screen{
     public Player getPlayer() {
         return player;
     }
+    /**
+     * @param player takes in a player as a parameter
+     * set player into the world
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }

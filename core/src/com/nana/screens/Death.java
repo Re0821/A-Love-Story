@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.game.Love;
 import com.nana.gameFont.DeathWinFont;
+import com.nana.music.GameMusic;
 
 public class Death implements Screen, InputProcessor{
     private OrthographicCamera camera;
@@ -28,6 +29,11 @@ public class Death implements Screen, InputProcessor{
     private float backgroundX;
     private float GAME_WIDTH;
     private float GAME_HEIGHT;
+    GameMusic music = GameMusic.getInstance();
+/**
+     * @param game takes in the parent game as an argument for switching screens purposes
+     * initializing variables from necessary classes needed 
+     */
 
     public Death(final Love game){
         this.game = game;
@@ -56,6 +62,8 @@ public class Death implements Screen, InputProcessor{
         deathFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Failed");
         deathFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
         Gdx.input.setInputProcessor(im);
+
+     
     }
     
 
@@ -64,7 +72,11 @@ public class Death implements Screen, InputProcessor{
         // TODO Auto-generated method stub
         
     }
-
+  /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#render(float)
+     * @param takes in the current deltaTime of the screen as a parameter
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     */
     @Override
     public void render(float delta) {
 

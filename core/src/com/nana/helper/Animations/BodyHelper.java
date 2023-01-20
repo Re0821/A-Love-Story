@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.nana.helper.PPM;
 
 public class BodyHelper {
@@ -45,6 +44,15 @@ public class BodyHelper {
         
     }
 
+    /**
+     * @param x takes in the x position of the NPC to set the NPC location
+     * @param y takes in the y position of the NPC to set the NPC location
+     * @param width takes in the width size of the NPC to set the NPC location
+     * @param height takes in the height size of the NPC to set the NPC location
+     * @param isStatic takes in a boolean var to see if the NPC is non-moving or not 
+     * @param world takes in the current world that it is in
+     * @return the body of the NPC
+     */
     public static Body createNPC(float x, float y, float width, float height, boolean isStatic, World world){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody; // When this is true, it will be a static body. Else, it is a dynamic body
@@ -64,6 +72,15 @@ public class BodyHelper {
         
     }
 
+     /**
+     * @param x takes in the x position of the NPC to set the NPC location
+     * @param y takes in the y position of the NPC to set the NPC location
+     * @param width takes in the width size of the NPC to set the NPC location
+     * @param height takes in the height size of the NPC to set the NPC location
+     * @param isStatic takes in a boolean var to see if the NPC is non-moving or not 
+     * @param world takes in the current world that it is in
+     * @return the body of the NPC
+     */
     public static Body createStaticNPC(float x, float y, float width, float height, boolean isStatic, World world){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;

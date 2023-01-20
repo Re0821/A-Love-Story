@@ -3,7 +3,6 @@ package com.nana.screens;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -19,6 +18,7 @@ import com.nana.WriteReadFile.TimeTracker;
 import com.nana.WriteReadFile.WriteRead;
 import com.nana.game.Love;
 import com.nana.gameFont.DeathWinFont;
+import com.nana.music.GameMusic;
 
 public class Win implements Screen, InputProcessor{
     private OrthographicCamera camera;
@@ -33,16 +33,21 @@ public class Win implements Screen, InputProcessor{
     private float backgroundX;
     private float GAME_WIDTH;
     private float GAME_HEIGHT;
-    private Timer timer;
+    WriteRead writeRead = WriteRead.getInstance();
     private WriteRead write = new WriteRead();
 
     int timeTaken;
     TimeTracker timeTracker = TimeTracker.getInstance();
-    
+    GameMusic music = GameMusic.getInstance();
+
+    /**
+     * @param game takes in the parent game as an argument for switching screens purposes
+     * initializing variables from necessary classes needed 
+     */
 
     public Win(final Love game){
         this.game = game;
-        this.timer = new Timer();
+        new Timer();
         background1 = new Texture(Gdx.files.internal("assets/background1.jpg"));
         background2 = new Texture(Gdx.files.internal("assets/background2.jpg"));
         backgroundVelocity = 2;
@@ -57,36 +62,42 @@ public class Win implements Screen, InputProcessor{
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
     
         Gdx.input.setInputProcessor(stage);
-
+        timeTracker.stop();
+        timeTaken = timeTracker.getTimeTaken();
       
         stage = new Stage(new ScreenViewport()); // To make it compatible with multiple devices
         
-        InputMultiplexer im = new InputMultiplexer(stage,this); // To allow for multiple functions
         DeathWinFont winFont = new DeathWinFont(stage, myFont);
 
         winFont.createAndSetTypingLabel("{COLOR=RED}{SICK}{FAST}You Won!");
         winFont.winFont("{COLOR=RED}{SICK}{FAST}Your Best Time was: " + timeTaken + " seconds");
-    
-
-        winFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
+       
         
-    }
-
-    
-
-    @Override
-    public void show() {
-        // TODO Auto-generated method stub
-        timeTracker.stop();
-        timeTaken = timeTracker.getTimeTaken();
         try {
             write.write(timeTaken);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
+        winFont.adjustedFont1("{COLOR=WHITE}{SICK}{FAST} PRESS ANYWHERE TO START AGAIN");
+        music.stopTrack();
+        music.playWinTrack();
     }
+
+    // Not used
+
+    @Override
+    public void show() {
+        // TODO Auto-generated method stub
+      
+    }
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#render(float) 
+     * @param takes in the current deltaTime of the screen as a parameter
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     */
+
     @Override
     public void render(float delta) {
 
@@ -99,12 +110,11 @@ public class Win implements Screen, InputProcessor{
 		batch.draw(background2 , backgroundX + GAME_WIDTH, 0 , GAME_WIDTH,GAME_HEIGHT);
         backgroundX -= backgroundVelocity;
 
-        System.out.println(backgroundX + GAME_WIDTH); // Debugging purposes. Decreases from 1024 px
 		if (backgroundX +GAME_WIDTH ==0){
 			backgroundX = 0;
 		}
 
-    
+        
         
         batch.end();
 
@@ -121,6 +131,8 @@ public class Win implements Screen, InputProcessor{
         
         
     }
+
+     // Abstraction methods that must be implemented to work
 
     @Override
     public boolean keyDown(int keycode) {

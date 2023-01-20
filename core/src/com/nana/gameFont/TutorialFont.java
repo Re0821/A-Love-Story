@@ -11,11 +11,19 @@ public class TutorialFont {
     private Stage stage;
     private BitmapFont myFont;
 
+    /**
+     * @param stage takes in the stage of the current screen
+     * @param font takes in the font that is being used 
+     */
     public TutorialFont(Stage stage, BitmapFont font) {
         this.stage = stage;
         this.myFont = font;
     }
 
+    /**
+     * @param text the desired string to be rendered to screen
+     * render text to screen based on the desired location wanted
+     */
     public void createAndSetTypingLabel(String text) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = myFont;

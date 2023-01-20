@@ -2,23 +2,27 @@ package com.nana.gameFont;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
-import com.nana.screens.FinalBoss;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 
 public class GeneralFont {
     public Stage stage;
     private BitmapFont myFont;
     public TypingLabel titleLabel;
-
+ /**
+     * @param stage takes in the stage of the current screen
+     * @param font takes in the font that is being used 
+     */
     public GeneralFont(Stage stage, BitmapFont font) {
         this.stage = stage;
         this.myFont = font;
     }
-
+ /**
+     * @param text the desired string to be rendered to screen
+     * render text to screen based on the desired location wanted
+     */
     public void createAndSetTypingLabel(String text) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = myFont;
@@ -55,7 +59,18 @@ public class GeneralFont {
         
     }
 
-    
+    public void leaderboardCreateAndSetTypingLabel(String Text){
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = myFont;
+        TypingLabel titleLabel = new TypingLabel(Text, labelStyle);
+        titleLabel.setAlignment(Align.center);
+        titleLabel.setFontScale(.75f);
+        titleLabel.setSize(975f, 250);
+        titleLabel.setPosition(20, Gdx.graphics.getHeight() - Gdx.graphics.getWidth() + 775);
+        stage.addActor(titleLabel);
+        
+    }
+  
     
     
 }

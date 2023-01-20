@@ -11,14 +11,22 @@ public class Player extends GameEntity{
 
     private int jump;
     private GameMusic music = new GameMusic();
-
+ /**
+     * @param width takes in the width size of the object
+     * @param height takes in the height size of the object
+     * @param body takes in a body object
+     * initializes and setting the "stage" to set object to screen
+     */
     public Player(float width, float height, Body body) {
         super(width, height, body);
         this.speed = 8f;
         this.jump = 0;
         //TODO Auto-generated constructor stub
     }
-
+/* (non-Javadoc)
+	 * @see com.nana.characters.GameEntity#update()
+     * update the player position constantly based on screen's delta time
+	 */
 	@Override
     public void update() {
         // TODO Auto-generated method stub
@@ -33,7 +41,9 @@ public class Player extends GameEntity{
         // TODO Auto-generated method stub
 
     }
-    
+     /**
+     * check which keys are being pressed and function accordingly
+     */
     private void checkUserInput(){
         velX = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D)){

@@ -17,6 +17,9 @@ public class SkeletonAnimation{
     private String pathName, regionName;
     private String[][] path;
     private RandomMovement randomMovement;
+    /**
+     * initialize 2D array with path and regionName (derived from atlases) and other variables
+     */
     public SkeletonAnimation(){
         this.randomMovement = new RandomMovement();
         new PPM();
@@ -29,6 +32,9 @@ public class SkeletonAnimation{
 
     }
 
+    /**
+     * @return the current frame of the animation and then looping it again
+     */
     public TextureRegion createAnimation(){
         r = randomMovement.getRandomNumber();
         randomMovement();
@@ -41,6 +47,9 @@ public class SkeletonAnimation{
         return currentFrame;
     }
 
+    /**
+     * based on the class "randomMovement", get a new direction that the skeleton go every 3 seconds
+     */
     public void randomMovement(){
 
         if(r == 1){

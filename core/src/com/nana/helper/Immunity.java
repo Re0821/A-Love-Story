@@ -7,16 +7,25 @@ public class Immunity {
     private boolean immune;
     private Timer immunityTimer;
 
+    /**
+     * initially immune is set to false
+     */
     public Immunity() {
         immune = false;
     }
 
+    /**
+     * give immunity for 3 seconds if called
+     */
     public void giveImmunity() {
         immune = true;
         immunityTimer = new Timer();
         immunityTimer.schedule(new ImmunityTask(), 3000);
     }
 
+    /**
+     * @return true or false whether player is immune
+     */
     public boolean isImmune() {
         return immune;
     }

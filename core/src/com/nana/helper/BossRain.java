@@ -13,6 +13,7 @@ import com.nana.helper.DroppingAssets.GreenBullet;
 import com.nana.helper.DroppingAssets.OmegaBullet;
 import com.nana.helper.DroppingAssets.WhiteBullet;
 import com.nana.helper.DroppingAssets.YellowBullet;
+import com.nana.music.GameMusic;
 
 
 public class BossRain {
@@ -36,7 +37,12 @@ public class BossRain {
     public boolean startWhite = false;
     public boolean startOmega = false;
     public int omegaBulletCollected;
+    private GameMusic music = new GameMusic();
     
+    /**
+     * @param batch takes in a SpriteBatch as a parameter ƒor rendering textures
+     * @param multiplier takes in an int mulitplier object that determines the overall speed of the bullets
+     */
     public BossRain(SpriteBatch batch, int multiplier){
         this.batch = new SpriteBatch();
         this.multiplier = multiplier;
@@ -54,6 +60,11 @@ public class BossRain {
     }
 
 
+/**
+ * @param playerRectangle takes in the player hitbox as a parameter
+ * @param startRain takes in a boolean to determine whether it is OK to start the rain droplets
+ * initializes the boss fight rain
+ */
 public void rainInit(Rectangle playerRectangle, Boolean startRain){
 
     if(TimeUtils.nanoTime() - lastGreenBulletDropTIme > 1000000000 && startRain){
@@ -88,6 +99,7 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
             iter.remove();
             immunity.giveImmunity();
             lives.lives--;
+            music.gameSound[1].play();
             System.out.println("GREEN HIT");    
         }
     }
@@ -106,6 +118,7 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
             iter.remove();
             immunity.giveImmunity();
             lives.lives--;
+            music.gameSound[1].play();
             System.out.println("YELLOW HIT");
         } 
     }
@@ -142,37 +155,52 @@ public void rainInit(Rectangle playerRectangle, Boolean startRain){
         if(rect4.overlaps(playerRectangle)){
             iter.remove();
             immunity.giveImmunity();   
-            omegaBulletCollected = 10;
+            omegaBulletCollected++;
             System.out.println("OMEGA HIT");
         } 
     }
     
 }
 
+/**
+ * spawn green colored rain
+ */
 private void spawnGreen(){
     GreenBullet green = new GreenBullet(greenBullet, MathUtils.random(0, 1024-64));
     greenBullets.add(green);
     lastGreenBulletDropTIme = TimeUtils.nanoTime();
 }
 
+/**
+ * spawn white-blueish rain
+ */
 private void spawnWhite(){
     WhiteBullet white = new WhiteBullet(whiteBullet, MathUtils.random(0, 1024-64));
     whiteBullets.add(white);
     lastWhiteBulletDropTime = TimeUtils.nanoTime();
 }
 
+/**
+ * spawn omega (superior) rain
+ */
 private void spawnOmega(){
     OmegaBullet omega = new OmegaBullet(omegaBullet, MathUtils.random(0, 1024-64));
     omegaBullets.add(omega);
     lastOmegaBulletDropTime = TimeUtils.nanoTime();
 }
 
+/**
+ * spawn yellow rain
+ */
 private void spawnYellow(){
     YellowBullet yellow = new YellowBullet(yellowBullet, MathUtils.random(0,1024-64));
     yellowBullets.add(yellow);
     lastYellowBulletDropTime = TimeUtils.nanoTime();
 }
 
+/**
+ * @param batch takes in sprite batch as a parameter and then rendering each droplets to screen
+ */
 public void draw(SpriteBatch batch){
     for(GreenBullet greenBullet: greenBullets){
         batch.draw(greenBullet.getTexture(), greenBullet.getRectangle().x, greenBullet.getRectangle().y + 100, 64, 64);

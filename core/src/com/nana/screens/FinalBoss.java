@@ -1,27 +1,21 @@
 package com.nana.screens;
 
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nana.characters.MonsterNPC;
 import com.nana.characters.Player;
@@ -38,8 +32,8 @@ import com.nana.helper.Animations.FadeOutEffect;
 import com.nana.helper.Animations.MonsterAnimation;
 import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.Animations.SkeletonAnimation;
-import com.nana.helper.DroppingAssets.OmegaBullet;
 import com.nana.helper.TiledMap.FinalTiledMapHelper;
+import com.nana.music.GameMusic;
 
 
 public class FinalBoss implements Screen{
@@ -54,7 +48,6 @@ public class FinalBoss implements Screen{
     private OrthographicCamera camera;
     private FinalTiledMapHelper tiledMapHelper;
     private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
     private PPM ppm = new PPM();
     public Player player;
     private SpriteBatch batch;
@@ -78,11 +71,17 @@ public class FinalBoss implements Screen{
     private boolean bulletTrigger = false;
     private boolean finalBulletTrigger = false;
     private boolean bossFightFinished = false;
-    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger, finalChangeSubText, bossHurtAllowed, bulletDrawTrigger, playerHurtAllowed, startTransition = false;
+    private boolean finalTextTrigger, firstTextTrigger, finalSubTextTrigger, finalChangeSubText, bossHurtAllowed, bulletDrawTrigger, playerHurtAllowed, switchScreen = false;
     private boolean bossHurt = false;
+    GameMusic music = GameMusic.getInstance();
+  /**
+     * @param game takes in the parent game as an argument for switching screens purposes
+     * initializing variables from necessary classes needed 
+     */
 
-    public FinalBoss(final Love game){        
+    public FinalBoss(final Love game){   
         // setting the gravity of the game relative to real world's gravity
+       
         this.deathScreen = new Death(game);
         this.game = game;
         batch = new SpriteBatch();
@@ -108,11 +107,12 @@ public class FinalBoss implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new FinalTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
-        box2DDebugRenderer = new Box2DDebugRenderer();
         myFont = new BitmapFont(Gdx.files.internal("assets/gameFont.fnt"));
         Gdx.input.setInputProcessor(stage);
         stage = new Stage(new ScreenViewport());
         this.font = new GeneralFont(stage, myFont);
+       
+    
        
 
        
@@ -120,7 +120,10 @@ public class FinalBoss implements Screen{
     }
         
     
-
+/* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#show()
+     * calls startBossFight to initialize the boss fight
+     */
 
     @Override
     public void show() {
@@ -131,6 +134,13 @@ public class FinalBoss implements Screen{
             
        
     }
+
+     /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#render(float)
+     * @param takes in the current deltaTime of the screen as a parameter
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     */
+
     @Override
     public void render(float delta) {
         this.update();
@@ -196,16 +206,20 @@ public class FinalBoss implements Screen{
                     @Override
                     public void run() {
                       
-                        game.setScreen(deathScreen);
+                        switchScreen = true;
                         
                     }
-                }, 2);    
+                }, 7);    
         }
 
         timerText();
 
         myFont.getData().setScale(.5f, .5f);
 
+        if(switchScreen){
+            game.setScreen(new Win(game));
+        }
+        
         if(bossFight.immunity.isImmune() == true || immunity.isImmune()){
             myFont.getData().setScale(.5f, .5f);
             myFont.draw(batch, "Currently Immune", 650, 900);
@@ -234,26 +248,35 @@ public class FinalBoss implements Screen{
         }
         
        
-        
+        checkDeath();
         
         batch.end();
 
 
-        
+      
+        stage.act(Gdx.graphics.getDeltaTime());
+
+    }
+    /**
+     * check if player has died
+     * if true; fade the screen and switch to death screen
+     */
+    public void checkDeath(){
+          
         if(bossFight.lives.lives <= 0){
             player.speed = 0f;
             fadeOut.start();
-            fadeOut.render(delta);
+            fadeOut.render(Gdx.graphics.getDeltaTime());
             
             if(fadeOut.finished){
                 game.setScreen(deathScreen);
             }
         }
-
-        stage.act(Gdx.graphics.getDeltaTime());
-
-        box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
     }
+
+    /**
+     * create and set the label onto the screen whenever the variable is set to true
+     */
     public void timerText(){
         if(firstTextTrigger){
             font.createAndSetTypingLabel("If you want to pass through here, \nyou have to go through me first.");
@@ -274,6 +297,10 @@ public class FinalBoss implements Screen{
 
     }
 
+    /**
+     * updates the camera, world, batch, player, skeleton objects 
+     */
+
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
@@ -282,12 +309,18 @@ public class FinalBoss implements Screen{
         skeleton.update();
     }
 
+    /**
+     * updates the player, skeleton and monster (boss) hitboxes (rectangles)
+     */
     public void updateRectangle(){
         playerRectangle = new Rectangle(player.getBody().getPosition().x * ppm.getPPM() - 22 , player.getBody().getPosition().y * ppm.getPPM() -15 , 30, 30);
         skeletonRectangle = new Rectangle(skeleton.getBody().getPosition().x * ppm.getPPM()- 22, skeleton.getBody().getPosition().y * ppm.getPPM() - 15, 40, 40);
         monsterRectangle = new Rectangle(monster.getBody().getPosition().x * ppm.getPPM() - 250, monster.getBody().getPosition().y * ppm.getPPM() - 200, 500, 500);
     }
 
+    /**
+     * updates the camera position
+     */
     public void cameraUpdate(){
         Vector3 position = camera.position;
         position.x = 513;
@@ -299,11 +332,16 @@ public class FinalBoss implements Screen{
         camera.update();
     }
 
+    /**
+     * check if the player has overlapped with a skeleton and is not immune
+     * if true, take away 1 live and give immunity for 3 seconds
+     */
     public void checkHurt(){
         if(playerRectangle.overlaps(skeletonRectangle) && !immunity.isImmune()){
             bossFight.lives.lives--;
             animation.deathAnimation = true;
             immunity.giveImmunity();
+            music.gameSound[1].play();
             
 
         } else {
@@ -312,14 +350,23 @@ public class FinalBoss implements Screen{
     }
 
     
+    /**
+     * add a normal bullet when called
+     */
     public void addBullet(){
             bullets.add(new BossBullet(monster.body.getPosition().x + 750, monster.body.getPosition().y + 450));
     }
 
+    /**
+     * add the player bullet when called
+     */
     public void addOmegaBullet(){
         bullets.add(new BossBullet(monster.body.getPosition().x - 600, monster.body.getPosition().y - 450));
 }
 
+    /**
+     * updates the normal bullet at 60 fps and create hitbox for them
+     */
     public void updateBullet(){
         ArrayList<BossBullet> leftBulletsToRemove = new ArrayList<BossBullet>();
 		for (BossBullet bullet : bullets) {
@@ -345,7 +392,9 @@ public class FinalBoss implements Screen{
 		}
         bullets.removeAll(leftBulletsToRemove);
     }
-
+ /**
+     * updates the omega bullet at 60 fps and create hitbox for them
+     */
     public void updateFinalBullet(){
         ArrayList<BossBullet> bulletsToRemove = new ArrayList<BossBullet>();
 		for (BossBullet bullet : bullets) {
@@ -371,6 +420,9 @@ public class FinalBoss implements Screen{
 		}
         bullets.removeAll(bulletsToRemove);
     }
+    /**
+     * starts the boss fight that is running on a timer
+     */
     public void startBossFight(){
         if (timer.isEmpty()) {
             timer.scheduleTask(new Timer.Task() {
@@ -490,6 +542,9 @@ public class FinalBoss implements Screen{
     
 
 
+    /**
+     * return player to original spawn location if trying to access out of bounds areas
+     */
     public void returnlevel(){
         if(player.body.getPosition().x <= 0.23333333f){
               player.body.setTransform(1.7666667f, 10.514998f, 0f);
@@ -553,12 +608,7 @@ public class FinalBoss implements Screen{
     public void setWorld(World world) {
         this.world = world;
     }
-    public Box2DDebugRenderer getBox2DDebugRenderer() {
-        return box2DDebugRenderer;
-    }
-    public void setBox2DDebugRenderer(Box2DDebugRenderer box2dDebugRenderer) {
-        box2DDebugRenderer = box2dDebugRenderer;
-    }
+    
     public PPM getPpm() {
         return ppm;
     }
@@ -568,14 +618,26 @@ public class FinalBoss implements Screen{
     public Player getPlayer() {
         return player;
     }
+    /**
+     * @param player2 takes in a player object
+     * set player into world
+     */
     public void setPlayer(Player player2) {
         this.player = player2;
     }
     
+    /**
+     * @param skeleton takes in a skeletonNPC object
+     * set player into world
+     */
     public void setSkeleton(SkeletonNPC skeleton){
         this.skeleton = skeleton;
     }
 
+    /**
+     * @param monster takes in a monsterNPC object
+     * set monster into world
+     */
     public void setMonster(MonsterNPC monster){
         this.monster = monster;
     }

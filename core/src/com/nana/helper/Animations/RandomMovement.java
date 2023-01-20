@@ -8,11 +8,17 @@ public class RandomMovement {
     private int randomNumber;
     private Timer timer;
     
+    /**
+     * initialize a timer
+     */
     public RandomMovement() {
         timer = new Timer();
         timer.schedule(new RandomNumberTask(), 0, 1000);
     }
     
+    /**
+     * @return the random number that is stored in randomNumber
+     */
     public int getRandomNumber() {
         return randomNumber;
     }
@@ -22,7 +28,7 @@ public class RandomMovement {
         public void run() {
             Random rand = new Random();
             randomNumber = rand.nextInt(3);
-            while(randomNumber == 0){
+            if(randomNumber == 0){
                 randomNumber = rand.nextInt(3);
             }
         }

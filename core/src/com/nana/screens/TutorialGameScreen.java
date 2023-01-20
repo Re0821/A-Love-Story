@@ -1,7 +1,5 @@
 package com.nana.screens;
 
-import javax.swing.plaf.synth.SynthSplitPaneUI;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -25,13 +22,13 @@ import com.nana.helper.PPM;
 import com.nana.helper.Animations.PlayerAnimation;
 import com.nana.helper.TiledMap.TutorialTiledMapHelper;
 
+
 public class TutorialGameScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private TutorialTiledMapHelper tiledMapHelper;
     private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private PPM ppm = new PPM();
     private Player player;
@@ -44,8 +41,9 @@ public class TutorialGameScreen implements Screen {
     private Lives lives;
 
    
-    /**
-     * Initializing the world
+  /**
+     * @param game takes in the parent game as an argument for switching screens purposes
+     * initializing variables from necessary classes needed 
      */
 
     public TutorialGameScreen(final Love game){
@@ -67,15 +65,20 @@ public class TutorialGameScreen implements Screen {
 
         tutorialFont.createAndSetTypingLabel("{COLOR=SCARLET}{EASE}{NORMAL}USE A/D TO MOVE LEFT/RIGHT. PRESS SPACE TO JUMP");
 
-
         renderer = new OrthogonalTiledMapRenderer(map);
         tiledMapHelper = new TutorialTiledMapHelper(this);
         renderer = tiledMapHelper.setupMap();
-        box2DDebugRenderer = new Box2DDebugRenderer();
 
+
+        
 
     }
 
+    
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#show()
+     * initializing SpriteBatch for drawing purposes
+     */
 
     @Override
     public void show() {
@@ -83,8 +86,13 @@ public class TutorialGameScreen implements Screen {
         batch = new SpriteBatch();
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#render(float)
+     * @param takes in the current deltaTime of the screen as a parameter
+     * render and draw sprite (picture) elements needed for the screen; as well as performing as performing logic tasks behind the scene
+     */
+    
     @Override
-
     public void render(float delta) {
         this.update();
         // TODO Auto-generated method stub
@@ -103,23 +111,31 @@ public class TutorialGameScreen implements Screen {
         batch.end();
        
         stage.act(Gdx.graphics.getDeltaTime());
-        box2DDebugRenderer.render(world, camera.combined.scl(ppm.getPPM()));
 
     }
 
+    /**
+     * changes screen whenever the player reaches the end of the level (screen)
+     */
     public void changeScreen(){
         if(player.getBody().getPosition().x > 30){
             game.setScreen(gameScreen);
         }
     }
-
+    /**
+     * brings the player back to the original starting position whenever the player tries to reach out of bound areas
+     */
     public void returnLevel(){
         if(player.body.getPosition().x <= 0.2333333333f){
              player.body.setTransform(2.3f, 17.483746f, 0f);
         }
     }
 
-
+    
+    /**
+     *  updates the world at a 60 fps, camera, batch and the player
+     * also updates constantly wheteher player has reached the end of the level
+     */
     public void update(){
         world.step(1/60f, 6, 2);
         cameraUpdate();
@@ -129,6 +145,10 @@ public class TutorialGameScreen implements Screen {
         changeScreen();
         
     }
+
+    /**
+     * updates the camera position
+     */
 
     public void cameraUpdate(){
         Vector3 position = camera.position;
@@ -140,6 +160,9 @@ public class TutorialGameScreen implements Screen {
         camera.viewportHeight = Gdx.graphics.getHeight();
         camera.update();
     }
+
+     // Not used; abstraction methods that must be implemented for the game to work
+
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
@@ -173,11 +196,17 @@ public class TutorialGameScreen implements Screen {
     public World getWorld() {
         return world;
     }
-
     
     public void setBatch(SpriteBatch batch) {
         this.batch = batch;
     }
+
+
+
+    /**
+     * @param player takes in a player body with information about its speed, height etc 
+     * initialize the player body/fissure into the world
+     */
 
     public void setPlayer(Player player){
         this.player = player;

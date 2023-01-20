@@ -3,7 +3,6 @@ package com.nana.helper.Animations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nana.game.Love;
 
@@ -18,6 +17,12 @@ public class FadeOutEffect {
     public boolean finished = false;
     public boolean fadeOut;
 
+    /**
+     * @param game takes in the current game screen
+     * @param nextScreen takes in the next game screen 
+     * @param duration takes in the duration that it wants to fade
+     * @param batch takes in the spritebatch to render the screen
+     */
     public FadeOutEffect(Love game, Screen nextScreen, float duration, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
@@ -25,10 +30,17 @@ public class FadeOutEffect {
         this.duration = duration;
         blackTexture = new Texture(Gdx.files.internal("assets/black.jpg"));
     }
+    /**
+     * start the fading by setting fading to true
+     */
     public void start() {
         fading = true;
     }
 
+    /**
+     * @param delta takes in the current screen's delta time
+     * starts rendering the screen based on the screen's delta time
+     */
     public void render(float delta) {
         if (fading) {
             alpha += delta / duration;

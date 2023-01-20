@@ -17,6 +17,10 @@ public class MonsterAnimation{
     private String pathName, regionName;
     private String[][] path;
 
+      /**
+     * initialize 2D array with path and regionName (derived from atlases) and other variables
+     */
+
     public MonsterAnimation(){
         new PPM();
 
@@ -25,7 +29,9 @@ public class MonsterAnimation{
         path[1][0] = "FinalBossAnimation";
 
     }
-
+/**
+     * @return the current frame of the animation and then looping it again
+     */
     public TextureRegion createAnimation(){
         startAnimation();
         charset = new TextureAtlas(Gdx.files.internal(pathName));
@@ -37,6 +43,9 @@ public class MonsterAnimation{
         return currentFrame;
     }
 
+    /**
+     * starts the only animation that the boss have
+     */
     public void startAnimation(){
 
             pathName = path[0][0];

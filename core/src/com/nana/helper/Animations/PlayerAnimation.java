@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.nana.helper.Immunity;
+import com.nana.music.GameMusic;
 
 public class PlayerAnimation {
     private static final float FRAME_TIME = 1/2f;
@@ -20,7 +21,11 @@ public class PlayerAnimation {
     public boolean checkLeft;
     public boolean deathAnimation = false;
     private Immunity immunity;
+    private GameMusic music = new GameMusic();
 
+      /**
+     * initialize 2D array with path and regionName (derived from atlases) and other variables
+     */
     public PlayerAnimation(){
         this.immunity = new Immunity();
         path = new String[6][6];
@@ -38,7 +43,9 @@ public class PlayerAnimation {
         path[1][4] = "playerLeftBlinkIdle";
         path[1][5] = "death";
     }
- 
+   /**
+     * @return the current frame of the animation and then looping it again
+     */
     public TextureRegion createAnimation(){
         checkLeft();
         checkInput();
@@ -53,6 +60,9 @@ public class PlayerAnimation {
         return currentFrame;
     }
 
+    /**
+     * checks key inputs to switch animation (by pointing to another pathName & regionName)
+     */
     public void checkInput(){
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             pathName = path[0][2];
@@ -84,6 +94,7 @@ public class PlayerAnimation {
             pathName = path[0][5];
             regionName = path[1][5];
 
+
         }
 
         else{
@@ -95,6 +106,10 @@ public class PlayerAnimation {
 
     } 
     
+    /**
+     * check if checkLeft is true; if true, switch to left idle animations
+     */
+
     public void checkLeft(){
         if(checkLeft){
             pathName = path[0][4];

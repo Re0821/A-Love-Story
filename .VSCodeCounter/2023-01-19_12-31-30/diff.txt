@@ -1,0 +1,211 @@
+Date : 2023-01-19 12:31:30
+Directory : /Users/re/Desktop/A-Love-Story
+Total : 113 files,  2245 codes, 16 comments, 111 blanks, all 2372 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Log              |          3 |      1,963 |          0 |          1 |      1,964 |
+| Java             |         80 |        282 |         16 |        110 |        408 |
+| JSON             |          2 |          0 |          0 |          0 |          0 |
+| Batch            |          2 |          0 |          0 |          0 |          0 |
+| Gradle           |          8 |          0 |          0 |          0 |          0 |
+| Java Properties  |          4 |          0 |          0 |          0 |          0 |
+| Markdown         |          4 |          0 |          0 |          0 |          0 |
+| XML              |          8 |          0 |          0 |          0 |          0 |
+| TypeScript React |          2 |          0 |          0 |          0 |          0 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                  |        113 |      2,245 |         16 |        111 |      2,372 |
+| . (Files)                                                                                                          |          7 |      3,637 |          0 |         47 |      3,684 |
+| ..                                                                                                                 |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../..                                                                                                              |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../..                                                                                                           |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../..                                                                                                        |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:                                                                                                     |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:/Users                                                                                               |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN                                                                        |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop                                                                |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story                                                   |         55 |     -4,844 |       -124 |       -804 |     -5,772 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story (Files)                                           |          6 |     -1,674 |          0 |        -46 |     -1,720 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets                                            |          7 |       -668 |          0 |        -13 |       -681 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets (Files)                                    |          1 |       -125 |          0 |          0 |       -125 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps                                  |          5 |       -529 |          0 |         -5 |       -534 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/terra-mother                               |          1 |        -14 |          0 |         -8 |        -22 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core                                              |         39 |     -2,446 |       -122 |       -728 |     -3,296 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core (Files)                                      |          1 |         -4 |          0 |         -3 |         -7 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src                                          |         38 |     -2,442 |       -122 |       -725 |     -3,289 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com                                      |         38 |     -2,442 |       -122 |       -725 |     -3,289 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana                                 |         38 |     -2,442 |       -122 |       -725 |     -3,289 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/characters                      |          4 |       -125 |         -9 |        -46 |       -180 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/game                            |          1 |        -22 |          0 |        -12 |        -34 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont                        |          6 |       -173 |          0 |        -42 |       -215 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper                          |         20 |       -899 |        -40 |       -268 |     -1,207 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper (Files)                  |          6 |       -241 |         -5 |        -82 |       -328 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations               |          6 |       -292 |        -14 |        -85 |       -391 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets           |          4 |        -68 |          0 |        -24 |        -92 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap                 |          4 |       -298 |        -21 |        -77 |       -396 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/music                           |          1 |        -12 |          0 |         -7 |        -19 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens                         |          6 |     -1,211 |        -73 |       -350 |     -1,634 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop                                           |          2 |        -51 |         -2 |        -16 |        -69 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop (Files)                                   |          1 |        -37 |         -1 |        -11 |        -49 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/src                                       |          1 |        -14 |         -1 |         -5 |        -20 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/src/com                                   |          1 |        -14 |         -1 |         -5 |        -20 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/src/com/nana                              |          1 |        -14 |         -1 |         -5 |        -20 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/src/com/nana/game                         |          1 |        -14 |         -1 |         -5 |        -20 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/gradle                                            |          1 |         -5 |          0 |         -1 |         -6 |
+| ../../../../c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/gradle/wrapper                                    |          1 |         -5 |          0 |         -1 |         -6 |
+| assets                                                                                                             |          7 |        668 |          0 |         13 |        681 |
+| assets (Files)                                                                                                     |          1 |        125 |          0 |          0 |        125 |
+| assets/TiledMaps                                                                                                   |          5 |        529 |          0 |          5 |        534 |
+| assets/terra-mother                                                                                                |          1 |         14 |          0 |          8 |         22 |
+| core                                                                                                               |         41 |      2,728 |        138 |        838 |      3,704 |
+| core (Files)                                                                                                       |          1 |          4 |          0 |          3 |          7 |
+| core/src                                                                                                           |         40 |      2,724 |        138 |        835 |      3,697 |
+| core/src/com                                                                                                       |         40 |      2,724 |        138 |        835 |      3,697 |
+| core/src/com/nana                                                                                                  |         40 |      2,724 |        138 |        835 |      3,697 |
+| core/src/com/nana/WriteReadFile                                                                                    |          2 |        110 |          0 |         39 |        149 |
+| core/src/com/nana/characters                                                                                       |          4 |        124 |          9 |         46 |        179 |
+| core/src/com/nana/game                                                                                             |          1 |         22 |          0 |         12 |         34 |
+| core/src/com/nana/gameFont                                                                                         |          6 |        181 |          0 |         43 |        224 |
+| core/src/com/nana/helper                                                                                           |         19 |        893 |         40 |        268 |      1,201 |
+| core/src/com/nana/helper (Files)                                                                                   |          5 |        238 |          5 |         82 |        325 |
+| core/src/com/nana/helper/Animations                                                                                |          6 |        290 |         14 |         85 |        389 |
+| core/src/com/nana/helper/DroppingAssets                                                                            |          4 |         68 |          0 |         24 |         92 |
+| core/src/com/nana/helper/TiledMap                                                                                  |          4 |        297 |         21 |         77 |        395 |
+| core/src/com/nana/music                                                                                            |          1 |         12 |          0 |          7 |         19 |
+| core/src/com/nana/screens                                                                                          |          7 |      1,382 |         89 |        420 |      1,891 |
+| desktop                                                                                                            |          2 |         51 |          2 |         16 |         69 |
+| desktop (Files)                                                                                                    |          1 |         37 |          1 |         11 |         49 |
+| desktop/src                                                                                                        |          1 |         14 |          1 |          5 |         20 |
+| desktop/src/com                                                                                                    |          1 |         14 |          1 |          5 |         20 |
+| desktop/src/com/nana                                                                                               |          1 |         14 |          1 |          5 |         20 |
+| desktop/src/com/nana/game                                                                                          |          1 |         14 |          1 |          5 |         20 |
+| gradle                                                                                                             |          1 |          5 |          0 |          1 |          6 |
+| gradle/wrapper                                                                                                     |          1 |          5 |          0 |          1 |          6 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                           | language         | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/re/Desktop/A-Love-Story/README.md                                                                           | Markdown         |          2 |          0 |          2 |          4 |
+| /Users/re/Desktop/A-Love-Story/assets/TiledMaps/FinalBossTiled.tmx                                                 | XML              |         91 |          0 |          1 |         92 |
+| /Users/re/Desktop/A-Love-Story/assets/TiledMaps/FirstLevelTiled.tmx                                                | XML              |        107 |          0 |          1 |        108 |
+| /Users/re/Desktop/A-Love-Story/assets/TiledMaps/LoveTiled.tmx                                                      | XML              |        118 |          0 |          1 |        119 |
+| /Users/re/Desktop/A-Love-Story/assets/TiledMaps/SecondLevelTiled.tmx                                               | XML              |        128 |          0 |          1 |        129 |
+| /Users/re/Desktop/A-Love-Story/assets/TiledMaps/TutorialTiledSet.tsx                                               | TypeScript React |         85 |          0 |          1 |         86 |
+| /Users/re/Desktop/A-Love-Story/assets/terra-mother-ui.json                                                         | JSON             |        125 |          0 |          0 |        125 |
+| /Users/re/Desktop/A-Love-Story/assets/terra-mother/README.md                                                       | Markdown         |         14 |          0 |          8 |         22 |
+| /Users/re/Desktop/A-Love-Story/build.gradle                                                                        | Gradle           |         55 |          0 |         20 |         75 |
+| /Users/re/Desktop/A-Love-Story/core/build.gradle                                                                   | Gradle           |          4 |          0 |          3 |          7 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/WriteReadFile/TimeTracker.java                                    | Java             |         26 |          0 |          8 |         34 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/WriteReadFile/WriteRead.java                                      | Java             |         84 |          0 |         31 |        115 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/characters/GameEntity.java                                        | Java             |         28 |          0 |          7 |         35 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/characters/MonsterNPC.java                                        | Java             |         18 |          3 |          8 |         29 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/characters/Player.java                                            | Java             |         43 |          3 |         15 |         61 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/characters/SkeletonNPC.java                                       | Java             |         35 |          3 |         16 |         54 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/game/Love.java                                                    | Java             |         22 |          0 |         12 |         34 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/DeathWinFont.java                                        | Java             |         45 |          0 |          6 |         51 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/GeneralFont.java                                         | Java             |         46 |          0 |         14 |         60 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/Level1Font.java                                          | Java             |         25 |          0 |          5 |         30 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/LiveFont.java                                            | Java             |         16 |          0 |          8 |         24 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/MenuFont.java                                            | Java             |         24 |          0 |          5 |         29 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/gameFont/TutorialFont.java                                        | Java             |         25 |          0 |          5 |         30 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/BodyHelper.java                                 | Java             |         55 |         14 |         17 |         86 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/FadeOutEffect.java                              | Java             |         41 |          0 |         11 |         52 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/MonsterAnimation.java                           | Java             |         36 |          0 |         15 |         51 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/PlayerAnimation.java                            | Java             |         86 |          0 |         22 |        108 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/RandomMovement.java                             | Java             |         25 |          0 |          6 |         31 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/SkeletonAnimation.java                          | Java             |         47 |          0 |         14 |         61 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/BossBullet.java                                            | Java             |         45 |          1 |         23 |         69 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/BossRain.java                                              | Java             |        153 |          1 |         40 |        194 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/GreenBullet.java                            | Java             |         17 |          0 |          6 |         23 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/OmegaBullet.java                            | Java             |         17 |          0 |          6 |         23 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/WhiteBullet.java                            | Java             |         17 |          0 |          6 |         23 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/YellowBullet.java                           | Java             |         17 |          0 |          6 |         23 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Immunity.java                                              | Java             |         25 |          0 |          7 |         32 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/Lives.java                                                 | Java             |          8 |          0 |          6 |         14 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/PPM.java                                                   | Java             |          7 |          3 |          6 |         16 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/FinalTiledMapHelper.java                          | Java             |         85 |          7 |         21 |        113 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/Level1TiledMapHelper.java                         | Java             |         70 |          6 |         19 |         95 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/Level2TiledMapHelper.java                         | Java             |         74 |          7 |         21 |        102 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/TutorialTiledMapHelper.java                       | Java             |         68 |          1 |         16 |         85 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/music/GameMusic.java                                              | Java             |         12 |          0 |          7 |         19 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/Death.java                                                | Java             |        121 |         15 |         44 |        180 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/FinalBoss.java                                            | Java             |        419 |         16 |        149 |        584 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/Level1.java                                               | Java             |        216 |          8 |         51 |        275 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/Level2.java                                               | Java             |        211 |          8 |         44 |        263 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/MainMenuScreen.java                                       | Java             |        152 |         15 |         36 |        203 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/TutorialGameScreen.java                                   | Java             |        131 |         11 |         42 |        184 |
+| /Users/re/Desktop/A-Love-Story/core/src/com/nana/screens/Win.java                                                  | Java             |        132 |         16 |         54 |        202 |
+| /Users/re/Desktop/A-Love-Story/desktop/build.gradle                                                                | Gradle           |         37 |          1 |         11 |         49 |
+| /Users/re/Desktop/A-Love-Story/desktop/src/com/nana/game/DesktopLauncher.java                                      | Java             |         14 |          1 |          5 |         20 |
+| /Users/re/Desktop/A-Love-Story/gradle.properties                                                                   | Java Properties  |          3 |          0 |          1 |          4 |
+| /Users/re/Desktop/A-Love-Story/gradle/wrapper/gradle-wrapper.properties                                            | Java Properties  |          5 |          0 |          1 |          6 |
+| /Users/re/Desktop/A-Love-Story/gradlew.bat                                                                         | Batch            |         70 |          0 |         22 |         92 |
+| /Users/re/Desktop/A-Love-Story/replay_pid2896.log                                                                  | Log              |      1,963 |          0 |          1 |      1,964 |
+| /Users/re/Desktop/A-Love-Story/replay_pid74560.log                                                                 | Log              |      1,543 |          0 |          1 |      1,544 |
+| /Users/re/Desktop/A-Love-Story/settings.gradle                                                                     | Gradle           |          1 |          0 |          0 |          1 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/README.md                                                     | Markdown         |         -2 |          0 |         -2 |         -4 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps/FinalBossTiled.tmx                           | XML              |        -91 |          0 |         -1 |        -92 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps/FirstLevelTiled.tmx                          | XML              |       -107 |          0 |         -1 |       -108 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps/LoveTiled.tmx                                | XML              |       -118 |          0 |         -1 |       -119 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps/SecondLevelTiled.tmx                         | XML              |       -128 |          0 |         -1 |       -129 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/TiledMaps/TutorialTiledSet.tsx                         | TypeScript React |        -85 |          0 |         -1 |        -86 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/terra-mother-ui.json                                   | JSON             |       -125 |          0 |          0 |       -125 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/assets/terra-mother/README.md                                 | Markdown         |        -14 |          0 |         -8 |        -22 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/build.gradle                                                  | Gradle           |        -55 |          0 |        -20 |        -75 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/build.gradle                                             | Gradle           |         -4 |          0 |         -3 |         -7 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/characters/GameEntity.java                  | Java             |        -28 |          0 |         -7 |        -35 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/characters/MonsterNPC.java                  | Java             |        -18 |         -3 |         -8 |        -29 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/characters/Player.java                      | Java             |        -43 |         -3 |        -15 |        -61 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/characters/SkeletonNPC.java                 | Java             |        -36 |         -3 |        -16 |        -55 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/game/Love.java                              | Java             |        -22 |          0 |        -12 |        -34 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/DeathFont.java                     | Java             |        -35 |          0 |         -5 |        -40 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/GeneralFont.java                   | Java             |        -48 |          0 |        -14 |        -62 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/Level1Font.java                    | Java             |        -25 |          0 |         -5 |        -30 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/LiveFont.java                      | Java             |        -16 |          0 |         -8 |        -24 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/MenuFont.java                      | Java             |        -24 |          0 |         -5 |        -29 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/gameFont/TutorialFont.java                  | Java             |        -25 |          0 |         -5 |        -30 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/BodyHelper.java           | Java             |        -56 |        -14 |        -17 |        -87 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/FadeOutEffect.java        | Java             |        -42 |          0 |        -11 |        -53 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/MonsterAnimation.java     | Java             |        -36 |          0 |        -15 |        -51 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/PlayerAnimation.java      | Java             |        -86 |          0 |        -22 |       -108 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/RandomMovement.java       | Java             |        -25 |          0 |         -6 |        -31 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Animations/SkeletonAnimation.java    | Java             |        -47 |          0 |        -14 |        -61 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/BossBullet.java                      | Java             |        -48 |         -1 |        -21 |        -70 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/BossRain.java                        | Java             |       -153 |         -1 |        -41 |       -195 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/GreenBullet.java      | Java             |        -17 |          0 |         -6 |        -23 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/OmegaBullet.java      | Java             |        -17 |          0 |         -6 |        -23 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/WhiteBullet.java      | Java             |        -17 |          0 |         -6 |        -23 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/DroppingAssets/YellowBullet.java     | Java             |        -17 |          0 |         -6 |        -23 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Immunity.java                        | Java             |        -25 |          0 |         -7 |        -32 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Lives.java                           | Java             |         -8 |          0 |         -6 |        -14 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/PPM.java                             | Java             |         -7 |         -3 |         -6 |        -16 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/Save.java                            | Java             |          0 |          0 |         -1 |         -1 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/FinalTiledMapHelper.java    | Java             |        -86 |         -7 |        -21 |       -114 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/Level1TiledMapHelper.java   | Java             |        -70 |         -6 |        -19 |        -95 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/Level2TiledMapHelper.java   | Java             |        -74 |         -7 |        -21 |       -102 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/helper/TiledMap/TutorialTiledMapHelper.java | Java             |        -68 |         -1 |        -16 |        -85 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/music/GameMusic.java                        | Java             |        -12 |          0 |         -7 |        -19 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/Death.java                          | Java             |       -127 |        -15 |        -45 |       -187 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/FinalBoss.java                      | Java             |       -376 |        -16 |       -128 |       -520 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/Level1.java                         | Java             |       -216 |         -8 |        -51 |       -275 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/Level2.java                         | Java             |       -214 |         -8 |        -45 |       -267 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/MainMenuScreen.java                 | Java             |       -146 |        -15 |        -38 |       -199 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/core/src/com/nana/screens/TutorialGameScreen.java             | Java             |       -132 |        -11 |        -43 |       -186 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/build.gradle                                          | Gradle           |        -37 |         -1 |        -11 |        -49 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/desktop/src/com/nana/game/DesktopLauncher.java                | Java             |        -14 |         -1 |         -5 |        -20 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/gradle.properties                                             | Java Properties  |         -3 |          0 |         -1 |         -4 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/gradle/wrapper/gradle-wrapper.properties                      | Java Properties  |         -5 |          0 |         -1 |         -6 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/gradlew.bat                                                   | Batch            |        -70 |          0 |        -22 |        -92 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/replay_pid74560.log                                           | Log              |     -1,543 |          0 |         -1 |     -1,544 |
+| c:/Users/Ayansu.DESKTOP-POLNVCN/Desktop/A-Love-Story/settings.gradle                                               | Gradle           |         -1 |          0 |          0 |         -1 |
+| Total                                                                                                              |                  |      2,245 |         16 |        111 |      2,372 |
++--------------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
