@@ -39,7 +39,7 @@ public class GameMusic {
 
         gameSound = new com.badlogic.gdx.audio.Sound[3];
         gameSound[0] = Gdx.audio.newSound(Gdx.files.internal("assets/music/jump.mp3"));
-        gameSound[1] = Gdx.audio.newSound(Gdx.files.internal("assets/music/Player Fire Hurt (Nr. 3 | Minecraft Sound) - Sound Effect for editing.mp3"));
+        gameSound[1] = Gdx.audio.newSound(Gdx.files.internal("assets/music/hurt.mp3"));
         gameSound[2] = Gdx.audio.newSound(Gdx.files.internal("assets/music/Small Bomb Explosion Sound Effect.mp3"));
      }
     
