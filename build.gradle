@@ -54,8 +54,6 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
         
-
-        
     }
 }
 
