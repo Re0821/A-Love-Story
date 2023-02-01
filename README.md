@@ -1,3 +1,3 @@
 # A-Love-Story
 
-A work in progress game for ICS4U0 Final Evaluation
+A finished game for my final senior high school year
